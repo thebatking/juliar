@@ -194,8 +194,8 @@ function juliar_pick(str){
 		return fetch(str.substr(6));
 	}else if(str.substr(0,3) == "css"){
 		return css(str.substr(4));
-	}else if(str.substr(0,7) == "javascript"){
-		return javascript(str.substr(8));
+	}else if(str.substr(0,10) == "javascript"){
+		return javascript(str.substr(11));
 	}else if(str.substr(0,7) == "version"){
 		return version(str.substr(8));
 	}
