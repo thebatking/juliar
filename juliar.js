@@ -39,17 +39,11 @@ function css(str){
 }
 
 //Ajax Requests
-function fetch(str){   //Need to test more...
+function fetch(str){   //Need to test more...make it async...
    var xmlhttp=new XMLHttpRequest();
-   xmlhttp.onreadystatechange=function()
-   {
-     if (xmlhttp.readyState==4 && xmlhttp.status==200)
-     {
-         return xmlhttp.responseText;
-     }
-   }
-   xmlhttp.open("GET",str,true);
+   xmlhttp.open("GET",str,false);
    xmlhttp.send();
+   return xmlhttp.responseText;
 }
 
 //Effect Scripts
