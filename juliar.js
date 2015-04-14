@@ -5,11 +5,10 @@
 	Date: 4/12/2015
 	First Published: 4/12/2015
 	Creator: Andrei Makhanov
-	Other Contributors: Julia Romanova
 	Official Repository: https://github.com/juliarLang
 	Official Website: http://s13.zifboards.com/juliar
 	Comment:
-	I created this programming language for my girlfriend Julia Romanova hence the name of the language juliar.
+	I created this programming language for Julia hence the name of the language juliar.
 	She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css.
 	This language is simple to use and people with a nonlogical mind will be able to use it quickly and easily.
 	Juliar can be easily  integrated into other sites simply by using <juliar></juliar> tags.
@@ -26,17 +25,34 @@ function juliar_injectcss(){
 	css.innerHTML = ".smaller{font-size:80%}.larger{font-size:120%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
 	document.body.appendChild(css);
 }
+function version(str){
+	return "version 0.1";
+}
+
+//External Calls
+function javascript(str){
+	return eval(str);
+}
+
+function css(str){
+	return "<style>" + str + "</style>";
+}
+
+//Ajax Requests
+function fetch(str){   //Need to test more...
+   var xmlhttp=new XMLHttpRequest();
+   xmlhttp.onreadystatechange=function()
+   {
+     if (xmlhttp.readyState==4 && xmlhttp.status==200)
+     {
+         return xmlhttp.responseText;
+     }
+   }
+   xmlhttp.open("GET",str,true);
+   xmlhttp.send();
+}
 
 //Effect Scripts
-function image(str){
-	return "<span class='subscript'>"+str+"</span>";
-}
-function color(str){
-	return "<span class='subscript'>"+str+"</span>";
-}
-function background(str){
-	return "<span class='subscript'>"+str+"</span>";
-}
 function smaller(str){
 	return "<span class='smaller'>"+str+"</span>";
 }
@@ -174,6 +190,14 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,7) == "smaller"){
 		return smaller(str.substr(8));	
+	}else if(str.substr(0,5) == "fetch"){
+		return fetch(str.substr(6));
+	}else if(str.substr(0,3) == "css"){
+		return css(str.substr(4));
+	}else if(str.substr(0,7) == "javascript"){
+		return javascript(str.substr(8));
+	}else if(str.substr(0,7) == "version"){
+		return version(str.substr(8));
 	}
 }
 
