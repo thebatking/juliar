@@ -34,7 +34,8 @@ In the future, I plan to use webworkers in order to run the recursive function, 
 Due to timing restraints, I would greatly appreciate any help I can get in order to make this language perfect. Please visit 
  http://s13.zifboards.com/juliar and post that you want to join the team. Thanks for reading this! Again, let's make this language great!
  
- Please consider donating by clicking:
- http://s13.zifboards.com/juliar
+ Please consider donating via paypal: http://s13.zifboards.com/juliar
+ 
+ OR
  
  <a href='https://pledgie.com/campaigns/28839'><img alt='Click here to lend your support to: Juliar Programming Language: &quot;Web for a nonlogical mind&quot; and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28839.png?skin_name=chrome' border='0' ></a>
