@@ -29,7 +29,17 @@ function version(str){
 	return "version 0.1";
 }
 
-//External Calls
+function loop(str){
+   var temp = str.split(" ")[0].slice(1);
+   str = str.slice(++temp.length);
+   var output = "";
+   for(var i=0; i<temp; i++){
+   	output += str;
+   }
+   return output;
+}
+
+//Calls
 function javascript(str){
 	return eval(str);
 }
@@ -184,6 +194,8 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,7) == "smaller"){
 		return smaller(str.substr(8));	
+	}else if(str.substr(0,4) == "loop"){
+		return loop(str.substr(5));
 	}else if(str.substr(0,5) == "fetch"){
 		return fetch(str.substr(6));
 	}else if(str.substr(0,3) == "css"){
