@@ -1,4 +1,4 @@
-# juliar
+# *Juliar *
 
 Official Repository: https://github.com/juliarLang
 Official Website: http://s13.zifboards.com/juliar
