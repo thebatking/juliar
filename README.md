@@ -36,3 +36,5 @@ Due to timing restraints, I would greatly appreciate any help I can get in order
  
  Please consider donating by clicking:
  http://s13.zifboards.com/juliar
+ 
+ <a href='https://pledgie.com/campaigns/28839'><img alt='Click here to lend your support to: Juliar Programming Language: &quot;Web for a nonlogical mind&quot; and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28839.png?skin_name=chrome' border='0' ></a>
