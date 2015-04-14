@@ -9,7 +9,7 @@ First Published: 4/12/2015
 Creator: Andrei Makhanov
 Other Contributors: Julia Romanova
 Comment:
-	I created this programming language for my girlfriend Julia Romanova hence the name of the language juliar.
+	I created this programming language for Julia hence the name of the language juliar.
 	She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css.
 	This language is simple to use and people with a nonlogical mind will be able to use it quickly and easily.
 	Juliar can be easily  integrated into other sites simply by using <juliar></juliar> tags.
