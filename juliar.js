@@ -2,7 +2,7 @@
 	Language: juliar
 	Moto: "Web for a nonlogical mind"
 	Version: 0.1
-	Date: 4/12/2015
+	Updated: 4/14/2015
 	First Published: 4/12/2015
 	Creator: Andrei Makhanov
 	Official Repository: https://github.com/juliarLang
@@ -30,13 +30,103 @@ function version(str){
 }
 
 function loop(str){
-   var temp = str.split(" ")[0].slice(1);
-   str = str.slice(++temp.length);
-   var output = "";
-   for(var i=0; i<temp; i++){
-   	output += str;
-   }
-   return output;
+	var temp = str.split(" ").filter(function(n){ return n != "" })[0].slice(1);
+	str = str.slice(++temp.length);
+	var output = "";
+	for(var i=0; i<temp; i++){
+		output += str;
+	}
+	return output;
+}
+
+function picture(str){
+	return "<img src='"+str.trim()+"'/>";
+}
+
+function backgroundrainbow(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	var arr = temp.slice(1).split(",");
+	str = str.slice(temp.length);
+	var index= 0;
+	output = "";
+	for(var i=0;i<str.length;i++){
+		console.log(index + "1");
+		if(index == arr.length) index = 0;
+		output += "<span style='background-color:"+arr[index++]+"'>"+str[i]+"</span>";
+	}
+	return output;	
+}
+
+
+function rainbow(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	var arr = temp.slice(1).split(",");
+	str = str.slice(temp.length);
+	var index= 0;
+	output = "";
+	for(var i=0;i<str.length;i++){
+		console.log(index + "1");
+		if(index == arr.length) index = 0;
+		output += "<span style='color:"+arr[index++]+"'>"+str[i]+"</span>";
+	}
+	return output;
+}
+
+function commands(str){ //List commands
+	return "[commands,help,pick,randomize]";
+}
+
+function help(str){ //Opens Documentation for the commands
+	return "Type help + command  to see help";
+}
+
+
+//Max,Min & Absolute
+
+function largestnumber(str){
+	return Number.MAX_SAFE_INTEGER;
+}
+
+function smallestnumber(str){
+	return Number.MIN_SAFE_INTEGER;
+}
+
+function maximum(str){
+	return Math.max.apply(Math, str.split(" "));
+}
+
+function minimum(str){
+	return Math.min.apply(Math, str.split(" "));
+}
+
+function absolute(str){
+	return str.split(" ").map(Math.abs).join(" ");
+}
+
+function ask(str){
+	return prompt(str,"");
+}
+
+function error(str){
+	return "<script>alert('" + str + "')</script>";
+}
+
+function pick(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }); 
+	return temp[Math.floor(Math.random() * temp.length)];
+}
+
+function randomize(str){
+	var arr = str.split(" ").filter(function(n){ return n != "" }); 
+	var currentIndex = arr.length, temporaryValue, randomIndex ;
+	while (0 !== currentIndex) {
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+		temporaryValue = arr[currentIndex];
+		arr[currentIndex] = arr[randomIndex];
+		arr[randomIndex] = temporaryValue;
+	}
+	return arr.join(' ');
 }
 
 //Calls
@@ -50,10 +140,10 @@ function css(str){
 
 //Ajax Requests
 function fetch(str){   //Need to test more...make it async...
-   var xmlhttp=new XMLHttpRequest();
-   xmlhttp.open("GET",str,false);
-   xmlhttp.send();
-   return xmlhttp.responseText;
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET",str,false);
+	xmlhttp.send();
+	return xmlhttp.responseText;
 }
 
 //Effect Scripts
@@ -63,6 +153,20 @@ function smaller(str){
 function larger(str){
 	return "<span class='larger'>"+str+"</span>";
 }
+
+function shrink(str){
+	var output = "";
+	for(var i=0; i<str.length;i++) output += "<span class='smaller'>"+str[i];
+	for(var i=0; i<str.length;i++) output += "</span>";
+	return output;	
+}
+function grow(str){
+	var output = "";
+	for(var i=0; i<str.length;i++) output += "<span class='larger'>"+str[i];
+	for(var i=0; i<str.length;i++) output += "</span>";
+	return output;
+}
+
 function subscript(str){
 	return "<span class='subscript'>"+str+"</span>";
 }
@@ -107,8 +211,6 @@ function tangent(str){
 
 function divide(str){
 	var temp;
-	console.log(str);
-	console.log(str.split(" "));
 	str.split(" ").forEach(function(element){
 		if(isNumber(element)){
 			if(temp == null){
@@ -120,7 +222,6 @@ function divide(str){
 			}
 		}
 	});
-	console.log(temp);
 	return temp;
 }
 
@@ -155,7 +256,6 @@ function subtract(str){
 }
 
 function juliar_pick(str){
-	console.log(str);
 	if(str.substr(0,3) == "add"){
 		return add(str.substr(4));
 	}
@@ -194,16 +294,66 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,7) == "smaller"){
 		return smaller(str.substr(8));	
-	}else if(str.substr(0,4) == "loop"){
-		return loop(str.substr(5));
-	}else if(str.substr(0,5) == "fetch"){
+	}
+	else if(str.substr(0,6) == "shrink"){
+		return shrink(str.substr(7));	
+	}
+	else if(str.substr(0,4) == "grow"){
+		return grow(str.substr(5));	
+	}
+	else if(str.substr(0,4) == "loop"){
+		return loop(str.substr(4));
+	}
+	else if(str.substr(0,7) == "rainbow"){
+		return rainbow(str.substr(7));
+	}
+	else if(str.substr(0,17) == "backgroundrainbow"){
+		return backgroundrainbow(str.substr(17));
+	}
+	else if(str.substr(0,7) == "picture"){
+		return picture(str.substr(7));
+	}
+	else if(str.substr(0,5) == "fetch"){
 		return fetch(str.substr(6));
-	}else if(str.substr(0,3) == "css"){
+	}
+	else if(str.substr(0,3) == "css"){
 		return css(str.substr(4));
-	}else if(str.substr(0,10) == "javascript"){
+	}
+	else if(str.substr(0,10) == "javascript"){
 		return javascript(str.substr(11));
-	}else if(str.substr(0,7) == "version"){
+	}
+	else if(str.substr(0,7) == "version"){
 		return version(str.substr(8));
+	}
+	else if(str.substr(0,4) == "pick"){
+		return pick(str.substr(5));
+	}
+	else if(str.substr(0,9) == "randomize"){
+		return randomize(str.substr(10));
+	}
+	else if(str.substr(0,8) == "commands"){
+		return commands(str.substr(9));
+	}
+	else if(str.substr(0,13) == "largestnumber"){
+		return largestnumber(str.substr(14));
+	}
+	else if(str.substr(0,14) == "smallestnumber"){
+		return smallestnumber(str.substr(15));
+	}
+	else if(str.substr(0,7) == "maximum"){
+		return maximum(str.substr(8));
+	}
+	else if(str.substr(0,7) == "minimum"){
+		return minimum(str.substr(8));
+	}
+	else if(str.substr(0,8) == "absolute"){
+		return absolute(str.substr(9));
+	}
+	else if(str.substr(0,5) == "error"){
+		return error(str.substr(6));
+	}
+	else if(str.substr(0,3) == "ask"){
+		return ask(str.substr(4));
 	}
 }
 
@@ -263,45 +413,45 @@ function juliar() {
 	}
 	juliar_injectcss();
 	console.log("done");
-        var ijuliars = document.getElementsByTagName("ijuliar");
-        for (juliar = ijuliars.length; juliar--;) {
-            var stack = 0;
-	    var begin = 0;
-	    var last;
-	    var m;
-	    var sliced;
-           ijuliars[juliar].innerHTML = "<br> > <input type='text' style='width: 50%;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
-           ijuliars[juliar].onkeypress = function(e){
-              last = 0;
-              begin = 0;
-              stack = 0;
-              if (!e) e = window.event;
-                 var keyCode = e.keyCode || e.which;
-                 if (keyCode == '13'){
-                    var str = this.lastChild.value;
-                    while((m = str.indexOf("*",last))!= -1){
-			if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*"){
-				if(!--stack){
-					sliced = str.slice(begin,m+1);
-					str = str.replace(sliced,juliar_parse(sliced));
-					m = begin-1;
+	var ijuliars = document.getElementsByTagName("ijuliar");
+	for (juliar = ijuliars.length; juliar--;) {
+		var stack = 0;
+		var begin = 0;
+		var last;
+		var m;
+		var sliced;
+		ijuliars[juliar].innerHTML = "<br> > <input type='text' style='width: 50%;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
+		ijuliars[juliar].onkeypress = function(e){
+			last = 0;
+			begin = 0;
+			stack = 0;
+			if (!e) e = window.event;
+			var keyCode = e.keyCode || e.which;
+			if (keyCode == '13'){
+				var str = this.lastChild.value;
+				while((m = str.indexOf("*",last))!= -1){
+					if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*"){
+						if(!--stack){
+							sliced = str.slice(begin,m+1);
+							str = str.replace(sliced,juliar_parse(sliced));
+							m = begin-1;
+						}
+					}
+					else{
+						if(stack == 0){
+							begin = m;
+						}
+						stack++;
+					}
+					last = m+1;
 				}
+				if(stack != 0 ) alert("juliarError 1: unbalanced brackets");
+				var temp = document.createElement("div");
+				temp.innerHTML = str;
+				this.insertBefore(temp, this.lastChild);
+				this.lastChild.value = "";
+				return false;
 			}
-			else{
-				if(stack == 0){
-					begin = m;
-				}
-				stack++;
-			}
-			last = m+1;
 		}
-		if(stack != 0 ) alert("juliarError 1: unbalanced brackets");
-                var temp = document.createElement("div");
-                temp.innerHTML = str;
-                this.insertBefore(temp, this.lastChild);
-                this.lastChild.value = "";
-                    return false;
-                 }
-              }
-        }
+	}
 }window.onload = juliar;
