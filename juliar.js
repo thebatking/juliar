@@ -43,6 +43,14 @@ function picture(str){
 	return "<img src='"+str.trim()+"'/>";
 }
 
+function video(str){
+	return '<video src="'+str+'" controls="controls">Your browser does not support HTML Video</video>';
+}
+
+function music(str){
+	return '<audio src="'+str+'" controls="controls">Your browser does not support HTML Audio</audio>';
+}
+
 function backgroundrainbow(str){
 	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
 	var arr = temp.slice(1).split(",");
@@ -354,6 +362,12 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,3) == "ask"){
 		return ask(str.substr(4));
+	}
+	else if(str.substr(0,5) == "music"){
+		return music(str.substr(5));
+	}
+	else if(str.substr(0,5) == "video"){
+		return video(str.substr(5));
 	}
 }
 
