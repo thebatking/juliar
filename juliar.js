@@ -29,6 +29,15 @@ function version(str){
 	return "version 0.1";
 }
 
+//Header & Title
+function title(str){
+	return "<h1 style='text-align:center'>"+str+"</h1>";
+}
+
+function author(str){
+	return "<h2 style='text-align:center'>"+str+"</h2>";
+}
+
 function loop(str){
 	var temp = str.split(" ").filter(function(n){ return n != "" })[0].slice(1);
 	str = str.slice(++temp.length);
@@ -37,6 +46,10 @@ function loop(str){
 		output += str;
 	}
 	return output;
+}
+
+function comment(str){
+	return "";
 }
 
 function picture(str){
@@ -90,6 +103,10 @@ function help(str){ //Opens Documentation for the commands
 
 
 //Max,Min & Absolute
+
+function randomnumber(str){
+	return Math.floor((Math.random() * 100) + 1);
+}
 
 function largestnumber(str){
 	return Number.MAX_SAFE_INTEGER;
@@ -342,6 +359,9 @@ function juliar_pick(str){
 	else if(str.substr(0,8) == "commands"){
 		return commands(str.substr(9));
 	}
+	else if(str.substr(0,12) == "randomnumber"){
+		return randomnumber(str.substr(12));
+	}
 	else if(str.substr(0,13) == "largestnumber"){
 		return largestnumber(str.substr(14));
 	}
@@ -368,6 +388,15 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,5) == "video"){
 		return video(str.substr(5));
+	}
+	else if(str.substr(0,7) == "comment"){
+		return comment(str.substr(8));
+	}
+	else if(str.substr(0,5) == "title"){
+		return title(str.substr(6));
+	}
+	else if(str.substr(0,6) == "author"){
+		return author(str.substr(7));
 	}
 }
 
