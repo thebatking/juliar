@@ -29,6 +29,13 @@ function version(str){
 	return "version 0.1";
 }
 
+function condition(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" })[0].slice(1);
+	str = str.slice(++temp.length);
+	if(temp == true) return str;
+	return "";
+}
+
 //Header & Title
 function title(str){
 	return "<h1 style='text-align:center'>"+str+"</h1>";
@@ -328,6 +335,9 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,4) == "loop"){
 		return loop(str.substr(4));
+	}
+	else if(str.substr(0,9) == "condition"){
+		return condition(str.substr(9));
 	}
 	else if(str.substr(0,7) == "rainbow"){
 		return rainbow(str.substr(7));
