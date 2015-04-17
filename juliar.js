@@ -18,15 +18,51 @@
 	Please consider donating, all the money will go into an upkeep of the website and improvement of the language.
 	Licensed under GPL 3.0
 */
-
+var juliar_globals = [];
 function juliar_injectcss(){
 	var css = document.createElement("style");
 	css.type = "text/css";
-	css.innerHTML = ".smaller{font-size:80%}.larger{font-size:120%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
+	css.innerHTML = ".smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
 	document.body.appendChild(css);
 }
 function version(str){
-	return "version 0.1";
+	return "Juliar Version 0.1. Created by Andrei Makhanov ";
+}
+
+function set(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	return juliar_globals[temp.slice(1)] = str.slice(temp.length);
+}
+
+function get(str){
+	return juliar_globals[str];
+}
+
+function color(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	var arr = temp.slice(1).split(",");
+	return  "<span style='color: "+ temp.slice(1) +"'> "+str.slice(temp.length)+"</span>";
+}
+
+function background(str){
+	document.body.style.backgroundColor = str;
+	return "";
+}
+
+function banner(str){
+	return "<img style='width:100%;height:200px;margin:0;' src='"+str.trim()+"'/>";
+}
+
+function size(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	var arr = temp.slice(1).split(",");
+	return  "<span style='font-size: "+ temp.slice(1) +"'> "+str.slice(temp.length)+"</span>";
+}
+
+function font(str){
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	var arr = temp.slice(1).split(",");
+	return  "<span style='font-family: "+ temp.slice(1) +"'> "+str.slice(temp.length)+"</span>";
 }
 
 function condition(str){
@@ -55,7 +91,7 @@ function loop(str){
 	return output;
 }
 
-function comment(str){
+function hide(str){
 	return "";
 }
 
@@ -399,14 +435,35 @@ function juliar_pick(str){
 	else if(str.substr(0,5) == "video"){
 		return video(str.substr(5));
 	}
-	else if(str.substr(0,7) == "comment"){
-		return comment(str.substr(8));
+	else if(str.substr(0,4) == "hide"){
+		return comment(str.substr(5));
 	}
 	else if(str.substr(0,5) == "title"){
 		return title(str.substr(6));
 	}
 	else if(str.substr(0,6) == "author"){
 		return author(str.substr(7));
+	}
+	else if(str.substr(0,5) == "color"){
+		return color(str.substr(5));
+	}
+	else if(str.substr(0,10) == "background"){
+		return background(str.substr(10));
+	}
+	else if(str.substr(0,6) == "banner"){
+		return banner(str.substr(6));
+	}
+	else if(str.substr(0,4) == "size"){
+		return size(str.substr(4));
+	}
+	else if(str.substr(0,4) == "font"){
+		return font(str.substr(4));
+	}
+	else if(str.substr(0,3) == "get"){
+		return font(str.substr(4));
+	}
+	else if(str.substr(0,3) == "set"){
+		return font(str.substr(3));
 	}
 }
 
@@ -418,7 +475,7 @@ function juliar_parse(str){
 	var m;
 	var sliced;
 	while((m = str.indexOf("*",last)) != -1){
-		if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*"){
+		if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*" || str.charAt(m+1) == "\n"){
 			if(!--stack){
 				sliced = str.slice(begin,m+1);
 				str = str.replace(sliced,juliar_parse(sliced));
@@ -446,7 +503,7 @@ function juliar() {
 	for (var juliar = juliars.length; juliar--;) {
 		var str = juliars[juliar].innerHTML;
 		while((m = str.indexOf("*",last))!= -1){
-			if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*"){
+			if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*" || str.charAt(m+1) == "\n"){
 				if(!--stack){
 					sliced = str.slice(begin,m+1);
 					str = str.replace(sliced,juliar_parse(sliced));
@@ -483,7 +540,7 @@ function juliar() {
 			if (keyCode == '13'){
 				var str = this.lastChild.value;
 				while((m = str.indexOf("*",last))!= -1){
-					if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*"){
+					if(str.charAt(m+1) == "" || str.charAt(m+1) == " " || str.charAt(m+1) == "*" || str.charAt(m+1) == "\n"){
 						if(!--stack){
 							sliced = str.slice(begin,m+1);
 							str = str.replace(sliced,juliar_parse(sliced));
