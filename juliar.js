@@ -78,9 +78,12 @@ function font(str){
 }
 
 function condition(str){
-	var temp = str.split(" ").filter(function(n){ return n != "" })[0].slice(1);
+	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
+	var arr = temp.slice(1).split(",");
 	str = str.slice(++temp.length);
-	if(temp == true) return str;
+	for(var i=0;i<arr.length;i++){
+		if(eval(arr[i])) return str;
+	}
 	return "";
 }
 
@@ -308,7 +311,7 @@ function multiply(str){
 		if(isNumber(element)){
 			temp *= Number(element);
 		}
-		});
+	});
 	return temp;
 }
 
