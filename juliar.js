@@ -29,6 +29,18 @@ function version(str){
 	return "Juliar Version 0.1. Created by Andrei Makhanov ";
 }
 
+function left(str){
+	return "<span class='text-align:left'>"+str+"</span>";
+}
+
+function right(str){
+	return "<span class='text-align:right'>"+str+"</span>";
+}
+
+function middle(str){
+	return "<span class='text-align:center'>"+str+"</span>";
+}
+
 function set(str){
 	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
 	return juliar_globals[temp.slice(1)] = str.slice(temp.length);
@@ -464,6 +476,15 @@ function juliar_pick(str){
 	}
 	else if(str.substr(0,3) == "set"){
 		return font(str.substr(3));
+	}
+	else if(str.substr(0,4) == "left"){
+		return left(str.substr(5));
+	}
+	else if(str.substr(0,5) == "right"){
+		return right(str.substr(6));
+	}
+	else if(str.substr(0,6) == "middle"){
+		return middle(str.substr(7));
 	}
 }
 
