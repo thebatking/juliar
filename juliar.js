@@ -18,7 +18,7 @@
 	Please consider donating, all the money will go into an upkeep of the website and improvement of the language.
 	Licensed under GPL 3.0
 */
-var juliar_globals = [];
+var juliar_globals = {};
 function juliar_injectcss(){
 	var css = document.createElement("style");
 	css.type = "text/css";
@@ -30,24 +30,24 @@ function version(str){
 }
 
 function left(str){
-	return "<span class='text-align:left'>"+str+"</span>";
+	return "<p style='text-align:left'>"+str+"</p>";
 }
 
 function right(str){
-	return "<span class='text-align:right'>"+str+"</span>";
+	return "<p style='text-align:right'>"+str+"</p>";
 }
 
 function middle(str){
-	return "<span class='text-align:center'>"+str+"</span>";
+	return "<p style='text-align:center'>"+str+"</p>";
 }
 
 function set(str){
 	var temp = str.split(" ").filter(function(n){ return n != "" }).shift();
-	return juliar_globals[temp.slice(1)] = str.slice(temp.length);
+	return juliar_globals[temp.slice(1)] = str.slice(++temp.length);
 }
 
 function get(str){
-	return juliar_globals[str];
+	return juliar_globals[str.trim()];
 }
 
 function color(str){
@@ -126,7 +126,6 @@ function backgroundrainbow(str){
 	var index= 0;
 	output = "";
 	for(var i=0;i<str.length;i++){
-		console.log(index + "1");
 		if(index == arr.length) index = 0;
 		output += "<span style='background-color:"+arr[index++]+"'>"+str[i]+"</span>";
 	}
@@ -141,7 +140,6 @@ function rainbow(str){
 	var index= 0;
 	output = "";
 	for(var i=0;i<str.length;i++){
-		console.log(index + "1");
 		if(index == arr.length) index = 0;
 		output += "<span style='color:"+arr[index++]+"'>"+str[i]+"</span>";
 	}
@@ -295,9 +293,8 @@ function divide(str){
 		if(isNumber(element)){
 			if(temp == null){
 				temp = Number(element);
-				console.log(temp);
-				}else{
-				console.log(temp);
+			}
+			else{
 				temp /= Number(element);
 			}
 		}
@@ -311,7 +308,7 @@ function multiply(str){
 		if(isNumber(element)){
 			temp *= Number(element);
 		}
-	});
+		});
 	return temp;
 }
 
@@ -472,10 +469,10 @@ function juliar_pick(str){
 		return font(str.substr(4));
 	}
 	else if(str.substr(0,3) == "get"){
-		return font(str.substr(4));
+		return get(str.substr(4));
 	}
 	else if(str.substr(0,3) == "set"){
-		return font(str.substr(3));
+		return set(str.substr(3));
 	}
 	else if(str.substr(0,4) == "left"){
 		return left(str.substr(5));
@@ -543,7 +540,7 @@ function juliar() {
 		juliars[juliar].innerHTML = str;
 	}
 	juliar_injectcss();
-	console.log("done");
+	console.log("Juliar Execution Completed");
 	var ijuliars = document.getElementsByTagName("ijuliar");
 	for (juliar = ijuliars.length; juliar--;) {
 		var stack = 0;
