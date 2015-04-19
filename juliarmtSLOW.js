@@ -1,5 +1,5 @@
 /*
-	Language: juliar
+	Language: juliar (Multithreaded Edition)
 	Moto: "Web for a nonlogical mind"
 	Version: 0.1
 	Updated: 4/14/2015
