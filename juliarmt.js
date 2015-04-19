@@ -198,7 +198,7 @@ var worker_fn = function(e)
 	}
 	
 	function error(str){
-		return "<script>alert('" + str + "')</script>";
+		return "";
 	}
 	
 	function pick(str){
@@ -345,155 +345,111 @@ var worker_fn = function(e)
 	}
 	
 	function juliar_pick(str){
-		if(str.substr(0,3) == "add"){
-			return add(str.substr(4));
-		}
-		else if(str.substr(0,8) == "subtract"){
-			return subtract(str.substr(9));
-		}
-		else if(str.substr(0,8) == "multiply"){
-			return multiply(str.substr(9));	
-		}
-		else if(str.substr(0,6) == "divide"){
-			return divide(str.substr(7));	
-		}
-		else if(str.substr(0,4) == "bold"){
-			return bold(str.substr(5));	
-		}
-		else if(str.substr(0,7) == "italics"){
-			return italics(str.substr(8));	
-		}
-		else if(str.substr(0,9) == "underline"){
-			return underline(str.substr(10));	
-		}
-		else if(str.substr(0,8) == "overline"){
-			return overline(str.substr(9));	
-		}
-		else if(str.substr(0,8) == "crossout"){
-			return crossout(str.substr(9));	
-		}
-		else if(str.substr(0,9) == "subscript"){
-			return subscript(str.substr(10));	
-		}
-		else if(str.substr(0,11) == "superscript"){
-			return superscript(str.substr(12));	
-		}
-		else if(str.substr(0,6) == "larger"){
-			return larger(str.substr(7));	
-		}
-		else if(str.substr(0,7) == "smaller"){
-			return smaller(str.substr(8));	
-		}
-		else if(str.substr(0,6) == "shrink"){
-			return shrink(str.substr(7));	
-		}
-		else if(str.substr(0,4) == "grow"){
-			return grow(str.substr(5));	
-		}
-		else if(str.substr(0,4) == "loop"){
-			return loop(str.substr(4));
-		}
-		else if(str.substr(0,9) == "condition"){
-			return condition(str.substr(9));
-		}
-		else if(str.substr(0,7) == "rainbow"){
-			return rainbow(str.substr(7));
-		}
-		else if(str.substr(0,17) == "backgroundrainbow"){
-			return backgroundrainbow(str.substr(17));
-		}
-		else if(str.substr(0,7) == "picture"){
-			return picture(str.substr(7));
-		}
-		else if(str.substr(0,5) == "fetch"){
-			return fetch(str.substr(6));
-		}
-		else if(str.substr(0,3) == "css"){
-			return css(str.substr(4));
-		}
-		else if(str.substr(0,10) == "javascript"){
-			return javascript(str.substr(11));
-		}
-		else if(str.substr(0,7) == "version"){
-			return version(str.substr(8));
-		}
-		else if(str.substr(0,4) == "pick"){
-			return pick(str.substr(5));
-		}
-		else if(str.substr(0,9) == "randomize"){
-			return randomize(str.substr(10));
-		}
-		else if(str.substr(0,8) == "commands"){
-			return commands(str.substr(9));
-		}
-		else if(str.substr(0,12) == "randomnumber"){
-			return randomnumber(str.substr(12));
-		}
-		else if(str.substr(0,13) == "largestnumber"){
-			return largestnumber(str.substr(14));
-		}
-		else if(str.substr(0,14) == "smallestnumber"){
-			return smallestnumber(str.substr(15));
-		}
-		else if(str.substr(0,7) == "maximum"){
-			return maximum(str.substr(8));
-		}
-		else if(str.substr(0,7) == "minimum"){
-			return minimum(str.substr(8));
-		}
-		else if(str.substr(0,8) == "absolute"){
-			return absolute(str.substr(9));
-		}
-		else if(str.substr(0,5) == "error"){
-			return error(str.substr(6));
-		}
-		else if(str.substr(0,3) == "ask"){
-			return ask(str.substr(4));
-		}
-		else if(str.substr(0,5) == "music"){
-			return music(str.substr(5));
-		}
-		else if(str.substr(0,5) == "video"){
-			return video(str.substr(5));
-		}
-		else if(str.substr(0,4) == "hide"){
-			return comment(str.substr(5));
-		}
-		else if(str.substr(0,5) == "title"){
-			return title(str.substr(6));
-		}
-		else if(str.substr(0,6) == "author"){
-			return author(str.substr(7));
-		}
-		else if(str.substr(0,5) == "color"){
-			return color(str.substr(5));
-		}
-		else if(str.substr(0,10) == "background"){
-			return background(str.substr(10));
-		}
-		else if(str.substr(0,6) == "banner"){
-			return banner(str.substr(6));
-		}
-		else if(str.substr(0,4) == "size"){
-			return size(str.substr(4));
-		}
-		else if(str.substr(0,4) == "font"){
-			return font(str.substr(4));
-		}
-		else if(str.substr(0,3) == "get"){
-			return get(str.substr(4));
-		}
-		else if(str.substr(0,3) == "set"){
-			return set(str.substr(3));
-		}
-		else if(str.substr(0,4) == "left"){
-			return left(str.substr(5));
-		}
-		else if(str.substr(0,5) == "right"){
-			return right(str.substr(6));
-		}
-		else if(str.substr(0,6) == "middle"){
-			return middle(str.substr(7));
+		switch(str[0]){
+			case 'a':
+			if(str.substr(0,8) == "absolute") return absolute(str.substr(9));
+			else if(str.substr(0,3) == "add") return add(str.substr(4));
+			else if(str.substr(0,3) == "ask") return ask(str.substr(4));
+			else if(str.substr(0,6) == "author") return author(str.substr(7));
+			break;
+			case 'b':
+			if(str.substr(0,10) == "background") return background(str.substr(10));
+			else if(str.substr(0,17) == "backgroundrainbow") return backgroundrainbow(str.substr(17));
+			else if(str.substr(0,6) == "banner")	return banner(str.substr(6));
+			else if(str.substr(0,4) == "bold") return bold(str.substr(5));	
+			break;
+			case 'c': 
+			if(str.substr(0,5) == "color")return color(str.substr(5));
+			else if(str.substr(0,8) == "commands") return commands(str.substr(9));
+			else if(str.substr(0,9) == "condition") return condition(str.substr(9));
+			else if(str.substr(0,8) == "crossout") return crossout(str.substr(9));
+			else if(str.substr(0,3) == "css")return css(str.substr(4));
+			break;
+			case 'd':
+			if(str.substr(0,6) == "divide") return divide(str.substr(7));
+			break;
+			case 'e':
+			if(str.substr(0,5) == "error") return error(str.substr(6));
+			break;
+			case 'f':
+			if(str.substr(0,5) == "fetch") return fetch(str.substr(6));
+			else if(str.substr(0,4) == "font")  return font(str.substr(4));
+			break;
+			case 'g':
+			if(str.substr(0,3) == "get")return get(str.substr(4));
+			else if(str.substr(0,4) == "grow") return grow(str.substr(5));
+			break;
+			case 'h':
+			if(str.substr(0,4) == "hide") return comment(str.substr(5));
+			break;
+			case 'i':
+			if(str.substr(0,7) == "italics") return italics(str.substr(8));	
+			break;
+			case 'j':
+			if(str.substr(0,10) == "javascript") return javascript(str.substr(11));
+			break;
+			case 'k':
+			break;
+			case 'l':
+			if(str.substr(0,6) == "larger")	return larger(str.substr(7));
+			else if(str.substr(0,13) == "largestnumber") return largestnumber(str.substr(14));
+			else if(str.substr(0,4) == "left") return left(str.substr(5));
+			break;
+			case 'm':
+			if(str.substr(0,7) == "maximum") return maximum(str.substr(8));
+			else if(str.substr(0,6) == "middle")return middle(str.substr(7));
+			else if(str.substr(0,7) == "minimum") return minimum(str.substr(8));
+			else if(str.substr(0,8) == "multiply") return multiply(str.substr(9));	
+			else if(str.substr(0,5) == "music")	return music(str.substr(5));
+			break;
+			case 'n':
+			break;
+			case 'o':
+			if(str.substr(0,8) == "overline") return overline(str.substr(9));	
+			break;
+			case 'p':
+			if(str.substr(0,4) == "pick") return pick(str.substr(5));
+			else if(str.substr(0,7) == "picture") return picture(str.substr(7));
+			break;
+			case 'q':
+			break;
+			case 'r':
+			if(str.substr(0,7) == "rainbow") return rainbow(str.substr(7));
+			else if(str.substr(0,9) == "randomize") return randomize(str.substr(10));
+			else if(str.substr(0,12) == "randomnumber")	return randomnumber(str.substr(12));
+			else if(str.substr(0,5) == "right")	return right(str.substr(6));
+			break;
+			case 's':
+			if(str.substr(0,3) == "set") return set(str.substr(3));
+			else if(str.substr(0,6) == "shrink")	return shrink(str.substr(7));
+			else if(str.substr(0,4) == "size") return size(str.substr(4));
+			else if(str.substr(0,7) == "smaller") return smaller(str.substr(8));
+			else if(str.substr(0,14) == "smallestnumber") return smallestnumber(str.substr(15));
+			else if(str.substr(0,9) == "subscript") return subscript(str.substr(10))
+			else if(str.substr(0,8) == "subtract") return subtract(str.substr(9));
+			else if(str.substr(0,11) == "superscript") return superscript(str.substr(12));	
+			break;
+			case 't':
+			else if(str.substr(0,5) == "title") return title(str.substr(6));
+			break;
+			case 'u':
+			if(str.substr(0,9) == "underline") return underline(str.substr(10));
+			break;
+			if(str.substr(0,4) == "loop") return loop(str.substr(4));
+			case 'v':
+			if(str.substr(0,7) == "version") return version(str.substr(8));
+			else if(str.substr(0,5) == "video")	return video(str.substr(5));
+			break;
+			case 'w':
+			break;
+			case 'x':
+			break;
+			case 'y':
+			break;
+			case 'z':
+			break;
+			default:
+			break;
 		}
 	}
 	function juliar_parse(str){
@@ -513,19 +469,16 @@ var worker_fn = function(e)
 			}
 			else{
 				if(stack == 0){
-					begin = m;
-				}
-				stack++;
+				begin = m;
 			}
-			last = m+1;
+			stack++;
 		}
-		if(stack != 0 ) alert("juliarError 1: unbalanced brackets");
-		return juliar_pick(str);
+		last = m+1;
 	}
-	function init(str){
-		postMessage(juliar_parse(str));
-	}
-	init(e.data);
+	if(stack != 0 ) alert("juliarError 1: unbalanced brackets");
+	return juliar_pick(str);
+}
+postMessage(juliar_parse(e.data));
 };
 function juliar() {
 	var stack = 0;
