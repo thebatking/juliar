@@ -18,7 +18,6 @@ Why use *JULIAR * ?
 -Easily Integrates with the current website.
 -Interpreter INCLUDED! Makes it easier to test code on the fly or create computations.
 
-Latest update: 4/13/2015
 First Published: 4/12/2015
 Creator: Andrei Makhanov
 Other Contributors: Julia Romanova
