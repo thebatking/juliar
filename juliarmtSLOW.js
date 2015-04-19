@@ -394,6 +394,7 @@ var worker_fn = function(e)
 			if(str.substr(0,6) == "larger")	return larger(str.substr(7));
 			else if(str.substr(0,13) == "largestnumber") return largestnumber(str.substr(14));
 			else if(str.substr(0,4) == "left") return left(str.substr(5));
+			else if(str.substr(0,4) == "loop") return loop(str.substr(4));
 			break;
 			case 'm':
 			if(str.substr(0,7) == "maximum") return maximum(str.substr(8));
@@ -430,12 +431,11 @@ var worker_fn = function(e)
 			else if(str.substr(0,11) == "superscript") return superscript(str.substr(12));	
 			break;
 			case 't':
-			else if(str.substr(0,5) == "title") return title(str.substr(6));
+			if(str.substr(0,5) == "title") return title(str.substr(6));
 			break;
 			case 'u':
 			if(str.substr(0,9) == "underline") return underline(str.substr(10));
 			break;
-			if(str.substr(0,4) == "loop") return loop(str.substr(4));
 			case 'v':
 			if(str.substr(0,7) == "version") return version(str.substr(8));
 			else if(str.substr(0,5) == "video")	return video(str.substr(5));
