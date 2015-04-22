@@ -1,0 +1,27 @@
+/*
+	Language: juliar
+	Type: Module
+	Name: Matrix.juliar
+	Version: 0.1
+	First Published: 4/21/2015
+	Creator: Andrei Makhanov
+	Official Repository: https://github.com/juliarLang
+	Official Website: http://s13.zifboards.com/juliar
+	Comment:
+		Official Matrix Module for the language Juliar. This is the first module ever created for Juliar and therefore sets the standards.
+		The modules should be written in Juliar so that they can later be ported to other platforms. 
+		Matrix module adds ability to initiate, add, subtract, multiply, divide. It will be expanded as time goes.
+	NOTE: For now this module will be written in javascript and will later be ported to juliar once it becomes more stable.
+*/
+function juliar_matrix_create(str){
+	console.log("done creating matrix");
+	return "";
+}
+
+function juliar_matrix_pick(str){          //always juliar_*module*_pick for every module
+	if (str.substr(0, 6) == "matrix") return juliar_matrix_create(str.substr(6));
+}
+
+function juliar_matrix_init(){
+	console.log("*Juliar * Matrix Module has been loaded");
+}window.onload = juliar_matrix_init();
