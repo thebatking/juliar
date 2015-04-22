@@ -2,9 +2,22 @@
 
 Official Repository: https://github.com/juliarLang
 Official Website: http://s13.zifboards.com/juliar
-JULIAR a brand new web language written in DOM that makes it easier for an artistic mind to design :)
 
-Latest update: 4/13/2015
+Welcome to *JULIAR *
+JULIAR a brand new web language written in DOM/JS that makes it easier for an artistic mind to design :)
+
+Why use *JULIAR * ?
+-Recursive -> Fast Computing
+-Multi Threaded(coming soon) -> Even Faster Computing
+-Easy to Learn
+-Simple to Use (Made for a mind of a designer and not a programmer)
+-Cross Platform
+-Professional
+-Generate High Quality Website pages, Professional Articles, or Powerful Presentations
+-Very similar to LaTex but generates the output way faster.
+-Easily Integrates with the current website.
+-Interpreter INCLUDED! Makes it easier to test code on the fly or create computations.
+
 First Published: 4/12/2015
 Creator: Andrei Makhanov
 Other Contributors: Julia Romanova
