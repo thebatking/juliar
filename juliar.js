@@ -399,7 +399,7 @@ function juliar_pick(str) {
 	else if (str.substr(0, 4) == "font") return font(str.substr(4));
 	else if (str.substr(0, 3) == "get") return get(str.substr(4));
 	else if (str.substr(0, 4) == "grow") return grow(str.substr(5));
-	else if (str.substr(0, 4) == "hide") return comment(str.substr(5));
+	else if (str.substr(0, 4) == "hide") return hide(str.substr(5));
 	else if (str.substr(0,6) == "import") return importdata(str.substr(7));
 	else if (str.substr(0, 7) == "italics") return italics(str.substr(8));
 	else if (str.substr(0, 10) == "javascript") return javascript(str.substr(11));
