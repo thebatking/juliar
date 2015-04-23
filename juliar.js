@@ -151,7 +151,7 @@ function music(str) {
     return '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
 }
 
-function backgroundrainbow(str) {
+function highlight(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
@@ -385,7 +385,6 @@ function juliar_pick(str) {
 	else if (str.substr(0, 3) == "ask") return ask(str.substr(4));
 	else if (str.substr(0, 6) == "author") return author(str.substr(7));
 	else if (str.substr(0, 10) == "background") return background(str.substr(10));
-	else if (str.substr(0, 17) == "backgroundrainbow") return backgroundrainbow(str.substr(17));
 	else if (str.substr(0, 6) == "banner") return banner(str.substr(6));
 	else if (str.substr(0, 4) == "bold") return bold(str.substr(5));
 	else if (str.substr(0, 5) == "color") return color(str.substr(5));
@@ -400,7 +399,8 @@ function juliar_pick(str) {
 	else if (str.substr(0, 3) == "get") return get(str.substr(4));
 	else if (str.substr(0, 4) == "grow") return grow(str.substr(5));
 	else if (str.substr(0, 4) == "hide") return hide(str.substr(5));
-	else if (str.substr(0,6) == "import") return importdata(str.substr(7));
+	else if (str.substr(0, 9) == "highlight") return highlight(str.substr(9));
+	else if (str.substr(0, 6) == "import") return importdata(str.substr(7));
 	else if (str.substr(0, 7) == "italics") return italics(str.substr(8));
 	else if (str.substr(0, 10) == "javascript") return javascript(str.substr(11));
 	else if (str.substr(0, 6) == "larger") return larger(str.substr(7));
@@ -439,12 +439,12 @@ function juliar_pick(str) {
 
 function juliar_parse(str) {
     str = str.slice(1, -1);
-    var stack = 0;
-    var begin = 0;
-    var last = 0;
-    var m;
-    var sliced;
-    while ((m = str.indexOf("*", last)) != -1) {
+	var stack = 0;
+	var begin = 0;
+	var last = 0;
+	var m;
+	var sliced;
+	while ((m = str.indexOf("*", last)) != -1) {
 		if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
 			if (!--stack) {
 				sliced = str.slice(begin, m + 1);
@@ -453,24 +453,24 @@ function juliar_parse(str) {
 			}
 			} else {
 			if (stack == 0) {
-			begin = m;
+				begin = m;
+			}
+			stack++;
 		}
-		stack++;
+		last = m + 1;
 	}
-	last = m + 1;
-}
-if (stack != 0) alert("juliarError 1: unbalanced brackets");
-return juliar_pick(str);
+	if (stack != 0) alert("juliarError 1: unbalanced brackets");
+	return juliar_pick(str);
 }
 
 function juliar() {
-    var stack = 0;
-    var begin = 0;
-    var last = 0;
-    var m;
-    var sliced;
-    var juliars = document.getElementsByTagName("juliar");
-    for (var juliar = juliars.length; juliar--;) {
+	var stack = 0;
+	var begin = 0;
+	var last = 0;
+	var m;
+	var sliced;
+	var juliars = document.getElementsByTagName("juliar");
+	for (var juliar = juliars.length; juliar--;) {
 		var str = juliars[juliar].innerHTML;
 		while ((m = str.indexOf("*", last)) != -1) {
 			if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
@@ -490,10 +490,10 @@ function juliar() {
 		if (stack != 0) alert("juliarError 1: unbalanced brackets");
 		juliars[juliar].innerHTML = str;
 	}
-    juliar_injectcss();
-    console.log("Juliar Execution Completed");
-    var ijuliars = document.getElementsByTagName("ijuliar");
-    for (juliar = ijuliars.length; juliar--;) {
+	juliar_injectcss();
+	console.log("Juliar Execution Completed");
+	var ijuliars = document.getElementsByTagName("ijuliar");
+	for (juliar = ijuliars.length; juliar--;) {
 		var stack = 0;
 		var begin = 0;
 		var last;
