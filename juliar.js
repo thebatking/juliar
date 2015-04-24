@@ -144,6 +144,8 @@ function picture(str) {
 }
 
 function video(str) {
+	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//youtu.be/") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'" frameborder="0" allowfullscreen></iframe>';
     return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
 }
 
@@ -194,7 +196,8 @@ function help(str) { //Opens Documentation for the commands
 //Max,Min & Absolute
 
 function randomnumber(str) {
-    return Math.floor((Math.random() * 100) + 1);
+	if(isNaN(str)) str = 100;
+    return Math.floor((Math.random() * str) + 1);
 }
 
 function largestnumber(str) {
@@ -284,8 +287,14 @@ function shrink(str) {
 
 function grow(str) {
     var output = "";
-    for (var i = 0; i < str.length; i++) output += "<span class='larger'>" + str[i];
-    for (var i = 0; i < str.length; i++) output += "</span>";
+	var escaper = 0;
+	var counter = 0;
+    for (var i = 0; i < str.length; i++){
+		if(str[i] == '<') escaper = 1;
+		if(escaper == 0){ output += "<span class='larger'>" + str[i]; counter++;}
+		if(str[i] == '>' && escaper == 1) escaper = 0;
+	}
+    for (var i = 0; i < counter; i++) output += "</span>";
     return output;
 }
 
@@ -431,10 +440,18 @@ function juliar_pick(str) {
 	else if (str.substr(0, 9) == "underline") return underline(str.substr(10));
 	else if (str.substr(0, 7) == "version") return version(str.substr(8));
 	else if (str.substr(0, 5) == "video") return video(str.substr(5));
+	var juliartemp;
 	for(var j=0;j<juliar_modules.length;j++){
-		return eval("juliar_"+juliar_modules[j]+"_pick('"+str+"')");
+		if((juliartemp = defer("juliar_"+juliar_modules[j]+"_pick", "var fn = function(){ return juliar_"+juliar_modules[j]+"_pick('"+str+"');}")) !== undefined){
+			return juliartemp;
+		}
 	}
 	return "Unknown command " +str;
+}
+
+function defer(method,str) {
+    if (typeof method == 'function'){ eval(str);return fn();}
+    else setTimeout(function() { defer(method,str); console.log("deferred"); }, 50);
 }
 
 function juliar_parse(str) {
