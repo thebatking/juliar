@@ -35,12 +35,12 @@ function version(str) {
 function importdata(str){
 	str = str.trim();
 	var http = new XMLHttpRequest();
-    http.open('HEAD', "juliar_modules/"+str+".juliar", false);
-    http.send();
+	http.open('GET', "juliar_modules/"+str+".juliar", false);
+    	http.send(null);
 	if(http.status!=200) return "Cannot load module \""+str+"\". Make sure that module is in juliar_modules/";
-	var fileref=document.createElement('script')
-	fileref.setAttribute("type","text/javascript")
-	fileref.setAttribute("src", "juliar_modules/"+str+".juliar");
+	var fileref=document.createElement('script');
+	fileref.type = "text/javascript";
+	fileref.src = "juliar_modules/"+str+".juliar";
 	document.getElementsByTagName("head")[0].appendChild(fileref);
 	juliar_modules.push(str);
 	return "Imported Module \""+str+"\"";
@@ -440,19 +440,13 @@ function juliar_pick(str) {
 	else if (str.substr(0, 9) == "underline") return underline(str.substr(10));
 	else if (str.substr(0, 7) == "version") return version(str.substr(8));
 	else if (str.substr(0, 5) == "video") return video(str.substr(5));
-	var juliartemp;
+	var juliar_check;
 	for(var j=0;j<juliar_modules.length;j++){
-		if((juliartemp = defer("juliar_"+juliar_modules[j]+"_pick", "var fn = function(){ return juliar_"+juliar_modules[j]+"_pick('"+str+"');}")) !== undefined){
-			return juliartemp;
-		}
+		if((juliar_check = eval("juliar_"+juliar_modules[j]+"_pick('"+str+"')")) != null) return juliar_check;
 	}
 	return "Unknown command " +str;
 }
 
-function defer(method,str) {
-    if (typeof method == 'function'){ eval(str);return fn();}
-    else setTimeout(function() { defer(method,str); console.log("deferred"); }, 50);
-}
 
 function juliar_parse(str) {
     str = str.slice(1, -1);
@@ -516,7 +510,7 @@ function juliar() {
 		var last;
 		var m;
 		var sliced;
-		ijuliars[juliar].innerHTML = "<br> > <input type='text' style='width: 50%;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
+		ijuliars[juliar].innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
 		ijuliars[juliar].onkeypress = function(e) {
 			last = 0;
 			begin = 0;
