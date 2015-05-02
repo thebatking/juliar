@@ -21,6 +21,10 @@
 var juliar_globals = {};
 var juliar_modules = [];
 
+String.prototype.replaceAt=function(index, character) {
+    return this.substr(0, index) + character + this.substr(index+character.length);
+}
+
 function juliar_injectcss() {
     var css = document.createElement("style");
     css.type = "text/css";
@@ -36,12 +40,12 @@ function importdata(str){
 	str = str.trim();
 	var http = new XMLHttpRequest();
 	http.open('GET', "juliar_modules/"+str+".juliar", false);
-    	http.send(null);
+	http.send(null);
 	if(http.status!=200) return "Cannot load module \""+str+"\". Make sure that module is in juliar_modules/";
 	var fileref=document.createElement('script');
 	fileref.type = "text/javascript";
-	fileref.src = "juliar_modules/"+str+".juliar";
-	document.getElementsByTagName("head")[0].appendChild(fileref);
+	fileref.textContent = http.responseText;
+	document.head.appendChild(fileref);
 	juliar_modules.push(str);
 	return "Imported Module \""+str+"\"";
 }
@@ -189,7 +193,7 @@ function commands(str) { //List commands
 }
 
 function help(str) { //Opens Documentation for the commands
-    return "Type help + command  to see help";
+    return "Type \* help + command  to see help";
 }
 
 
@@ -407,6 +411,7 @@ function juliar_pick(str) {
 	else if (str.substr(0, 4) == "font") return font(str.substr(4));
 	else if (str.substr(0, 3) == "get") return get(str.substr(4));
 	else if (str.substr(0, 4) == "grow") return grow(str.substr(5));
+	else if (str.substr(0, 4) == "help") return help(str.substr(5));
 	else if (str.substr(0, 4) == "hide") return hide(str.substr(5));
 	else if (str.substr(0, 9) == "highlight") return highlight(str.substr(9));
 	else if (str.substr(0, 6) == "import") return importdata(str.substr(7));
@@ -456,13 +461,15 @@ function juliar_parse(str) {
 	var m;
 	var sliced;
 	while ((m = str.indexOf("*", last)) != -1) {
-		if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
+		if(str.charAt(m-1) == "\\");
+		else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
 			if (!--stack) {
 				sliced = str.slice(begin, m + 1);
 				str = str.replace(sliced, juliar_parse(sliced));
 				m = begin - 1;
 			}
-			} else {
+		}
+		else {
 			if (stack == 0) {
 				begin = m;
 			}
@@ -484,7 +491,8 @@ function juliar() {
 	for (var juliar = juliars.length; juliar--;) {
 		var str = juliars[juliar].innerHTML;
 		while ((m = str.indexOf("*", last)) != -1) {
-			if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
+			if(str.charAt(m-1) == "\\");
+			else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
 				if (!--stack) {
 					sliced = str.slice(begin, m + 1);
 					str = str.replace(sliced, juliar_parse(sliced));
@@ -499,6 +507,7 @@ function juliar() {
 			last = m + 1;
 		}
 		if (stack != 0) alert("juliarError 1: unbalanced brackets");
+		str = str.replace(/\\\*/gi, "*");
 		juliars[juliar].innerHTML = str;
 	}
 	juliar_injectcss();
@@ -520,7 +529,8 @@ function juliar() {
 			if (keyCode == '13') {
 				var str = this.lastChild.value;
 				while ((m = str.indexOf("*", last)) != -1) {
-					if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
+					if(str.charAt(m-1) == "\\");
+					else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
 						if (!--stack) {
 							sliced = str.slice(begin, m + 1);
 							str = str.replace(sliced, juliar_parse(sliced));
@@ -536,6 +546,7 @@ function juliar() {
 				}
 				if (stack != 0) alert("juliarError 1: unbalanced brackets");
 				var temp = document.createElement("div");
+				str = str.replace(/\\\*/gi, "*");
 				temp.innerHTML = str;
 				this.insertBefore(temp, this.lastChild);
 				this.lastChild.value = "";
