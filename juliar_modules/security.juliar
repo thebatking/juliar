@@ -648,6 +648,7 @@ function juliar_security_decrypt(str){
 
 function juliar_security_pick(str) { //always juliar_*module*_pick for every module
     if (str.substr(0, 3) == "md5") return juliar_security_md5(str.substr(3).trim());
+	else if (str.substr(0, 8) == "password") return juliar_security_password(str.substr(8).trim());
 	else if (str.substr(0, 7) == "encrypt") return juliar_security_encrypt(str.substr(7).trim());
     else if (str.substr(0, 7) == "decrypt") return juliar_security_decrypt(str.substr(7).trim());
 }
