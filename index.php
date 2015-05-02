@@ -1,6 +1,6 @@
 <script src="juliar.js"></script>
 <juliar>
-*background pink *
+*background #E2D1F0 *
 *rainbow=red,orange,green,blue,purple Welcome *ask What's your name? * , to JULIAR. *
 *grow yep * *shrink it's * *font=14 That * EASY!
 *hide *import matrix * *import security * *
