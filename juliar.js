@@ -1,5 +1,5 @@
 /*
-	Language: juliar
+	Language: *Juliar *
 	Moto: "Language for an artistic mind"
 	Type: Main
 	Version: 0.1
@@ -21,9 +21,8 @@
 var juliar_globals = {};
 var juliar_modules = [];
 
-String.prototype.replaceAt=function(index, character) {
-    return this.substr(0, index) + character + this.substr(index+character.length);
-}
+var juliar_history_index = 0;
+var juliar_history_arr = [];
 
 function juliar_injectcss() {
     var css = document.createElement("style");
@@ -548,7 +547,7 @@ function juliar() {
 		var m;
 		var sliced;
 		ijuliars[juliar].innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
-		ijuliars[juliar].onkeypress = function(e) {
+		ijuliars[juliar].onkeydown = function(e) {
 			last = 0;
 			begin = 0;
 			stack = 0;
@@ -556,6 +555,8 @@ function juliar() {
 			var keyCode = e.keyCode || e.which;
 			if (keyCode == '13') {
 				var str = this.lastChild.value;
+				juliar_history_arr.unshift(str);
+				juliar_history_index = 0;
 				while ((m = str.indexOf("*", last)) != -1) {
 					if(str.charAt(m-1) == "\\");
 					else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n") {
@@ -578,6 +579,20 @@ function juliar() {
 				temp.innerHTML = str;
 				this.insertBefore(temp, this.lastChild);
 				this.lastChild.value = "";
+				return false;
+			}
+			else if(keyCode == '38'){
+				if(juliar_history_arr.length == 0) return false;
+				else if(juliar_history_index == juliar_history_arr.length) juliar_history_index = 0;
+				this.lastChild.value = juliar_history_arr[juliar_history_index++];
+				console.log(juliar_history_index);
+				return false;
+			}
+			else if(keyCode == '40'){
+				if(juliar_history_arr.length == 0) return false;
+				else if(juliar_history_index == -1) juliar_history_index = juliar_history_arr.length -1;
+				this.lastChild.value = juliar_history_arr[juliar_history_index--];
+				console.log(juliar_history_index);
 				return false;
 			}
 		}
