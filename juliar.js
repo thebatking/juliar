@@ -50,6 +50,10 @@ function importdata(str){
 	return "Imported Module \""+str+"\"";
 }
 
+function modules(str){
+	return juliar_modules.toString();
+}
+
 function left(str) {
     return "<p style='text-align:left'>" + str + "</p>";
 }
@@ -75,7 +79,7 @@ function get(str) {
 
 function color(str) {
     var temp = str.split(" ").filter(function(n) {
-        return n != ""
+        return n != "";
 	}).shift();
     var arr = temp.slice(1).split(",");
     return "<span style='color: " + temp.slice(1) + "'> " + str.slice(temp.length) + "</span>";
@@ -130,7 +134,7 @@ function author(str) {
 function loop(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
-	})[0].slice(1);
+	})[0].slice(1) | 1;
     str = str.slice(++temp.length);
     var output = "";
     for (var i = 0; i < temp; i++) {
@@ -164,10 +168,14 @@ function highlight(str) {
     var arr = temp.slice(1).split(",");
     str = str.slice(temp.length);
     var index = 0;
-    output = "";
+    var output = "";
+	var escaper = 0;
     for (var i = 0; i < str.length; i++) {
         if (index == arr.length) index = 0;
-        output += "<span style='background-color:" + arr[index++] + "'>" + str[i] + "</span>";
+		if(str[i] == '<') escaper = 1;
+        if(escaper == 0) output += "<span style='background-color:" + arr[index++] + "'>" + str[i] + "</span>";
+		else {output += str[i];}
+		if(str[i] == '>' && escaper == 1) escaper = 0;
 	}
     return output;
 }
@@ -180,16 +188,26 @@ function rainbow(str) {
     var arr = temp.slice(1).split(",");
     str = str.slice(temp.length);
     var index = 0;
-    output = "";
+    var output = "";
+	var escaper = 0;
     for (var i = 0; i < str.length; i++) {
         if (index == arr.length) index = 0;
-        output += "<span style='color:" + arr[index++] + "'>" + str[i] + "</span>";
+		if(str[i] == '<') escaper = 1;
+        if(escaper == 0) output += "<span style='color:" + arr[index++] + "'>" + str[i] + "</span>";
+		else {output += str[i];}
+		if(str[i] == '>' && escaper == 1) escaper = 0;
 	}
     return output;
 }
 
 function commands(str) { //List commands
-    return "[commands,help,pick,randomize]";
+	var functions = "";	
+	for( var x in window) {
+		if(typeof window[x] === "function" && x.indexOf("juliar") === 0) {
+			functions += x + "<br>";
+		}
+	}
+    return functions;
 }
 
 function help(str) { //Opens Documentation for the commands
@@ -283,9 +301,16 @@ function larger(str) {
 }
 
 function shrink(str) {
-    var output = "";
-    for (var i = 0; i < str.length; i++) output += "<span class='smaller'>" + str[i];
-    for (var i = 0; i < str.length; i++) output += "</span>";
+	var output = "";
+	var escaper = 0;
+	var counter = 0;
+    for (var i = 0; i < str.length; i++){
+		if(str[i] == '<') escaper = 1;
+		if(escaper == 0){ output += "<span class='smaller'>" + str[i]; counter++;}
+		else{ output += str[i];}
+		if(str[i] == '>' && escaper == 1) escaper = 0;
+	}
+    for (var i = 0; i < counter; i++) output += "</span>";
     return output;
 }
 
@@ -296,6 +321,7 @@ function grow(str) {
     for (var i = 0; i < str.length; i++){
 		if(str[i] == '<') escaper = 1;
 		if(escaper == 0){ output += "<span class='larger'>" + str[i]; counter++;}
+		else{ output += str[i];}
 		if(str[i] == '>' && escaper == 1) escaper = 0;
 	}
     for (var i = 0; i < counter; i++) output += "</span>";
@@ -424,6 +450,7 @@ function juliar_pick(str) {
 	else if (str.substr(0, 7) == "maximum") return maximum(str.substr(8));
 	else if (str.substr(0, 6) == "middle") return middle(str.substr(7));
 	else if (str.substr(0, 7) == "minimum") return minimum(str.substr(8));
+	else if (str.substr(0, 7) == "modules") return modules(str.substr(7));
 	else if (str.substr(0, 8) == "multiply") return multiply(str.substr(9));
 	else if (str.substr(0, 5) == "music") return music(str.substr(5));
 	else if (str.substr(0, 8) == "overline") return overline(str.substr(9));
