@@ -50,6 +50,7 @@ function juliar_core_import(str){
 		juliar_core_modules.splice( index, 1);
 	}
 	juliar_core_modules.push(str);
+	if (typeof window["juliar_"+str+"_init"] === "function") window["juliar_"+str+"_init"]();
 	return "Imported Module \""+str+"\"";
 }
 
@@ -86,6 +87,14 @@ function juliar_core_set(str) {
 
 function juliar_core_get(str) {
     return juliar_core_globals[str.trim()];
+}
+
+function juliar_core_blur(str){
+	return "<span style='text-shadow: 0 0 3px black;color: transparent;'>"+str+"</span>";
+}
+
+function juliar_core_visibility(str){
+	return "<span style='opacity: 0.4;filter: alpha(opacity=40);'>"+str+"</span>";
 }
 
 function juliar_core_color(str) {
@@ -454,11 +463,11 @@ function ijuliar_pick(str) {
 	var len = juliar_core_modules.length;
 	while (len--) {
 		if (typeof window["juliar_"+juliar_core_modules[len]+"_"+command] === "function") {
-			return window["juliar_"+juliar_core_modules[len]+"_"+command](str.substr(command.length));
+			return window["juliar_"+juliar_core_modules[len]+"_"+command](str.substr(command.length).trim());
 		}
 	}
 	if (typeof window["juliar_core_"+command] === "function") {
-		return window["juliar_core_"+command](str.substr(command.length));
+		return window["juliar_core_"+command](str.substr(command.length).trim());
 	}
 	return "Unknown command " +str;
 }
