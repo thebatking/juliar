@@ -18,24 +18,24 @@
 	Please consider donating, all the money will go into an upkeep of the website and improvement of the language.
 	Licensed under GPL 3.0
 */
-var juliar_globals = {};
-var juliar_modules = [];
+var juliar_core_globals = {};
+var juliar_core_modules = [];
 
-var juliar_history_index = 0;
-var juliar_history_arr = [];
+var juliar_core_history_index = 0;
+var juliar_core_history_arr = [];
 
-function juliar_injectcss() {
+function ijuliar_injectcss() {
     var css = document.createElement("style");
     css.type = "text/css";
     css.innerHTML = ".smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
     document.body.appendChild(css);
 }
 
-function version(str) {
+function juliar_core_version(str) {
     return "Juliar Version 0.1. Created by Andrei Makhanov ";
 }
 
-function importdata(str){
+function juliar_core_import(str){
 	str = str.trim();
 	var http = new XMLHttpRequest();
 	http.open('GET', "juliar_modules/"+str+".juliar", false);
@@ -45,38 +45,50 @@ function importdata(str){
 	fileref.type = "text/javascript";
 	fileref.textContent = http.responseText;
 	document.head.appendChild(fileref);
-	juliar_modules.push(str);
+	var index = juliar_core_modules.indexOf(str);
+	if (index >= 0) {
+		juliar_core_modules.splice( index, 1);
+	}
+	juliar_core_modules.push(str);
 	return "Imported Module \""+str+"\"";
 }
 
-function modules(str){
-	return juliar_modules.toString();
+function juliar_core_deport(str){
+	var index = juliar_core_modules.indexOf(str);
+	if (index >= 0) {
+		juliar_core_modules.splice( index, 1 );
+	}
+	return "Deported Module \""+str+"\"";
 }
 
-function left(str) {
+function juliar_core_modules(str){
+	return juliar_core_modules.toString();
+}
+
+function juliar_core_left(str) {
     return "<p style='text-align:left'>" + str + "</p>";
 }
 
-function right(str) {
+function juliar_core_right(str) {
     return "<p style='text-align:right'>" + str + "</p>";
 }
 
-function middle(str) {
+function juliar_core_middle(str) {
     return "<p style='text-align:center'>" + str + "</p>";
 }
 
-function set(str) {
+function juliar_core_set(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
-    return juliar_globals[temp.slice(1)] = str.slice(++temp.length);
+    return juliar_core_globals[temp.slice(1)] = str.slice(++temp.length);
 }
 
-function get(str) {
-    return juliar_globals[str.trim()];
+function juliar_core_get(str) {
+    return juliar_core_globals[str.trim()];
 }
 
-function color(str) {
+function juliar_core_color(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != "";
 	}).shift();
@@ -84,16 +96,16 @@ function color(str) {
     return "<span style='color: " + temp.slice(1) + "'> " + str.slice(temp.length) + "</span>";
 }
 
-function background(str) {
+function juliar_core_background(str) {
     document.body.style.backgroundColor = str;
     return "";
 }
 
-function banner(str) {
+function juliar_core_banner(str) {
     return "<img style='width:100%;height:200px;margin:0;' src='" + str.trim() + "'/>";
 }
 
-function size(str) {
+function juliar_core_size(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
@@ -101,7 +113,7 @@ function size(str) {
     return "<span style='font-size: " + temp.slice(1) + "'> " + str.slice(temp.length) + "</span>";
 }
 
-function font(str) {
+function juliar_core_font(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
@@ -109,7 +121,7 @@ function font(str) {
     return "<span style='font-family: " + temp.slice(1) + "'> " + str.slice(temp.length) + "</span>";
 }
 
-function condition(str) {
+function juliar_core_condition(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
@@ -122,15 +134,15 @@ function condition(str) {
 }
 
 //Header & Title
-function title(str) {
+function juliar_core_title(str) {
     return "<h1 style='text-align:center'>" + str + "</h1>";
 }
 
-function author(str) {
+function juliar_core_author(str) {
     return "<h2 style='text-align:center'>" + str + "</h2>";
 }
 
-function loop(str) {
+function juliar_core_loop(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	})[0].slice(1) | 1;
@@ -142,25 +154,25 @@ function loop(str) {
     return output;
 }
 
-function hide(str) {
+function juliar_core_hide(str) {
     return "";
 }
 
-function picture(str) {
+function juliar_core_picture(str) {
     return "<img src='" + str.trim() + "'/>";
 }
 
-function video(str) {
+function juliar_core_video(str) {
 	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'" frameborder="0" allowfullscreen></iframe>';
 	else if(str.indexOf("//youtu.be/") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'" frameborder="0" allowfullscreen></iframe>';
     return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
 }
 
-function music(str) {
+function juliar_core_music(str) {
     return '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
 }
 
-function highlight(str) {
+function juliar_core_highlight(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
@@ -180,7 +192,7 @@ function highlight(str) {
 }
 
 
-function rainbow(str) {
+function juliar_core_rainbow(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	}).shift();
@@ -199,65 +211,65 @@ function rainbow(str) {
     return output;
 }
 
-function commands(str) { //List commands
-	var functions = "";	
+function juliar_core_commands(str) { //List commands
+	var functions = "";     
 	for( var x in window) {
-		if(typeof window[x] === "function" && x.indexOf("juliar") === 0) {
-			functions += x + "<br>";
+		if(typeof window[x] === "function" && x.indexOf("juliar_") === 0) {
+			functions += "\\*"+x.substr(7) + " \\*<br>";
 		}
 	}
     return functions;
 }
 
-function help(str) { //Opens Documentation for the commands
+function juliar_core_help(str) { //Opens Documentation for the commands
     return "Type \* help + command  to see help";
 }
 
 
 //Max,Min & Absolute
 
-function randomnumber(str) {
+function juliar_core_randomnumber(str) {
 	if(isNaN(str)) str = 100;
     return Math.floor((Math.random() * str) + 1);
 }
 
-function largestnumber(str) {
+function juliar_core_largestnumber(str) {
     return Number.MAX_SAFE_INTEGER;
 }
 
-function smallestnumber(str) {
+function juliar_core_smallestnumber(str) {
     return Number.MIN_SAFE_INTEGER;
 }
 
-function maximum(str) {
+function juliar_core_maximum(str) {
     return Math.max.apply(Math, str.split(" "));
 }
 
-function minimum(str) {
+function juliar_core_minimum(str) {
     return Math.min.apply(Math, str.split(" "));
 }
 
-function absolute(str) {
+function juliar_core_absolute(str) {
     return str.split(" ").map(Math.abs).join(" ");
 }
 
-function ask(str) {
+function juliar_core_ask(str) {
     return prompt(str, "");
 }
 
-function error(str) {
+function juliar_core_error(str) {
 	alert(str);
     return "";
 }
 
-function pick(str) {
+function juliar_core_pick(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
 	});
     return temp[Math.floor(Math.random() * temp.length)];
 }
 
-function randomize(str) {
+function juliar_core_randomize(str) {
     var arr = str.split(" ").filter(function(n) {
         return n != ""
 	});
@@ -274,16 +286,16 @@ function randomize(str) {
 }
 
 //Calls
-function javascript(str) {
+function juliar_core_javascript(str) {
     return eval(str);
 }
 
-function css(str) {
+function juliar_core_css(str) {
     return "<style>" + str + "</style>";
 }
 
 //Ajax Requests
-function fetch(str) { //Need to test more...make it async...
+function juliar_core_fetch(str) { //Need to test more...make it async...
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", str, false);
     xmlhttp.send();
@@ -291,15 +303,15 @@ function fetch(str) { //Need to test more...make it async...
 }
 
 //Effect Scripts
-function smaller(str) {
+function juliar_core_smaller(str) {
     return "<span class='smaller'>" + str + "</span>";
 }
 
-function larger(str) {
+function juliar_core_larger(str) {
     return "<span class='larger'>" + str + "</span>";
 }
 
-function shrink(str) {
+function juliar_core_shrink(str) {
 	var output = "";
 	var escaper = 0;
 	var counter = 0;
@@ -313,7 +325,7 @@ function shrink(str) {
     return output;
 }
 
-function grow(str) {
+function juliar_core_grow(str) {
     var output = "";
 	var escaper = 0;
 	var counter = 0;
@@ -327,31 +339,31 @@ function grow(str) {
     return output;
 }
 
-function subscript(str) {
+function juliar_core_subscript(str) {
     return "<span class='subscript'>" + str + "</span>";
 }
 
-function superscript(str) {
+function juliar_core_superscript(str) {
     return "<span class='superscript'>" + str + "</span>";
 }
 
-function overline(str) {
+function juliar_core_overline(str) {
     return "<span class='overline'>" + str + "</span>";
 }
 
-function crossout(str) {
+function juliar_core_crossout(str) {
     return "<span class='crossout'>" + str + "</span>";
 }
 
-function underline(str) {
+function juliar_core_underline(str) {
     return "<span class='underline'>" + str + "</span>";
 }
 
-function bold(str) {
+function juliar_core_bold(str) {
     return "<span class='bold'>" + str + "</span>";
 }
 
-function italics(str) {
+function juliar_core_italics(str) {
     return "<span class='italics'>" + str + "</span>";
 }
 
@@ -360,20 +372,34 @@ function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function sin(str) {
+function juliar_core_sin(str) {
     return Math.sin(str);
 }
 
-function cos(str) {
+function juliar_core_cos(str) {
     return Math.cos(str);
 }
 
-function tangent(str) {
+function juliar_core_tangent(str) {
     return Math.tan(str);
 }
 
+function juliar_core_power(str) {
+    var temp;
+    str.split(" ").forEach(function(element) {
+        if (isNumber(element)) {
+            if (temp == null) {
+                temp = Number(element);
+			} 
+			else {
+                temp = Math.pow(temp, Number(element));
+			}
+		}
+	});
+    return temp;
+}
 
-function divide(str) {
+function juliar_core_divide(str) {
     var temp;
     str.split(" ").forEach(function(element) {
         if (isNumber(element)) {
@@ -387,17 +413,17 @@ function divide(str) {
     return temp;
 }
 
-function multiply(str) {
+function juliar_core_multiply(str) {
     var temp = 1;
     str.split(" ").forEach(function(element) {
         if (isNumber(element)) {
-            temp *= Number(element);
+			temp *= Number(element);
 		}
 	});
-    return temp;
+	return temp;
 }
 
-function add(str) {
+function juliar_core_add(str) {
     var temp = 0;
     str.split(" ").forEach(function(element) {
         if (isNumber(element)) {
@@ -407,7 +433,7 @@ function add(str) {
     return temp;
 }
 
-function subtract(str) {
+function juliar_core_subtract(str) {
     var temp = 0;
     str.split(" ").forEach(function(element) {
         if (isNumber(element)) {
@@ -417,69 +443,28 @@ function subtract(str) {
     return temp;
 }
 
-function juliar_pick(str) {
-	if (str.substr(0, 8) == "absolute") return absolute(str.substr(9));
-	else if (str.substr(0, 3) == "add") return add(str.substr(4));
-	else if (str.substr(0, 3) == "ask") return ask(str.substr(4));
-	else if (str.substr(0, 6) == "author") return author(str.substr(7));
-	else if (str.substr(0, 10) == "background") return background(str.substr(10));
-	else if (str.substr(0, 6) == "banner") return banner(str.substr(6));
-	else if (str.substr(0, 4) == "bold") return bold(str.substr(5));
-	else if (str.substr(0, 5) == "color") return color(str.substr(5));
-	else if (str.substr(0, 8) == "commands") return commands(str.substr(9));
-	else if (str.substr(0, 9) == "condition") return condition(str.substr(9));
-	else if (str.substr(0, 8) == "crossout") return crossout(str.substr(9));
-	else if (str.substr(0, 3) == "css") return css(str.substr(4));
-	else if (str.substr(0, 6) == "divide") return divide(str.substr(7));
-	else if (str.substr(0, 5) == "error") return error(str.substr(6));
-	else if (str.substr(0, 5) == "fetch") return fetch(str.substr(6));
-	else if (str.substr(0, 4) == "font") return font(str.substr(4));
-	else if (str.substr(0, 3) == "get") return get(str.substr(4));
-	else if (str.substr(0, 4) == "grow") return grow(str.substr(5));
-	else if (str.substr(0, 4) == "help") return help(str.substr(5));
-	else if (str.substr(0, 4) == "hide") return hide(str.substr(5));
-	else if (str.substr(0, 9) == "highlight") return highlight(str.substr(9));
-	else if (str.substr(0, 6) == "import") return importdata(str.substr(7));
-	else if (str.substr(0, 7) == "italics") return italics(str.substr(8));
-	else if (str.substr(0, 10) == "javascript") return javascript(str.substr(11));
-	else if (str.substr(0, 6) == "larger") return larger(str.substr(7));
-	else if (str.substr(0, 13) == "largestnumber") return largestnumber(str.substr(14));
-	else if (str.substr(0, 4) == "left") return left(str.substr(5));
-	else if (str.substr(0, 4) == "loop") return loop(str.substr(4));
-	else if (str.substr(0, 7) == "maximum") return maximum(str.substr(8));
-	else if (str.substr(0, 6) == "middle") return middle(str.substr(7));
-	else if (str.substr(0, 7) == "minimum") return minimum(str.substr(8));
-	else if (str.substr(0, 7) == "modules") return modules(str.substr(7));
-	else if (str.substr(0, 8) == "multiply") return multiply(str.substr(9));
-	else if (str.substr(0, 5) == "music") return music(str.substr(5));
-	else if (str.substr(0, 8) == "overline") return overline(str.substr(9));
-	else if (str.substr(0, 4) == "pick") return pick(str.substr(5));
-	else if (str.substr(0, 7) == "picture") return picture(str.substr(7));
-	else if (str.substr(0, 7) == "rainbow") return rainbow(str.substr(7));
-	else if (str.substr(0, 9) == "randomize") return randomize(str.substr(10));
-	else if (str.substr(0, 12) == "randomnumber") return randomnumber(str.substr(12));
-	else if (str.substr(0, 5) == "right") return right(str.substr(6));
-	else if (str.substr(0, 3) == "set") return set(str.substr(3));
-	else if (str.substr(0, 6) == "shrink") return shrink(str.substr(7));
-	else if (str.substr(0, 4) == "size") return size(str.substr(4));
-	else if (str.substr(0, 7) == "smaller") return smaller(str.substr(8));
-	else if (str.substr(0, 14) == "smallestnumber") return smallestnumber(str.substr(15));
-	else if (str.substr(0, 9) == "subscript") return subscript(str.substr(10))
-	else if (str.substr(0, 8) == "subtract") return subtract(str.substr(9));
-	else if (str.substr(0, 11) == "superscript") return superscript(str.substr(12));
-	else if (str.substr(0, 5) == "title") return title(str.substr(6));
-	else if (str.substr(0, 9) == "underline") return underline(str.substr(10));
-	else if (str.substr(0, 7) == "version") return version(str.substr(8));
-	else if (str.substr(0, 5) == "video") return video(str.substr(5));
-	var juliar_check;
-	for(var j=0;j<juliar_modules.length;j++){
-		if((juliar_check = eval("juliar_"+juliar_modules[j]+"_pick('"+str+"')")) != null) return juliar_check;
+function ijuliar_pick(str) {
+	var command = str.split(' ')[0].split("=")[0];
+	var first = command[0];
+	if (first == '+') command = "add";
+	else if(first == '-') command = "subtract";
+	else if(first == 'x' && command[1] == undefined) command = "multiply";
+	else if(first == '/') command = "divide";
+	else if(first == '^') command = "power";
+	var len = juliar_core_modules.length;
+	while (len--) {
+		if (typeof window["juliar_"+juliar_core_modules[len]+"_"+command] === "function") {
+			return window["juliar_"+juliar_core_modules[len]+"_"+command](str.substr(command.length));
+		}
+	}
+	if (typeof window["juliar_core_"+command] === "function") {
+		return window["juliar_core_"+command](str.substr(command.length));
 	}
 	return "Unknown command " +str;
 }
 
 
-function juliar_parse(str) {
+function ijuliar_parse(str) {
     str = str.slice(1, -1);
 	var stack = 0;
 	var begin = 0;
@@ -491,7 +476,7 @@ function juliar_parse(str) {
 		else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n" || str.charAt(m + 1) == "\t" || str.charAt(m + 1) == "\r") {
 			if (!--stack) {
 				sliced = str.slice(begin, m + 1);
-				str = str.replace(sliced, juliar_parse(sliced));
+				str = str.replace(sliced, ijuliar_parse(sliced));
 				m = begin - 1;
 			}
 		}
@@ -504,7 +489,7 @@ function juliar_parse(str) {
 		last = m + 1;
 	}
 	if (stack != 0) alert("juliarError 1: unbalanced brackets");
-	return juliar_pick(str);
+	return ijuliar_pick(str);
 }
 
 function juliar() {
@@ -525,7 +510,7 @@ function juliar() {
 			else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n" || str.charAt(m + 1) == "\t" || str.charAt(m + 1) == "\r") {
 				if (!--stack) {
 					sliced = str.slice(begin, m + 1);
-					str = str.replace(sliced, juliar_parse(sliced));
+					str = str.replace(sliced, ijuliar_parse(sliced));
 					m = begin - 1;
 				}
 			} 
@@ -536,12 +521,12 @@ function juliar() {
 				stack++;
 			}
 			last = m + 1;
-			}
-			if (stack != 0) alert("juliarError 1: unbalanced brackets");
-			str = str.replace(/\\\*/gi, "*");
-			juliars[juliar].innerHTML = str;
+		}
+		if (stack != 0) alert("juliarError 1: unbalanced brackets");
+		str = str.replace(/\\\*/gi, "*");
+		juliars[juliar].innerHTML = str;
 	}
-	juliar_injectcss();
+	ijuliar_injectcss();
 	console.log("Juliar Execution Completed");
 	var ijuliars = document.getElementsByTagName("ijuliar");
 	for (juliar = ijuliars.length; juliar--;) {
@@ -559,14 +544,14 @@ function juliar() {
 			var keyCode = e.keyCode || e.which;
 			if (keyCode == '13') {
 				var str = this.lastChild.value;
-				juliar_history_arr.unshift(str);
-				juliar_history_index = 0;
+				juliar_core_history_arr.unshift(str);
+				juliar_core_history_index = 0;
 				while ((m = str.indexOf("*", last)) != -1) {
 					if(str.charAt(m-1) == "\\");
 					else if (str.charAt(m + 1) == "" || str.charAt(m + 1) == " " || str.charAt(m + 1) == "*" || str.charAt(m + 1) == "\n" || str.charAt(m + 1) == "\t" || str.charAt(m + 1) == "\r") {
 						if (!--stack) {
 							sliced = str.slice(begin, m + 1);
-							str = str.replace(sliced, juliar_parse(sliced));
+							str = str.replace(sliced, ijuliar_parse(sliced));
 							m = begin - 1;
 						}
 					}
@@ -587,17 +572,17 @@ function juliar() {
 				return false;
 			}
 			else if(keyCode == '38'){
-				if(juliar_history_arr.length == 0) return false;
-				else if(juliar_history_index == juliar_history_arr.length) juliar_history_index = 0;
-				this.lastChild.value = juliar_history_arr[juliar_history_index++];
-				console.log(juliar_history_index);
+				if(juliar_core_history_arr.length == 0) return false;
+				else if(juliar_core_history_index == juliar_core_history_arr.length) juliar_core_history_index = 0;
+				this.lastChild.value = juliar_core_history_arr[juliar_core_history_index++];
+				console.log(juliar_core_history_index);
 				return false;
 			}
 			else if(keyCode == '40'){
-				if(juliar_history_arr.length == 0) return false;
-				else if(juliar_history_index == -1) juliar_history_index = juliar_history_arr.length -1;
-				this.lastChild.value = juliar_history_arr[juliar_history_index--];
-				console.log(juliar_history_index);
+				if(juliar_core_history_arr.length == 0) return false;
+				else if(juliar_core_history_index == -1) juliar_core_history_index = juliar_core_history_arr.length -1;
+				this.lastChild.value = juliar_core_history_arr[juliar_core_history_index--];
+				console.log(juliar_core_history_index);
 				return false;
 			}
 		}
