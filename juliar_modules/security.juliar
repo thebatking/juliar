@@ -8,8 +8,10 @@
 	Official Repository: https://github.com/juliarLang
 	Official Website: http://s13.zifboards.com/juliar
 	Comment:
+	This is a first module and it standarizes the code. Each *juliar * command is created via function in ECMAscript
+	with juliar_*module name *_command i.e. juliar_security_md5 will result in *md5 * in juliar code.
 		A security  module that contains hash and two way encryption functions.
-	NOTE: This module is currently written in javascript and will later be ported to juliar once it becomes more stable.
+	NOTE: This module is currently written in ECMAscript and will later be ported to juliar once it becomes more stable.
 	MD5 function is based on Joseph Myers Code.
 */
 (function() {
@@ -646,14 +648,6 @@ function juliar_security_decrypt(str){
 	return bf.decrypt(str).trimRight("0");
 }
 
-function juliar_security_pick(str) { //always juliar_*module*_pick for every module
-    if (str.substr(0, 3) == "md5") return juliar_security_md5(str.substr(3).trim());
-	else if (str.substr(0, 8) == "password") return juliar_security_password(str.substr(8).trim());
-	else if (str.substr(0, 7) == "encrypt") return juliar_security_encrypt(str.substr(7).trim());
-    else if (str.substr(0, 7) == "decrypt") return juliar_security_decrypt(str.substr(7).trim());
-}
-
 function juliar_security_init() {
     console.log("*Juliar * Security Module has been loaded");
 }
-window.onload = juliar_security_init();
