@@ -68,15 +68,15 @@ function juliar_core_modules(str){
 }
 
 function juliar_core_left(str) {
-    return "<p style='text-align:left'>" + str + "</p>";
+    return "<div style='text-align:left'>" + str + "</div>";
 }
 
 function juliar_core_right(str) {
-    return "<p style='text-align:right'>" + str + "</p>";
+    return "<div style='text-align:right'>" + str + "</div>";
 }
 
 function juliar_core_middle(str) {
-    return "<p style='text-align:center'>" + str + "</p>";
+    return "<div style='text-align:center'>" + str + "</div>";
 }
 
 function juliar_core_input(str){
