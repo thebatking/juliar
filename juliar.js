@@ -311,7 +311,7 @@ function juliar_core_randomnumber(str) {
 	return Math.floor((Math.random() * str) + 1);
 }
 
-//Stopped HERE
+
 function juliar_core_largestnumber(str) {
 	return Number.MAX_SAFE_INTEGER;
 }
@@ -333,6 +333,10 @@ function juliar_core_absolute(str) {
 }
 
 function juliar_core_ask(str) {
+	if(str[0] == '='){
+		var temp = str.substr(1).split(" ")[0];
+		return prompt(str.slice(++temp.length),temp);
+	}
 	return prompt(str, "");
 }
 
