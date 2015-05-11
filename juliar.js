@@ -207,7 +207,7 @@ function juliar_core_condition(str) {
 }
 
 //Header & Title
-function juliar_core_title(str) {  //Stopped HERE
+function juliar_core_title(str) {
     return "<h1 style='text-align:center'>" + str + "</h1>";
 }
 
@@ -232,17 +232,18 @@ function juliar_core_hide(str) {
     return "";
 }
 
-function juliar_core_picture(str) {
-    return "<img src='" + str.trim() + "'/>";
+function juliar_core_picture(str) { 
+    return "<img style='max-width: 100%;' src='" + str.trim() + "'/>";
 }
 
-function juliar_core_video(str) {
-	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'" frameborder="0" allowfullscreen></iframe>';
-	else if(str.indexOf("//youtu.be/") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'" frameborder="0" allowfullscreen></iframe>';
+function juliar_core_video(str) { 
+	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe style="margin:0 auto;display:block;" width="420" height="315" src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//youtu.be/") != -1) return '<iframe style="margin:0 auto;display:block;" width="420" height="315" src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//vimeo.com/") != -1) return '<iframe style="margin:0 auto;display:block;" width="420" height="315" src="//player.vimeo.com/video/'+str.split("/").pop()+'" frameborder="0" allowfullscreen></iframe>';
     return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
 }
 
-function juliar_core_music(str) {
+function juliar_core_music(str) { //Stopped HERE
     return '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
 }
 
