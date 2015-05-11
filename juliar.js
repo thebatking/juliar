@@ -135,7 +135,7 @@ function juliar_core_get(str) {
 
 function juliar_core_blur(str){
 	if(str[0] == '='){
-		var temp = str.substr(1).split(" ").filter(function(n) {return n != ""})[0];
+		var temp = str.substr(1).split(" ")[0];
 		var output = "";
 		str = str.slice(++temp.length);
 		return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
@@ -145,7 +145,7 @@ function juliar_core_blur(str){
 
 function juliar_core_visibility(str){
 	if(str[0] == '='){
-		var temp = str.substr(1).split(" ").filter(function(n) {return n != ""})[0];
+		var temp = str.substr(1).split(" ")[0];
 		var output = "";
 		str = str.slice(++temp.length);
 		return "<span style='opacity: "+temp/100+";filter: alpha(opacity="+temp+");'>"+str+"</span>";
@@ -155,7 +155,7 @@ function juliar_core_visibility(str){
 
 function juliar_core_color(str) {
 	if(str[0] == '='){
-		var temp = str.substr(1).split(" ").filter(function(n) {return n != ""})[0];
+		var temp = str.substr(1).split(" ")[0];
 		var output = "";
 		return "<span style='color: " + temp + "'> " + str.slice(++temp.length) + "</span>";
 	}
@@ -217,7 +217,7 @@ function juliar_core_author(str) {
 
 function juliar_core_loop(str) {
 	if(str[0] == '='){
-		var temp = str.substr(1).split(" ").filter(function(n) {return n != ""})[0];
+		var temp = str.substr(1).split(" ")[0];
 		var output = "";
 		str = str.slice(++temp.length);
 		for (var i = 0; i < temp; i++) {
@@ -377,8 +377,7 @@ function juliar_core_css(str) {
 	return "<style>" + str + "</style>";
 }
 
-//Ajax Requests
-function juliar_core_fetch(str) { //Need to test more...make it async...
+function juliar_core_fetch(str) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET", str, false);
 	xmlhttp.send();
@@ -528,6 +527,7 @@ function juliar_core_subtract(str) {
 
 function ijuliar_pick(str) {
 	var command = str.split(' ')[0].split("=")[0];
+	var length = command.length;
 	var first = command[0];
 	if (first == '+') command = "add";
 	else if(first == '-') command = "subtract";
@@ -537,11 +537,11 @@ function ijuliar_pick(str) {
 	var len = juliar_core_module.length;
 	while (len--) {
 		if (typeof window["juliar_"+juliar_core_module[len]+"_"+command] === "function") {
-			return window["juliar_"+juliar_core_module[len]+"_"+command](str.substr(command.length).trim());
+			return window["juliar_"+juliar_core_module[len]+"_"+command](str.substr(length).trim());
 		}
 	}
 	if (typeof window["juliar_core_"+command] === "function") {
-		return window["juliar_core_"+command](str.substr(command.length).trim());
+		return window["juliar_core_"+command](str.substr(length).trim());
 	}
 	return "Unknown command " +str;
 }
