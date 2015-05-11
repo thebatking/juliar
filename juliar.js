@@ -79,17 +79,21 @@ function juliar_core_middle(str) {
     return "<div style='text-align:center'>" + str + "</div>";
 }
 
+function juliar_core_trash(str){
+	return juliar_core_globals["null"];
+}
+
 function juliar_core_input(str){
 	var temp = str.split(" ").filter(function(n) {
         return n != ""
-	}).shift().slice(1);
+	}).shift().slice(1) || null;
 	return "<input onblur='juliar_core_dynamicset(\"="+temp+" \"+ this.value)' type='text' value='"+str.slice(++temp.length).trim()+"' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
 }
 
 function juliar_core_dynamicset(str){   
 	var temp = str.split(" ").filter(function(n) {
         return n != ""
-	}).shift().slice(1);
+	}).shift().slice(1) || 1;
 	var h2s = document.getElementsByTagName("juliar_dynamic_"+temp);
 	for(var h = 0; h < h2s.length; h++ ) {
 		h2s[h].innerHTML = str.slice(++temp.length).trim();
