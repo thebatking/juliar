@@ -125,7 +125,7 @@ function juliar_core_dynamicfetch(str){
 function juliar_core_set(str) {
     var temp = str.split(" ").filter(function(n) {
         return n != ""
-	}).shift();
+	}).shift() || 1;
     return juliar_core_globals[temp.slice(1)] = str.slice(++temp.length);
 }
 
