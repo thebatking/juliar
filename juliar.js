@@ -287,12 +287,14 @@ function juliar_core_rainbow(str) {
 	}
     return output;
 }
-//Stopped HERE
+
 function juliar_core_commands(str) { //List commands
 	var functions = "";     
 	for( var x in window) {
 		if(typeof window[x] === "function" && x.indexOf("juliar_") === 0) {
-			functions += "\\*"+x.substr(7) + " \\*<br>";
+			functions += "\\*"+x.split("_").pop() + " \\*";
+			if(x.indexOf("juliar_core_") == -1) functions += " >>IMPORTED";
+			functions += "<br>";
 		}
 	}
     return functions;
@@ -304,12 +306,12 @@ function juliar_core_help(str) { //Opens Documentation for the commands
 
 
 //Max,Min & Absolute
-
 function juliar_core_randomnumber(str) {
 	if(isNaN(str)) str = 100;
 	return Math.floor((Math.random() * str) + 1);
 }
 
+//Stopped HERE
 function juliar_core_largestnumber(str) {
 	return Number.MAX_SAFE_INTEGER;
 }
