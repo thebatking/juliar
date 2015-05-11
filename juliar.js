@@ -237,17 +237,18 @@ function juliar_core_picture(str) {
 }
 
 function juliar_core_video(str) { 
-	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe style="margin:0 auto;display:block;" width="420" height="315" src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'" frameborder="0" allowfullscreen></iframe>';
-	else if(str.indexOf("//youtu.be/") != -1) return '<iframe style="margin:0 auto;display:block;" width="420" height="315" src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'" frameborder="0" allowfullscreen></iframe>';
-	else if(str.indexOf("//vimeo.com/") != -1) return '<iframe style="margin:0 auto;display:block;" width="420" height="315" src="//player.vimeo.com/video/'+str.split("/").pop()+'" frameborder="0" allowfullscreen></iframe>';
+	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//youtu.be/") != -1) return '<iframe width="420" height="315" src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//vimeo.com/") != -1) return '<iframe width="420" height="315" src="//player.vimeo.com/video/'+str.split("/").pop()+'" frameborder="0" allowfullscreen></iframe>';
     return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
 }
 
-function juliar_core_music(str) { //Stopped HERE
+function juliar_core_music(str) { 
     return '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
 }
 
 function juliar_core_highlight(str) {
+	if(str[0] != '=') return str;
     var temp = str.split(" ").filter(function(n) {
 		return n != ""
 	}).shift();
@@ -267,7 +268,8 @@ function juliar_core_highlight(str) {
 }
 
 
-function juliar_core_rainbow(str) {
+function juliar_core_rainbow(str) { 
+	if(str[0] != '=') return str;
     var temp = str.split(" ").filter(function(n) {
 		return n != ""
 	}).shift();
@@ -285,7 +287,7 @@ function juliar_core_rainbow(str) {
 	}
     return output;
 }
-
+//Stopped HERE
 function juliar_core_commands(str) { //List commands
 	var functions = "";     
 	for( var x in window) {
