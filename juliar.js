@@ -19,7 +19,7 @@
 	Licensed under GPL 3.0
 */
 var juliar_core_globals = {};
-var juliar_core_modules = [];
+var juliar_core_module = [];
 
 var juliar_core_history_index = 0;
 var juliar_core_history_arr = [];
@@ -45,26 +45,26 @@ function juliar_core_import(str){
 	fileref.type = "text/javascript";
 	fileref.textContent = http.responseText;
 	document.head.appendChild(fileref);
-	var index = juliar_core_modules.indexOf(str);
+	var index = juliar_core_module.indexOf(str);
 	if (index >= 0) {
-		juliar_core_modules.splice( index, 1);
+		juliar_core_module.splice( index, 1);
 	}
-	juliar_core_modules.push(str);
+	juliar_core_module.push(str);
 	if (typeof window["juliar_"+str+"_init"] === "function") window["juliar_"+str+"_init"]();
 	return "Imported Module \""+str+"\"";
 }
 
 function juliar_core_deport(str) {
-    var index = juliar_core_modules.indexOf(str);
+    var index = juliar_core_module.indexOf(str);
     if (index >= 0) {
-        juliar_core_modules.splice(index, 1);
+        juliar_core_module.splice(index, 1);
 		return "Deported Module \"" + str + "\"";
 	}
     return "Module \"" + str + "\" does not exists";
 }
 
 function juliar_core_modules(str){
-	return juliar_core_modules.toString();
+	return juliar_core_module.toString();
 }
 
 function juliar_core_left(str) {
@@ -513,10 +513,10 @@ function ijuliar_pick(str) {
 	else if(first == 'x' && command[1] == undefined) command = "multiply";
 	else if(first == '/') command = "divide";
 	else if(first == '^') command = "power";
-	var len = juliar_core_modules.length;
+	var len = juliar_core_module.length;
 	while (len--) {
-		if (typeof window["juliar_"+juliar_core_modules[len]+"_"+command] === "function") {
-			return window["juliar_"+juliar_core_modules[len]+"_"+command](str.substr(command.length).trim());
+		if (typeof window["juliar_"+juliar_core_module[len]+"_"+command] === "function") {
+			return window["juliar_"+juliar_core_module[len]+"_"+command](str.substr(command.length).trim());
 		}
 	}
 	if (typeof window["juliar_core_"+command] === "function") {
