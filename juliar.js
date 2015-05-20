@@ -74,7 +74,7 @@ function juliar_core_trash(){
 }
 
 function juliar_core_input(str,args){
-	return "<input onblur='juliar_core_dynamicset(this.value,\""+args[0]+"\")' type='text' value='"+str+"' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
+	return "<input onblur='juliar_core_dynamicset(this.value,\""+args[0]+"\")' type='text' value='"+str+"' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3)'>";
 }
 
 function juliar_core_dynamicset(str,args){
@@ -526,7 +526,7 @@ function ijuliar_interpreter() {
 	var ijuliars = document.getElementsByTagName("ijuliar");
 	for (var i = 0, juliar = ijuliars.length; i < juliar; i++) {
 		var jselector = ijuliars[i];
-		jselector.innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;'>";
+		jselector.innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3);'>";
 		jselector.addEventListener("keydown", ijuliar_keydown);
 	}
 }
