@@ -130,7 +130,9 @@ function juliar_core_color(str,args) {
 }
 
 function juliar_core_background(str) {
-	document.body.style.backgroundColor = str;
+	var temp = str.split(" ");
+	document.body.style.backgroundColor = temp[0];
+	if(temp.length === 2) document.body.style.background = "linear-gradient( to left top, "+temp[1]+", "+temp[0]+")";
     return "";
 }
 
