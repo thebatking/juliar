@@ -286,11 +286,17 @@ function juliar_core_error(str) {
         return "";
 }
 
-function juliar_core_pick(str) {
+function juliar_core_pick(str,args) {
         var temp = str.split(" ").filter(function(n) {
                 return n !== "";
         });
-        return temp[Math.floor(Math.random() * temp.length)];
+		var temp2;
+		if((temp2 = args[0]) == undefined)  return temp[Math.floor(Math.random() * temp.length)];
+		var output = "";
+		for(var i=0;i<temp2;++i){
+			output += temp[Math.floor(Math.random() * temp.length)] + " ";
+		}
+		return output;
 }
 
 function juliar_core_randomize(str) {
