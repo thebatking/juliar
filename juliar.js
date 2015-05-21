@@ -66,7 +66,7 @@ function juliar_core_middle(str) {
 }
 
 function juliar_core_trash(){
-        return juliar_core_globals.null;
+        return juliar_core_globals.null || juliar_core_globals.undefined;
 }
 
 function juliar_core_input(str,args){
