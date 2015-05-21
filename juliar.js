@@ -23,7 +23,7 @@ var juliar_core_globals = {}, juliar_core_module = [], juliar_core_history_index
 function ijuliar_injectcss() {
     var css = document.createElement("style");
     css.type = "text/css";
-    css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
+    css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}p:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; font-family: Georgia; }.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
     document.body.appendChild(css);
 }
 
@@ -51,6 +51,18 @@ function juliar_core_deport(a) {
 
 function juliar_core_modules(){
         return juliar_core_module.toString();
+}
+
+function juliar_core_story(str){
+	return "<p>"+ str +"</p>";
+}
+
+function juliar_core_newspaper(str,args){
+	var st = args[0] || 2;
+	var style = "-webkit-column-count: "+st+";-moz-column-count: "+st+";column-count: "+st+";";
+	style += "-webkit-column-gap: 40px;-moz-column-gap: 40px;column-gap: 40px;";
+	style += "-webkit-column-rule: 1px solid lightblue;-moz-column-rule: 1px solid lightblue;column-rule: 1px solid lightblue;";
+	return "<div style='"+style+"'>"+ str +"</div>";
 }
 
 function juliar_core_left(str) {
