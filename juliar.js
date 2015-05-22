@@ -28,13 +28,37 @@ function ijuliar_injectcss() {
 }
 
 function juliar_core_import(str){
-	var http = new XMLHttpRequest();
-	http.open("GET", "juliar_modules/"+str+".juliar", !1);
-	http.send(null);
-	if(http.status!=200) return "Cannot load module \""+str+"\". Make sure that module is in juliar_modules/";
+	if(str.indexOf("//") != -1){
+		var http = new XMLHttpRequest();
+		http.open("GET", str, !1);
+		http.send();
+		if(http.status!=200) return "Cannot load module from \""+str;
+		var outp = http.responseText;
+	}
+	else{
+		var http = new XMLHttpRequest();
+		http.open("GET", "juliar_modules/"+str+".juliar", !1);
+		http.send();
+		if(http.status!=200){
+			var temp;
+			if((temp = str.split("/")).length == 3){
+				http.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp[0]+"/"+temp[1]+"/master/"+temp[2]+".juliar", !1);
+				http.send();
+				console.log(http.responseText.indexOf("Not"));
+				if(http.responseText.indexOf("Not Found") == 1) return "Cannot load module \""+str+"\" Github and Local module does not exist";
+				var outp = http.responseText.slice(1,-1).replace(/\\n/g, "").replace(/\\"/g,"\"");
+			}
+			else{
+				return "Cannot load module \""+str+"\". NOTE: local modules are stored in juliar_modules/";
+			}
+		}else{
+			var outp = http.responseText;
+		}
+	}
+	str = str.split("/").pop().split(".")[0];
 	var fileref=document.createElement("script");
 	fileref.type = "text/javascript";
-	fileref.textContent = http.responseText;
+	fileref.textContent = outp;
 	document.head.appendChild(fileref);
 	var index = juliar_core_module.indexOf(str);
 	-1 < index && juliar_core_module.splice(index, 1);
@@ -47,6 +71,24 @@ function juliar_core_import(str){
 function juliar_core_deport(a) {
 	var b = juliar_core_module.indexOf(a);
 	return -1 < b ? (juliar_core_module.splice(b, 1), 'Deported Module "' + a + '"') : 'Module "' + a + '" does not exists';
+}
+
+function juliar_core_download(str){
+	if(str.indexOf("//") === -1){
+		var temp = str.split("/");
+		str = "http://github-raw-cors-proxy.herokuapp.com/"+temp[0]+"/"+temp[1]+"/master/"+temp[2]+".juliar";
+	}
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", str, !1);
+	xmlhttp.send();
+	if(xmlhttp.status!=200) return "Cannot download the module. Make sure you provide correct link";
+	if(xmlhttp.responseText.indexOf("Not Found") == 1) return "Cannot download module from GitHub. Make sure that the file exists";
+	var fileref=document.createElement("a");
+	fileref.download = str.split("/").pop();
+	fileref.href = 'data:text/csv;base64,' + btoa(xmlhttp.responseText);
+	document.body.appendChild(fileref);
+	fileref.click();
+	return "";
 }
 
 function juliar_core_modules(){
@@ -503,7 +545,6 @@ function ijuliar_parser(str) {
 		}
 		else{
 			if ((lastindex = positions.pop()) === undefined) {
-				alert(""+str[currentindex - 2]+str[currentindex - 1]+str[currentindex]+str[currentindex + 1]+str[currentindex + 2]);
 				str = "Code has an extra &#42 at position " + currentindex++ + ". Please remove the extra &#42";
 			}
 			else {
