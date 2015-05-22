@@ -250,9 +250,9 @@ function juliar_core_video(str,args) {
 	var width = args[0] || 420;
 	var height = args[1] || 315;
 	var autoplay = args[2] || 0;
-	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width='+width+' height='+height+' src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'?rel=0&autoplay='+autoplay+'" frameborder="0" allowfullscreen></iframe>';
-	else if(str.indexOf("//youtu.be/") != -1) return '<iframe width='+width+' height='+height+' src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'?rel=0&autoplay='+autoplay+'" frameborder="0" allowfullscreen></iframe>';
-	else if(str.indexOf("//vimeo.com/") != -1) return '<iframe width='+width+' height='+height+' src="//player.vimeo.com/video/'+str.split("/").pop()+'?autoplay='+autoplay+'" frameborder="0" allowfullscreen></iframe>';
+	if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width='+width+' height='+height+' src="https://www.youtube.com/embed/'+str.split('?v=')[1]+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'&t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//youtu.be/") != -1) return '<iframe width='+width+' height='+height+' src="https://www.youtube.com/embed/'+str.split('youtu.be/')[1]+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'&t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
+	else if(str.indexOf("//vimeo.com/") != -1) return '<iframe width='+width+' height='+height+' src="//player.vimeo.com/video/'+str.split("/").pop()+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'#t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
     return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
 }
 
