@@ -98,6 +98,70 @@ function juliar_core_modules(){
 	return juliar_core_module.toString();
 }
 
+function juliar_core_plusminus(){
+        return "&plusmn;";
+}
+
+function juliar_core_submit(str,args){
+        var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", str || "");
+        for(var i=0, length = args.length; i<length;++i){
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", args[i]);
+                hiddenField.setAttribute("value", juliar_core_globals(args[i]));
+                form.appendChild(hiddenField);  
+        }
+    document.body.appendChild(form);
+    form.submit();
+	return "";
+}
+
+function juliar_core_fix(str,args){
+        args[0] = args[0]  || "initial";
+        args[1] = args[1]  || "initial";
+        var x = args[0] < 0 ? "bottom:" : "top:";
+        var y = args[1] < 0 ? "right:" : "left:";
+        return "<span style='position:fixed;"+x+args[0]+";"+y+args[1]+"'>"+str+"</span>";
+}
+
+function juliar_core_columns(str,args){
+        var temp = 100/(args[0] || 1);
+        return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
+}
+
+/*function juliar_core_setmatrix(str,args){ //NOT READY YET!
+        var temp = str.split("|");
+        var arr = [];
+        for(var i=1, length = temp.length; i<length; i+=2){
+                arr.push(temp[i].split(" ").filter(function(e){return e != "";}));
+        }
+        juliar_core_globals[args[0]] = arr;
+        return "";
+}*/
+
+/*function juliar_core_getmatrix(str){ //NOT READY YET!
+        var temp = juliar_core_globals[str];
+        var output = "<p style='width:88px;'><span style='float:left;font-size:260px;line-height:230px;'>[</span>";
+        //output += "<span style='float:right;font-size:110px;line-height:80px;'>]</span>";
+        output += "<div style='padding-top:20px;font-size:20px;line-height:20px;word-spacing:20px'>";
+        output += "1<br>";
+        output += "1<br>";
+        output += "1<br>";
+        output += "1<br>";
+        output += "1<br>";
+        output += "1<br>";
+        output += "1<br>";
+                output += "1<br>";
+        output += "1<br>";
+                output += "1<br>";
+        output += "1<br>";
+        output += "</div>";
+        output += "</p>";
+        return output;
+}*/
+
 function juliar_core_story(str){
 	return "<p>"+ str +"</p>";
 }
@@ -528,6 +592,7 @@ function ijuliar_pick(str) {
 	else if(first == 'x' && command[1] === undefined) command = "multiply";
 	else if(first == '/') command = "divide";
 	else if(first == '^') command = "power";
+	else if(parseInt(first)) return ["zero","one","two","three","four","five","six","seven","eight","nine","ten"][first];
 	for(var i = 0, len = juliar_core_module.length; i < len;++i) {
 		if (typeof window["juliar_"+juliar_core_module[i]+"_"+command] === "function") {
 			return window["juliar_"+juliar_core_module[i]+"_"+command](str.substr(length).trim(),args);
