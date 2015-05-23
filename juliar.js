@@ -236,6 +236,15 @@ function juliar_core_get(str) {
     return juliar_core_globals[str];
 }
 
+function juliar_core_store(str,args) {
+    localStorage.setItem(args[0], str);
+	return str;
+}
+
+function juliar_core_restore(str) {
+    return localStorage.getItem(str);
+}
+
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
 	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
