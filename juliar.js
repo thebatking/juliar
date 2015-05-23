@@ -25,6 +25,11 @@ function ijuliar_injectcss() {
     css.type = "text/css";
     css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}p:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; font-family: Georgia; }.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
     document.body.appendChild(css);
+	var viewPortTag=document.createElement('meta');
+	viewPortTag.id="viewport";
+	viewPortTag.name = "viewport";
+	viewPortTag.content = "initial-scale=1.0; maximum-scale=1.0; user-scalable=0;";
+	document.getElementsByTagName('head')[0].appendChild(viewPortTag);
 }
 
 function juliar_core_import(str){
@@ -118,7 +123,7 @@ function juliar_core_submit(str,args){
 	return "";
 }
 
-function juliar_core_fix(str,args){
+function juliar_core_sticky(str,args){
         args[0] = args[0]  || "initial";
         args[1] = args[1]  || "initial";
         var x = args[0] < 0 ? "bottom:" : "top:";
