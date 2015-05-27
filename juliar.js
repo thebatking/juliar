@@ -23,7 +23,7 @@ var juliar_core_globals = {}, juliar_core_module = [], juliar_core_history_index
 function ijuliar_injectcss() {
     var css = document.createElement("style");
     css.type = "text/css";
-    css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}p:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; font-family: Georgia; }.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
+    css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}p:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
     document.body.appendChild(css);
 	var viewPortTag=document.createElement('meta');
 	viewPortTag.id="viewport";
@@ -257,6 +257,39 @@ function juliar_core_restore(str) {
     return localStorage.getItem(str);
 }
 
+function juliar_core_rotate(str,args){
+	var temp = args[0] || 350;
+	args[0] = args[0]  || "inherit";
+	args[1] = args[1]  || "inherit";
+	var x = args[0] < 0 ? "bottom:" : "top:";
+	var y = args[1] < 0 ? "right:" : "left:";
+	return "<div style='transform: rotate("+temp+"deg);position:relative;"+x+args[0]+";"+y+args[1]+"'>" + str + "</div>";
+}
+
+function juliar_core_reflect(str,args){
+	var temp = args[0] || "X";
+	return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
+}
+
+function juliar_core_figure(str){
+	
+}
+function juliar_core_reference(str){
+	
+}
+
+/*function juliar_core_socket(str){
+	
+}*/
+
+/*function juliar_core_socketset(str){
+	
+}
+
+function juliar_core_socketget(str){
+	
+}
+*/
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
 	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
