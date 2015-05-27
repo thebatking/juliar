@@ -39,6 +39,7 @@ var l33t_w = ["\\/\\/", "(/\\)", "\\^/", "|/\\|", "\\X/", "\\\\\'/\\\'//"];
 var l33t_x = ["%","*","><","}{",")("];
 var l33t_y = ["`/", "¥"];
 var l33t_z = ["2", "7_", ">_"];
+var l33t_ = [" "];
 
 var letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
@@ -48,8 +49,8 @@ function juliar_l33t_encode(str){
 	for(var i=0, length = str.length; i<length;++i){
 		if(str[i] == '<') escaper = 1;
 		if(str[i] == "\\" && str[i+1] == "*"){ output +="\\*";++i;}
-		else if(escaper === 0){
-		var temp = eval("l33t_"+str[i]);
+		else if(escaper === 0 && str[i].match(/[a-z]/i)){
+		var temp = eval("l33t_"+str[i].toLowerCase());
 		output += temp[Math.floor(Math.random() * temp.length)]
 		}
 		else {output += str[i];}
