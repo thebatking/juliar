@@ -131,6 +131,40 @@ function juliar_core_columns(str,args){
 	var temp = 100/(args[0] || 1);
 	return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
 }
+/*
+function juliar_core_figure(str){
+	
+}
+
+function juliar_core_reference(str){
+	
+}*/
+
+/*function juliar_core_socket(str){
+	
+}*/
+
+/*function juliar_core_socketset(str){
+	
+}
+	
+function juliar_core_socketget(str){
+	
+}
+*/
+
+/*function juliar_core_list(str){
+        var temp = Math.floor(Math.random() * 10000);
+        var temp3 = "<script>var temp2 = document.createElement('li');var temp = document.getElementsByTagName('juliar_core_list_"+temp+"')[0];temp2.innerHTML = temp.innerHTML";
+        temp3 += "if(temp.parentNode.nodeName != 'ol'){var temp3 =document.createElement('ol'); temp.parentNode.appendChild(temp3);temp3.appendChild(temp2);} "
+        temp3 += "else{temp.parentNode.insertBefore(temp2, temp);}";
+        temp3 += "temp.parentNode.removeChild(temp);</script>";
+        return "<juliar_core_list_"+temp+"></juliar_core_list_"+temp+">";
+}*/
+
+function juliar_core_bullet(str){
+        return "<ul><li>" + str + "</li></ul>";
+}
 
 /*function juliar_core_graph(str,args){
 	var canvas = document.createElement('canvas');
@@ -267,26 +301,6 @@ function juliar_core_reflect(str,args){
 	return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
 }
 
-function juliar_core_figure(str){
-	
-}
-
-function juliar_core_reference(str){
-	
-}
-
-/*function juliar_core_socket(str){
-	
-}*/
-
-/*function juliar_core_socketset(str){
-	
-	}
-	
-	function juliar_core_socketget(str){
-	
-	}
-*/
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
 	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
@@ -364,6 +378,12 @@ function juliar_core_picture(str,args) {
     var width = args[0] || "100%";
     var height = args[1] || "auto";
     return "<img style='max-width: 100%;width:"+width+";height:"+height+";margin:0 auto;' src='" + str + "'/>";
+}
+
+var juliar_core_pdf = juliar_core_flash = juliar_core_java = function(str,args){
+	var width = args[0] || 420;
+	var height = args[1] || 315;
+	return "<object width='"+width+"' height='"+height+"' data='"+str+"'></object>"
 }
 
 function juliar_core_video(str,args) {
