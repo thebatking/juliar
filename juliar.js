@@ -48,17 +48,16 @@ function juliar_core_import(str){
 			if((temp = str.split("/")).length > 2){
 				http.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar", !1);
 				http.send();
-				console.log(http.responseText.indexOf("Not"));
 				if(http.responseText.indexOf("Not Found") == 1) return "Cannot load module \""+str+"\" Github and Local module does not exist";
-				var outp = http.responseText.slice(1,-1).replace(/\\n/g, "\r\n").replace(/\\'/g, "\'").replace(/\\"/g, '\"').replace(/\\&/g, "\&")
-				.replace(/\\r/g, "\r").replace(/\\t/g, "\t").replace(/\\b/g, "\b").replace(/\\f/g, "\f");
+				var outp =	JSON.parse(http.responseText);
 			}
 			else{
 				return "Cannot load module \""+str+"\". NOTE: local modules are stored in juliar_modules/";
 			}
-			}else{
-			var outp = http.responseText;
 		}
+		else{
+			var outp = http.responseText;
+			}
 	}
 	str = str.split("/").pop().split(".")[0];
 	var fileref=document.createElement("script");
@@ -90,9 +89,7 @@ function juliar_core_download(str){
 	if(xmlhttp.responseText.indexOf("Not Found") == 1) return "Cannot download module from GitHub. Make sure that the file exists";
 	var fileref=document.createElement("a");
 	fileref.download = str.split("/").pop();
-	var xa = xmlhttp.responseText.slice(1,-1).replace(/\\n/g, "\r\n").replace(/\\'/g, "\'").replace(/\\"/g, '\"').replace(/\\&/g, "\&")
-	.replace(/\\r/g, "\r").replace(/\\t/g, "\t").replace(/\\b/g, "\b").replace(/\\f/g, "\f");
-	fileref.href = 'data:text/csv;base64,' + btoa(xa);
+	fileref.href = 'data:text/plain;base64,'+btoa(JSON.parse(xmlhttp.responseText));
 	document.body.appendChild(fileref);
 	fileref.click();
 	return "";
@@ -284,11 +281,11 @@ function juliar_core_reference(str){
 
 /*function juliar_core_socketset(str){
 	
-}
-
-function juliar_core_socketget(str){
+	}
 	
-}
+	function juliar_core_socketget(str){
+	
+	}
 */
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
