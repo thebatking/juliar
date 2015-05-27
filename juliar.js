@@ -52,12 +52,12 @@ function juliar_core_import(str){
 				console.log(http.responseText.indexOf("Not"));
 				if(http.responseText.indexOf("Not Found") == 1) return "Cannot load module \""+str+"\" Github and Local module does not exist";
 				var outp = http.responseText.slice(1,-1).replace(/\\n/g, "\r\n").replace(/\\'/g, "\'").replace(/\\"/g, '\"').replace(/\\&/g, "\&")
-                                      .replace(/\\r/g, "\r").replace(/\\t/g, "\t").replace(/\\b/g, "\b").replace(/\\f/g, "\f");
+				.replace(/\\r/g, "\r").replace(/\\t/g, "\t").replace(/\\b/g, "\b").replace(/\\f/g, "\f");
 			}
 			else{
 				return "Cannot load module \""+str+"\". NOTE: local modules are stored in juliar_modules/";
 			}
-		}else{
+			}else{
 			var outp = http.responseText;
 		}
 	}
@@ -92,7 +92,7 @@ function juliar_core_download(str){
 	var fileref=document.createElement("a");
 	fileref.download = str.split("/").pop();
 	var xa = xmlhttp.responseText.slice(1,-1).replace(/\\n/g, "\r\n").replace(/\\'/g, "\'").replace(/\\"/g, '\"').replace(/\\&/g, "\&")
-                                      .replace(/\\r/g, "\r").replace(/\\t/g, "\t").replace(/\\b/g, "\b").replace(/\\f/g, "\f");
+	.replace(/\\r/g, "\r").replace(/\\t/g, "\t").replace(/\\b/g, "\b").replace(/\\f/g, "\f");
 	fileref.href = 'data:text/csv;base64,' + btoa(xa);
 	document.body.appendChild(fileref);
 	fileref.click();
@@ -104,67 +104,79 @@ function juliar_core_modules(){
 }
 
 function juliar_core_plusminus(){
-        return "&plusmn;";
+	return "&plusmn;";
 }
 
 function juliar_core_submit(str,args){
-        var form = document.createElement("form");
+	var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", str || "");
-        for(var i=0, length = args.length; i<length;++i){
-                var hiddenField = document.createElement("input");
-                hiddenField.setAttribute("type", "hidden");
-                hiddenField.setAttribute("name", args[i]);
-                hiddenField.setAttribute("value", juliar_core_globals(args[i]));
-                form.appendChild(hiddenField);  
-        }
+	for(var i=0, length = args.length; i<length;++i){
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", args[i]);
+		hiddenField.setAttribute("value", juliar_core_globals(args[i]));
+		form.appendChild(hiddenField);  
+	}
     document.body.appendChild(form);
     form.submit();
 	return "";
 }
 
 function juliar_core_sticky(str,args){
-        args[0] = args[0]  || "initial";
-        args[1] = args[1]  || "initial";
-        var x = args[0] < 0 ? "bottom:" : "top:";
-        var y = args[1] < 0 ? "right:" : "left:";
-        return "<span style='position:fixed;"+x+args[0]+";"+y+args[1]+"'>"+str+"</span>";
+	args[0] = args[0]  || "initial";
+	args[1] = args[1]  || "initial";
+	var x = args[0] < 0 ? "bottom:" : "top:";
+	var y = args[1] < 0 ? "right:" : "left:";
+	return "<span style='position:fixed;"+x+args[0]+";"+y+args[1]+"'>"+str+"</span>";
 }
 
 function juliar_core_columns(str,args){
-        var temp = 100/(args[0] || 1);
-        return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
+	var temp = 100/(args[0] || 1);
+	return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
 }
 
+/*function juliar_core_graph(str,args){
+	var canvas = document.createElement('canvas');
+	canvas.id     = "CursorLayer";
+	canvas.width  = 500;
+	canvas.height = 768;
+	canvas.style.zIndex   = 8;
+	canvas.style.position = "absolute";
+	canvas.style.border   = "1px solid";
+	document.body.appendChild(canvas);
+	return "";
+}*/
+
 /*function juliar_core_setmatrix(str,args){ //NOT READY YET!
-        var temp = str.split("|");
-        var arr = [];
-        for(var i=1, length = temp.length; i<length; i+=2){
-                arr.push(temp[i].split(" ").filter(function(e){return e != "";}));
-        }
-        juliar_core_globals[args[0]] = arr;
-        return "";
+	var temp = str.split("|");
+	var arr = [];
+	for(var i=1, length = temp.length; i<length; i+=2){
+	arr.push(temp[i].split(" ").filter(function(e){return e != "";}));
+	}
+	juliar_core_globals[args[0]] = arr;
+	return "";
 }*/
 
 /*function juliar_core_getmatrix(str){ //NOT READY YET!
-        var temp = juliar_core_globals[str];
-        var output = "<p style='width:88px;'><span style='float:left;font-size:260px;line-height:230px;'>[</span>";
-        //output += "<span style='float:right;font-size:110px;line-height:80px;'>]</span>";
-        output += "<div style='padding-top:20px;font-size:20px;line-height:20px;word-spacing:20px'>";
-        output += "1<br>";
-        output += "1<br>";
-        output += "1<br>";
-        output += "1<br>";
-        output += "1<br>";
-        output += "1<br>";
-        output += "1<br>";
-                output += "1<br>";
-        output += "1<br>";
-                output += "1<br>";
-        output += "1<br>";
-        output += "</div>";
-        output += "</p>";
-        return output;
+	var temp = juliar_core_globals[str];
+	var output = "<p style='width:88px;'><span style='float:left;font-size:260px;line-height:230px;'>[</span>";
+	//output += "<span style='float:right;font-size:110px;line-height:80px;'>]</span>";
+	output += "<div style='padding-top:20px;font-size:20px;line-height:20px;word-spacing:20px'>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "1<br>";
+	output += "</div>";
+	output += "</p>";
+	return output;
 }*/
 
 function juliar_core_story(str){
@@ -455,6 +467,12 @@ function juliar_core_randomize(str) {
 
 //Calls
 function juliar_core_javascript(str) {
+	if(str.split(" ")[0].indexOf(".js") !== -1){
+		var fileref=document.createElement("script");
+		fileref.src = str;
+		document.head.appendChild(fileref);
+		return "";
+	}
 	var fileref=document.createElement("script");
 	fileref.type = "text/javascript";
 	fileref.textContent = str;
@@ -463,7 +481,12 @@ function juliar_core_javascript(str) {
 }
 
 function juliar_core_css(str) {
-	return "<style>" + str + "</style>";
+	if(str.split(" ")[0].indexOf(".css") === -1) return "<style>" + str + "</style>";
+	var fileref=document.createElement("link");
+	fileref.rel = "stylesheet";
+	fileref.href = str;
+	document.head.appendChild(fileref);
+	return "";
 }
 
 function juliar_core_fetch(str) {
