@@ -26,9 +26,8 @@ function ijuliar_injectcss() {
     css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}p:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
     document.body.appendChild(css);
 	var viewPortTag=document.createElement('meta');
-	viewPortTag.id="viewport";
 	viewPortTag.name = "viewport";
-	viewPortTag.content = "initial-scale=1.0; maximum-scale=1.0; user-scalable=0;";
+	viewPortTag.content = "initial-scale=1.0, maximum-scale=1.0, user-scalable=0";
 	document.getElementsByTagName('head')[0].appendChild(viewPortTag);
 }
 
@@ -396,7 +395,7 @@ function juliar_core_highlight(str,args) {
 		if(str[i] == "\\" && str[i+1] == "*"){ output +="<span style='background-color:" + args[index++] + "'>\\*</span>";++i;}
 		else if(escaper === 0) output += "<span style='background-color:" + args[index++] + "'>" + str[i] + "</span>";
 		else {output += str[i];}
-		if(str[i] == '>' && escaper == 1) escaper = 0;
+		if(str[i] == '>') escaper = 0;
 	}
 	return output;  
 }
@@ -412,7 +411,7 @@ function juliar_core_rainbow(str,args) {
 		if(str[i] == "\\" && str[i+1] == "*"){ output +="<span style='color:" + args[index++] + "'>\\*</span>";++i;}
 		else if(escaper === 0) output += "<span style='color:" + args[index++] + "'>" + str[i] + "</span>";
 		else {output += str[i];}
-		if(str[i] == '>' && escaper == 1) escaper = 0;
+		if(str[i] == '>') escaper = 0;
 	}
 	return output;  
 }
@@ -546,7 +545,7 @@ function juliar_core_shrink(str) {
 		if(str[i] == '<') escaper = 1;
 		if(escaper === 0){ output += "<span class='smaller'>" + str[i]; counter++;}
 		else{ output += str[i];}
-		if(str[i] == '>' && escaper == 1) escaper = 0;
+		if(str[i] == '>') escaper = 0;
 	}
 	for (i = 0; i < counter; i++) output += "</span>";
 	return output;
@@ -558,7 +557,7 @@ function juliar_core_grow(str) {
 		if(str[i] == '<') escaper = 1;
 		if(escaper === 0){ output += "<span class='larger'>" + str[i]; counter++;}
 		else{ output += str[i];}
-		if(str[i] == '>' && escaper == 1) escaper = 0;
+		if(str[i] == '>') escaper = 0;
 	}
 	for (i = 0; i < counter; i++) output += "</span>";
 	return output;
