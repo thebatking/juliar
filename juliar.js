@@ -6,7 +6,7 @@ function juliar_core_version() {
 	"First Published: 4/12/2015 <br>" +
 	"Creator: Andrei Makhanov <br>" +
 	"Official Repository: https://github.com/juliarLang <br>" +
-	"Official Website: http://s13.zifboards.com/juliar <br>" +
+	"Official Website: http://juliar.elementfx.com <br>" +
 	"Comment: <br>" +
 	"I created this programming language for Julia hence the name of the language juliar. <br>" +
 	"She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css. <br>" +
