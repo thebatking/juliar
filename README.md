@@ -1,7 +1,7 @@
 # *Juliar *
 
 Official Repository: https://github.com/juliarLang
-Official Website: http://s13.zifboards.com/juliar
+Official Website: http://juliar.elementfx.com or http://juliar.tk
 
 Welcome to *JULIAR *
 JULIAR a brand new web language written in DOM/JS that makes it easier for an artistic mind to design :)
@@ -45,9 +45,9 @@ The math section of the code was inspired by polish notation as it allows to per
 In the future, I plan to use webworkers in order to run the recursive function, please help achieve that if you know how!
 
 Due to timing restraints, I would greatly appreciate any help I can get in order to make this language perfect. Please visit 
- http://s13.zifboards.com/juliar and post that you want to join the team. Thanks for reading this! Again, let's make this language great!
+ http://juliar.elementfx.com and post that you want to join the team. Thanks for reading this! Again, let's make this language great!
  
- Please consider donating via paypal: http://s13.zifboards.com/juliar
+ Please consider donating via paypal: http://juliar.elementfx.com
  
  OR
  
