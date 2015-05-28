@@ -57,7 +57,7 @@ function juliar_core_import(str){
 		}
 		else{
 			var outp = http.responseText;
-			}
+		}
 	}
 	str = str.split("/").pop().split(".")[0];
 	var fileref=document.createElement("script");
@@ -131,40 +131,46 @@ function juliar_core_columns(str,args){
 	var temp = 100/(args[0] || 1);
 	return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
 }
+
 /*
-function juliar_core_figure(str){
+	function juliar_core_figure(str){
 	
-}
-
-function juliar_core_reference(str){
+	}
 	
-}*/
-
-/*function juliar_core_socket(str){
+	function juliar_core_reference(str){
 	
 }*/
+/*
+function juliar_core_socket(str,args){
+	var temp = args[0] || null;
+	var Socket = new WebSocket("wss://"+str);
+	juliar_core_globals["juliar_core_socket_"+temp] = Socket;
+	return "Socket Created";
+}
 
-/*function juliar_core_socketset(str){
-	
+function juliar_core_socketset(str,args){
+	var temp = args[0] || null;
+	juliar_core_globals["juliar_core_socket_"+temp].send(str);
+	return "Sent "+str;
 }
-	
-function juliar_core_socketget(str){
-	
-}
-*/
+
+function juliar_core_socketget(str,args){
+	var rand = Math.floor(Math.random() * 100000);
+	juliar_core_globals["juliar_core_socket_"+str].onmessage = function (event) {
+		console.log(event.data);
+		document.getElementsByTagName("juliar_core_sockets_"+rand)[0].innerHTML = event.data;
+	};
+	return "<juliar_core_sockets_"+rand+"></juliar_core_sockets_"+rand+">";
+}*/
 
 /*function juliar_core_list(str){
-        var temp = Math.floor(Math.random() * 10000);
-        var temp3 = "<script>var temp2 = document.createElement('li');var temp = document.getElementsByTagName('juliar_core_list_"+temp+"')[0];temp2.innerHTML = temp.innerHTML";
-        temp3 += "if(temp.parentNode.nodeName != 'ol'){var temp3 =document.createElement('ol'); temp.parentNode.appendChild(temp3);temp3.appendChild(temp2);} "
-        temp3 += "else{temp.parentNode.insertBefore(temp2, temp);}";
-        temp3 += "temp.parentNode.removeChild(temp);</script>";
-        return "<juliar_core_list_"+temp+"></juliar_core_list_"+temp+">";
+	var temp = Math.floor(Math.random() * 100000);
+	var temp3 = "<script>var temp2 = document.createElement('li');var temp = document.getElementsByTagName('juliar_core_list_"+temp+"')[0];temp2.innerHTML = temp.innerHTML";
+	temp3 += "if(temp.parentNode.nodeName != 'ol'){var temp3 =document.createElement('ol'); temp.parentNode.appendChild(temp3);temp3.appendChild(temp2);} "
+	temp3 += "else{temp.parentNode.insertBefore(temp2, temp);}";
+	temp3 += "temp.parentNode.removeChild(temp);</script>";
+	return "<juliar_core_list_"+temp+"></juliar_core_list_"+temp+">";
 }*/
-
-function juliar_core_bullet(str){
-        return "<ul><li>" + str + "</li></ul>";
-}
 
 /*function juliar_core_graph(str,args){
 	var canvas = document.createElement('canvas');
@@ -208,6 +214,9 @@ function juliar_core_bullet(str){
 	output += "</p>";
 	return output;
 }*/
+function juliar_core_bullet(str){
+	return "<ul><li>" + str + "</li></ul>";
+}
 
 function juliar_core_story(str){
 	return "<p>"+ str +"</p>";
@@ -660,6 +669,20 @@ function juliar_core_add(str) {
 	return temp;
 }
 
+function juliar_core_plusplus(str){
+	str.split(" ").forEach(function(element) {
+		++juliar_core_globals[element];
+	}
+	return "";
+}
+
+function juliar_core_minusminus(str){
+	str.split(" ").forEach(function(element) {
+		--juliar_core_globals[element];
+	}
+	return "";
+}
+
 function juliar_core_subtract(str) {
 	var temp;
 	str.split(" ").forEach(function(element) {
@@ -675,8 +698,8 @@ function ijuliar_pick(str) {
 	var command = temp[0];
 	var args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
 	var first = command[0];
-	if (first == '+') command = "add";
-	else if(first == '-') command = "subtract";
+	if (first == '+'){ command[1] == '+'? command = "plusplus" : command = "add";}
+	else if(first == '-'){ command[1] == '-'? command = "minusminus" : command = "subtract";}
 	else if(first == 'x' && command[1] === undefined) command = "multiply";
 	else if(first == '/') command = "divide";
 	else if(first == '^') command = "power";
