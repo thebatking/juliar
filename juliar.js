@@ -672,14 +672,14 @@ function juliar_core_add(str) {
 function juliar_core_plusplus(str){
 	str.split(" ").forEach(function(element) {
 		++juliar_core_globals[element];
-	}
+	});
 	return "";
 }
 
 function juliar_core_minusminus(str){
 	str.split(" ").forEach(function(element) {
 		--juliar_core_globals[element];
-	}
+	});
 	return "";
 }
 
@@ -787,6 +787,8 @@ function ijuliar_init(){
 	}
 	ijuliar_injectcss();
 	ijuliar_interpreter();
+	var event = new Event('juliar_done');
+	document.dispatchEvent(event);
 }
 
 document.addEventListener("DOMContentLoaded", ijuliar_init);
