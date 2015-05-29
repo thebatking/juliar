@@ -777,6 +777,8 @@ function ijuliar_interpreter() {
 		jselector.innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3);'>";
 		jselector.addEventListener("keydown", ijuliar_keydown);
 	}
+	var event = new Event('juliar_done');
+	document.dispatchEvent(event);
 }
 
 function ijuliar_init(){
