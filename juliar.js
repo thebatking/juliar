@@ -162,7 +162,7 @@ function juliar_core_socketset(str,args){
 }
 
 function juliar_core_socketget(str,args){
-	var rand = Math.floor(Math.random() * 100000);
+	var rand = Math.random() * 100000 |0;
 	juliar_core_globals["juliar_core_socket_"+str].onmessage = function (event) {
 		document.getElementsByTagName("juliar_core_sockets_"+rand)[0].innerHTML = event.data;
 	};
@@ -170,7 +170,7 @@ function juliar_core_socketget(str,args){
 }
 
 /*function juliar_core_list(str){
-	var temp = Math.floor(Math.random() * 100000);
+	var temp = Math.random() * 100000 |0;
 	var temp3 = "<script>var temp2 = document.createElement('li');var temp = document.getElementsByTagName('juliar_core_list_"+temp+"')[0];temp2.innerHTML = temp.innerHTML";
 	temp3 += "if(temp.parentNode.nodeName != 'ol'){var temp3 =document.createElement('ol'); temp.parentNode.appendChild(temp3);temp3.appendChild(temp2);} "
 	temp3 += "else{temp.parentNode.insertBefore(temp2, temp);}";
@@ -468,7 +468,7 @@ function juliar_core_help(str) { //Opens Documentation for the commands
 
 //Max,Min & Absolute
 function juliar_core_randomnumber(str) {
-	return Math.floor((Math.random() * (parseInt(str) || 100)) + 1);
+	return (Math.random() * (parseInt(str) || 100)) + 1 |0;
 }
 
 
@@ -507,10 +507,10 @@ function juliar_core_pick(str,args) {
 		return n !== "";
 	});
 	var temp2;
-	if((temp2 = args[0]) == undefined)  return temp[Math.floor(Math.random() * temp.length)];
+	if((temp2 = args[0]) == undefined)  return temp[Math.random() * temp.length |0];
 	var output = "";
 	for(var i=0;i<temp2;++i){
-		output += temp[Math.floor(Math.random() * temp.length)] + " ";
+		output += temp[Math.random() * temp.length |0] + " ";
 	}
 	return output;
 }
@@ -522,7 +522,7 @@ function juliar_core_randomize(str) {
 	var currentIndex = arr.length,
 	temporaryValue, randomIndex;
 	while (0 !== currentIndex) {
-		randomIndex = Math.floor(Math.random() * currentIndex);
+		randomIndex = Math.random() * currentIndex |0;
 		currentIndex -= 1;
 		temporaryValue = arr[currentIndex];
 		arr[currentIndex] = arr[randomIndex];
