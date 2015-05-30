@@ -169,14 +169,13 @@ function juliar_core_socketget(str,args){
 	return "<juliar_core_sockets_"+rand+"></juliar_core_sockets_"+rand+">";
 }
 
-/*function juliar_core_list(str){
-	var temp = Math.random() * 100000 |0;
-	var temp3 = "<script>var temp2 = document.createElement('li');var temp = document.getElementsByTagName('juliar_core_list_"+temp+"')[0];temp2.innerHTML = temp.innerHTML";
-	temp3 += "if(temp.parentNode.nodeName != 'ol'){var temp3 =document.createElement('ol'); temp.parentNode.appendChild(temp3);temp3.appendChild(temp2);} "
-	temp3 += "else{temp.parentNode.insertBefore(temp2, temp);}";
-	temp3 += "temp.parentNode.removeChild(temp);</script>";
-	return "<juliar_core_list_"+temp+"></juliar_core_list_"+temp+">";
-}*/
+function juliar_core_list(str){
+	var list = "var temp = document.createElement(\"li\");temp.innerHTML = \""+str+"\";if(this.previousElementSibling.nodeName != \"OL\"){";
+	list += "temp2 = document.createElement(\"OL\");this.parentNode.insertBefore(temp2, this);temp2.appendChild(temp);}";
+	list += "else{this.previousElementSibling.appendChild(temp);}";
+	list += "this.parentNode.removeChild(this);"
+	return "<img src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' onload='"+list+"'>";
+}
 
 /*function juliar_core_graph(str,args){
 	var canvas = document.createElement('canvas');
