@@ -147,7 +147,7 @@ function juliar_core_spoiler(str,args){
 	function juliar_core_reference(str){
 	
 }*/
-/*
+
 function juliar_core_socket(str,args){
 	var temp = args[0] || null;
 	var Socket = new WebSocket("wss://"+str);
@@ -164,11 +164,10 @@ function juliar_core_socketset(str,args){
 function juliar_core_socketget(str,args){
 	var rand = Math.floor(Math.random() * 100000);
 	juliar_core_globals["juliar_core_socket_"+str].onmessage = function (event) {
-		console.log(event.data);
 		document.getElementsByTagName("juliar_core_sockets_"+rand)[0].innerHTML = event.data;
 	};
 	return "<juliar_core_sockets_"+rand+"></juliar_core_sockets_"+rand+">";
-}*/
+}
 
 /*function juliar_core_list(str){
 	var temp = Math.floor(Math.random() * 100000);
