@@ -132,6 +132,13 @@ function juliar_core_columns(str,args){
 	return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
 }
 
+function juliar_core_spoiler(str,args){
+	var temp = args[0] || "black";
+	var front = args[1] || "black";
+	var back = args[2] || "white";
+	return "<style>.juliar_spoiler_"+temp+"{ background-color:"+temp+";color:"+temp+"}.juliar_spoiler_"+temp+":hover{background-color:"+front+";color:"+back+"}</style><span class='juliar_spoiler_"+temp+"'>"+str+"</span>";
+}
+
 /*
 	function juliar_core_figure(str){
 	
