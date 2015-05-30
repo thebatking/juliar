@@ -316,6 +316,18 @@ function juliar_core_reflect(str,args){
 	return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
 }
 
+function juliar_core_uppercase(str){
+	return "<span style='text-transform: uppercase;'>"+str+"</span>";
+}
+
+function juliar_core_lowercase(str){
+	return "<span style='text-transform: lowercase;'>"+str+"</span>";
+}
+
+function juliar_core_capitalize(str){
+	return "<span style='text-transform: capitalize;'>"+str+"</span>";
+}
+
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
 	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
