@@ -139,14 +139,16 @@ function juliar_core_spoiler(str,args){
 	return "<style>.juliar_spoiler_"+temp+"{ background-color:"+temp+";color:"+temp+"}.juliar_spoiler_"+temp+":hover{background-color:"+front+";color:"+back+"}</style><span class='juliar_spoiler_"+temp+"'>"+str+"</span>";
 }
 
-/*
-	function juliar_core_figure(str){
-	
-	}
-	
-	function juliar_core_reference(str){
-	
-}*/
+function juliar_core_figure(str,args){
+	var temp = args[0] || null;
+	var val = juliar_core_globals["juliar_core_counter_"+str] ?  ++juliar_core_globals["juliar_core_counter_"+str] : juliar_core_globals["juliar_core_counter_"+str] = 1;
+	juliar_core_globals[temp] = val;
+	return val;
+}
+
+function juliar_core_reference(str){
+	return "<span class='superscript'>" + juliar_core_globals[str] + "</span>";
+}
 
 function juliar_core_socket(str,args){
 	var temp = args[0] || null;
