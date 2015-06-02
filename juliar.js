@@ -18,7 +18,7 @@ function juliar_core_version() {
 	"Please consider donating, all the money will go into an upkeep of the website and improvement of the language.<br>" +
 	"Licensed under GPL 3.0";
 }
-var juliar_core_globals = {}, juliar_core_module = [], juliar_core_history_index = 0, juliar_core_history_arr = [];
+var juliar_core_globals = {}, juliar_core_module = [], juliar_core_history_index = 0, juliar_core_history_arr = [], ijuliar_js = "";
 
 function ijuliar_injectcss() {
     var css = document.createElement("style");
@@ -29,6 +29,13 @@ function ijuliar_injectcss() {
 	viewPortTag.name = "viewport";
 	viewPortTag.content = "initial-scale=1.0, maximum-scale=1.0, user-scalable=0";
 	document.getElementsByTagName('head')[0].appendChild(viewPortTag);
+}
+
+function ijuliar_injectjs(){
+	var fileref=document.createElement("script");
+	fileref.type = "text/javascript";
+	fileref.textContent = ijuliar_js;
+	document.head.appendChild(fileref);
 }
 
 function juliar_core_import(str){
@@ -157,13 +164,13 @@ function juliar_core_socket(str,args){
 	return "Socket Created";
 }
 
-function juliar_core_socketset(str,args){
+function juliar_core_setsocket(str,args){
 	var temp = args[0] || null;
 	juliar_core_globals["juliar_core_socket_"+temp].send(str);
 	return "Sent "+str;
 }
 
-function juliar_core_socketget(str,args){
+function juliar_core_getsocket(str,args){
 	var rand = Math.random() * 100000 |0;
 	juliar_core_globals["juliar_core_socket_"+str].onmessage = function (event) {
 		document.getElementsByTagName("juliar_core_sockets_"+rand)[0].innerHTML = event.data;
@@ -201,7 +208,7 @@ function juliar_core_list(str){
 	return "";
 }*/
 
-/*function juliar_core_getmatrix(str){ //NOT READY YET!
+function juliar_core_getmatrix(str){ //NOT READY YET!
 	var temp = juliar_core_globals[str];
 	var output = "<p style='width:88px;'><span style='float:left;font-size:260px;line-height:230px;'>[</span>";
 	//output += "<span style='float:right;font-size:110px;line-height:80px;'>]</span>";
@@ -220,7 +227,8 @@ function juliar_core_list(str){
 	output += "</div>";
 	output += "</p>";
 	return output;
-}*/
+}
+
 function juliar_core_bullet(str){
 	return "<ul><li>" + str + "</li></ul>";
 }
@@ -807,6 +815,7 @@ function ijuliar_init(){
 		jselector.innerHTML = ijuliar_parser(jselector.innerHTML);
 	}
 	ijuliar_injectcss();
+	ijuliar_injectjs();
 	ijuliar_interpreter();
 	var event = new Event('juliar_done');
 	document.dispatchEvent(event);
