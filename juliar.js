@@ -381,6 +381,14 @@ function juliar_core_size(str,args) {
 
 function juliar_core_font(str,args) {
 	var temp = args[0] || 'inherit';
+	WebFontConfig = {
+		google: { families: [ temp.split(/(?=[A-Z])/).join(" ")+'::latin' ] }
+	};
+    var wf = document.createElement('script');
+    wf.src = '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
 	return "<span style='font-family: " + temp + "'> " + str + "</span>";
 }
 
