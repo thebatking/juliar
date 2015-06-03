@@ -139,6 +139,10 @@ function juliar_core_columns(str,args){
 	return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
 }
 
+function juliar_core_threed(str){
+	return "<span style='text-shadow: -0.06em 0 red,  0.06em 0 cyan;'>"+str+"</span>";
+}
+
 function juliar_core_spoiler(str,args){
 	var temp = args[0] || "black";
 	var front = args[1] || "black";
@@ -725,12 +729,12 @@ function ijuliar_pick(str) {
 	var command = temp[0];
 	var args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
 	var first = command[0];
-	if (first == '+'){ command[1] == '+'? command = "plusplus" : command = "add";}
-	else if(first == '-'){ command[1] == '-'? command = "minusminus" : command = "subtract";}
-	else if(first == 'x' && command[1] === undefined) command = "multiply";
-	else if(first == '/') command = "divide";
-	else if(first == '^') command = "power";
-	else if(parseInt(first)) return ["zero","one","two","three","four","five","six","seven","eight","nine","ten"][first];
+	if (first == '+'){ command[1] == '+'? command = "plusplus" : command = "add" + command.slice(1);}
+	else if(first == '-'){ command[1] == '-'? command = "minusminus" : command = "subtract" + command.slice(1);}
+	else if(first == 'x' && command[1] === undefined) command = "multiply" + command.slice(1);
+	else if(first == '/') command = "divide" + command.slice(1);
+	else if(first == '^') command = "power" + command.slice(1);
+	else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine","ten"][first] + command.slice(1);
 	for(var i = 0, len = juliar_core_module.length; i < len;++i) {
 		if (typeof window["juliar_"+juliar_core_module[i]+"_"+command] === "function") {
 			return window["juliar_"+juliar_core_module[i]+"_"+command](str.substr(length).trim(),args);
