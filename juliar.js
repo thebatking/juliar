@@ -389,7 +389,7 @@ function juliar_core_font(str,args) {
     wf.type = 'text/javascript';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
-	return "<span style='font-family: " + temp + "'> " + str + "</span>";
+	return "<span style=\"font-family: '" + temp.split(/(?=[A-Z])/).join(" ") + "'\"> " + str + "</span>";
 }
 
 function juliar_core_condition(str,args) {
