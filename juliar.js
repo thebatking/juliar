@@ -190,6 +190,17 @@ function juliar_core_list(str){
 	return "<img src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' onload='"+list+"'>";
 }
 
+function juliar_core_link(str,args){
+	args[0] = args[0] || str;
+	var temp = !(args[1]) == true ? "_blank" : "_self";
+	return "<a href='"+str+"' target='"+temp+"'>"+args[0]+"</a>";
+}
+
+function juliar_core_mail(str,args){
+	args[0] = args[0] || str;
+	return "<a href='mailto:"+str+"'>"+args[0]+"</a>";
+}
+
 /*function juliar_core_graph(str,args){
 	var canvas = document.createElement('canvas');
 	canvas.id     = "CursorLayer";
