@@ -182,13 +182,33 @@ function juliar_core_getsocket(str,args){
 	return "<juliar_core_sockets_"+rand+"></juliar_core_sockets_"+rand+">";
 }
 
-function juliar_core_list(str){
+function juliar_core_list(str,args){
+	var temp  = args[0] || "decimal";
+	switch (temp) {
+		case "decimal":
+		temp = 1;
+		case "lowercase":
+		temp = 'a';
+		break;
+		case "uppercase": 
+		temp = 'A';
+		break;
+		case "roman":
+		temp = 'i';
+		break;
+		case "uppercaseroman":
+		temp = 'I';
+		break;
+		default:
+		temp = 1;
+	}
 	var list = "var temp = document.createElement(\"li\");temp.innerHTML = \""+str+"\";if(this.previousElementSibling.nodeName != \"OL\"){";
-	list += "temp2 = document.createElement(\"OL\");this.parentNode.insertBefore(temp2, this);temp2.appendChild(temp);}";
+	list += "temp2 = document.createElement(\"OL\");temp2.type = \""+temp+"\";this.parentNode.insertBefore(temp2, this);temp2.appendChild(temp);}";
 	list += "else{this.previousElementSibling.appendChild(temp);}";
 	list += "this.parentNode.removeChild(this);"
 	return "<img src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' onload='"+list+"'>";
 }
+
 
 function juliar_core_link(str,args){
 	args[0] = args[0] || str;
