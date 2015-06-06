@@ -424,6 +424,12 @@ function juliar_core_border(str,args){
 	var style = args[2] || "solid";
 	return "<span style='border: "+size+"px "+style+" "+color+"'>"+str+"</span>";
 }
+
+function juliar_core_outline(str,args){
+	var temp = args[0] || 'orange';
+	return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
+}
+
 /*
 	function juliar_core_theme(str){
 	
@@ -433,18 +439,14 @@ function juliar_core_border(str,args){
 	}
 	function juliar_core_slide(str){
 	
-	}
-	function juliar_core_button(str){
-	
-	}
-	function juliar_core_tab(str){
-	
-	}
-	function juliar_core_outline(str,args){
-	var temp = args[0] || 'black';
-	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
-	}
-	
+}
+function juliar_core_button(str){
+
+}
+function juliar_core_tab(str){
+
+}
+
 */
 
 function juliar_core_blur(str,args){
