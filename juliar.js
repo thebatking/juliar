@@ -243,7 +243,7 @@ function juliar_core_replacehistory(str){
 	history.replaceState(temp, null, str);
 }
 /*
-function juliar_core_splitwork(str){
+	function juliar_core_splitwork(str){
 	
 }*/
 /*function juliar_core_graph(str,args){
@@ -395,6 +395,20 @@ function juliar_core_lowercase(str){
 
 function juliar_core_capitalize(str){
 	return "<span style='text-transform: capitalize;'>"+str+"</span>";
+}
+
+function juliar_core_blink(str,args){
+	var rate = args[0] || 500;
+	var temp = Math.random() * 1000000 |0;
+	var handler = function() {
+		document.removeEventListener("juliar_done",handler,false);
+		var f = document.getElementsByTagName("juliar_blink_"+temp)[0];
+		setInterval(function() {
+			f.style.display = (f.style.display == 'none' ? '' : 'none');
+		}, rate);
+	}
+	document.addEventListener("juliar_done",handler , false);
+	return "<juliar_blink_"+temp+">"+str+"</juliar_blink_"+temp+">";
 }
 
 function juliar_core_blur(str,args){
@@ -844,6 +858,8 @@ function ijuliar_keydown(e) {
 		temp.innerHTML = ijuliar_parser(str);
 		target.parentNode.insertBefore(temp, target);
 		target.value = "";
+		var event = new Event('juliar_done');
+		document.dispatchEvent(event);
 	}
 	else if (keyCode === 38) {
 		if (juliar_core_history_arr.length !== 0) {
@@ -872,8 +888,6 @@ function ijuliar_interpreter() {
 		jselector.innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3);'>";
 		jselector.addEventListener("keydown", ijuliar_keydown);
 	}
-	var event = new Event('juliar_done');
-	document.dispatchEvent(event);
 }
 
 function ijuliar_init(){
