@@ -221,6 +221,31 @@ function juliar_core_mail(str,args){
 	return "<a href='mailto:"+str+"'>"+args[0]+"</a>";
 }
 
+function juliar_core_history(){
+	return window.history.length;
+}
+
+function juliar_core_statehistory(){
+	return window.state;
+}
+
+function juliar_core_sethistory(str,args){
+	var temp = args[0] || null;
+	history.pushState(temp, null, str);
+}
+
+function juliar_core_gethistory(str){
+	return IsNumeric(str) ? window.history.go(str) : window.history.go(juliar_core_globals(str));
+}
+
+function juliar_core_replacehistory(str){
+	var temp = args[0] || null;
+	history.replaceState(temp, null, str);
+}
+/*
+function juliar_core_splitwork(str){
+	
+}*/
 /*function juliar_core_graph(str,args){
 	var canvas = document.createElement('canvas');
 	canvas.id     = "CursorLayer";
