@@ -430,18 +430,30 @@ function juliar_core_outline(str,args){
 	return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
 }
 
+
+
+/*function juliar_core_button(str){
+
+}
+
+function juliar_core_tab(str){
+
+}*/
+
 /*
+	function juliar_core_table(str){
+	}
 	function juliar_core_theme(str){
 	
 	}
 	function juliar_core_menu(str){
 	
 	}
-	function juliar_core_slide(str){
+	function juliar_core_presntation(str){
 	
 }
-function juliar_core_button(str){
-
+	function juliar_core_slide(str){
+	
 }
 function juliar_core_tab(str){
 
@@ -451,12 +463,12 @@ function juliar_core_tab(str){
 
 function juliar_core_date(){
 	var now = new Date();
-	return now.getDate()+"/"+now.getDate()+"/"+now.getFullYear();
+	return ("0"+(now.getMonth()+1)).slice(-2)+"/"+("0"+now.getDate()).slice(-2)+"/"+now.getFullYear();
 }
 
 function juliar_core_time(){
 	var now = new Date();
-	return now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+	return ("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2);
 }
 
 function juliar_core_blur(str,args){
