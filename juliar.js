@@ -24,7 +24,9 @@ function ijuliar_injectcss() {
     var css = document.createElement("style");
     css.type = "text/css";
     css.innerHTML = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}p:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }.smaller{font-size:85%}.larger{font-size:115%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}.underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
-    document.body.appendChild(css);
+    css.innerHTML += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
+	css.innerHTML += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 27.5em }100%{ text-indent: -105em }}";
+	document.body.appendChild(css);
 	var viewPortTag=document.createElement('meta');
 	viewPortTag.name = "viewport";
 	viewPortTag.content = "initial-scale=1.0, maximum-scale=1.0, user-scalable=0";
@@ -410,6 +412,40 @@ function juliar_core_blink(str,args){
 	document.addEventListener("juliar_done",handler , false);
 	return "<juliar_blink_"+temp+">"+str+"</juliar_blink_"+temp+">";
 }
+
+function juliar_core_banner(str,args){
+	var temp = args[0] || 50;
+	return "<div class='marquee' style='animation: marquee "+temp+"s linear infinite;'>"+str+"</div>";
+}
+
+function juliar_core_border(str,args){
+	var color = args[0] || "black";
+	var size = args[1] || 1;
+	var style = args[2] || "solid";
+	return "<span style='border: "+size+"px "+style+" "+color+"'>"+str+"</span>";
+}
+/*
+	function juliar_core_theme(str){
+	
+	}
+	function juliar_core_menu(str){
+	
+	}
+	function juliar_core_slide(str){
+	
+	}
+	function juliar_core_button(str){
+	
+	}
+	function juliar_core_tab(str){
+	
+	}
+	function juliar_core_outline(str,args){
+	var temp = args[0] || 'black';
+	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
+	}
+	
+*/
 
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
