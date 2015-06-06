@@ -449,6 +449,16 @@ function juliar_core_tab(str){
 
 */
 
+function juliar_core_date(){
+	var now = new Date();
+	return now.getDate()+"/"+now.getDate()+"/"+now.getFullYear();
+}
+
+function juliar_core_time(){
+	var now = new Date();
+	return now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+}
+
 function juliar_core_blur(str,args){
 	var temp = args[0] || 'black';
 	return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
