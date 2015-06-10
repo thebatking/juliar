@@ -459,33 +459,18 @@ function juliar_core_search(str){
 	return "<input class='searchable' name='q' type='text' size='40' placeholder='Search...' />";
 }
 
-/*function juliar_core_table(str){
-	
-	}
-	
-	function juliar_core_button(str){
-	
-	}
-	
-	function juliar_core_tab(str){
-	
-	}
-*/
+function juliar_core_button(str,args){
+	var str = str || "#";
+	var color = args[0] || 'green';
+	return "<a href='"+str+"' class='juliar_button_"+color+"'>HELLO</a><style>.juliar_button_"+color+"{background-color:"+color+";color:white;}</style>";
+}
 
-/*
-	
-	function juliar_core_theme(str){
-	
-	}
-	function juliar_core_menu(str){
-	
-	}
-	function juliar_core_presentation(str){
-	
-	}
-	function juliar_core_slide(str){
-	
-	}
+/*function juliar_core_table(str){}
+function juliar_core_slider(str){}
+function juliar_core_tab(str){}
+function juliar_core_theme(str){}
+function juliar_core_menu(str){}
+function juliar_core_slideshow(str){}
 */
 
 function juliar_core_date(){
