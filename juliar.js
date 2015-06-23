@@ -260,6 +260,10 @@ function juliar_core_replacehistory(str){
 	var temp = args[0] || null;
 	history.replaceState(temp, null, str);
 }
+
+function juliar_core_code(str){
+	return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 /*
 	function juliar_core_splitwork(str){
 	
