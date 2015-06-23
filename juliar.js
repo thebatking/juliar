@@ -264,10 +264,25 @@ function juliar_core_replacehistory(str){
 function juliar_core_code(str){
 	return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-/*
 	function juliar_core_splitwork(str){
+	 if(window.Worker) {
+	        var temp = Math.random() * 1000000 |0;
+	 	var w = new Worker("juliar.js");
+	 	w.postMessage(str);
+	 	w.onmessage = function(event) {
+        		document.getElementsByTagName("juliar_worker_"+temp)[0] = event.data;
+        		W.terminate();
+		};
+		return "<juliar_worker_"+temp+"></juliar_worker_"+temp+">";
+	 }
+	 return str;
+	 
+	 self.addEventListener('message', function(e) {
+  		 self.postMessage(ijuliar_parser(e.data));
+  		 self.close();
+	 }, false);
 	
-}*/
+}
 /*function juliar_core_graph(str,args){
 	var canvas = document.createElement('canvas');
 	canvas.id     = "CursorLayer";
