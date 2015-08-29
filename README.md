@@ -50,8 +50,8 @@ Other Contributors: Julia Romanova
 	
 In order to start coding in this language all you need to do is copy the js file into a web directory and then do:
 
-<script src="/path/to/julia"></script>
-<juliar></juliar>
+	<script src="/path/to/julia"></script>
+	<juliar></juliar>
 
 and that's it! You can now write juliar code between <juliar> and </juliar>.
 I've also included an interpreter that can be accessed by using <ijuliar></ijuliar>. You can initiate as many interpreters as you want. Interpreters are useful in testing out code.
