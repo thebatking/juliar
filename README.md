@@ -5,20 +5,30 @@
 ###### Official Website: http://juliar.elementfx.com or http://juliar.tk
 
 ##Welcome to *JULIAR *
-###JULIAR is a brand new "web" language written in pure javascript.
-###It's simple that makes it easier for an artistic mind to design :)
+###JULIAR is a brand new "web" language written in pure javascript. Its simplicity makes it easy for
 
 Why use *JULIAR * ?
+
 -Recursive -> Fast Computing
+
 -Multi Threaded(coming soon) -> Even Faster Computing
+
 -Easy to Learn
+
 -Simple to Use (Made for a mind of a designer and not a programmer)
+
 -Cross Platform
+
 -Professional
+
 -Generate High Quality Website pages, Professional Articles, or Powerful Presentations
+
 -Very similar to LaTex but generates the output way faster.
+
 -Easily Integrates with the current website.
+
 -Interpreter INCLUDED! Makes it easier to test code on the fly or create computations.
+
 
 First Published: 4/12/2015
 Creator: Andrei Makhanov
