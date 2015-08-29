@@ -1,11 +1,12 @@
-# *Juliar *
+# *Juliar * Alpha 2
 ![logo](https://cloud.githubusercontent.com/assets/11934545/9560198/1641db26-4dd6-11e5-8b7d-8aaf54ca2ea1.png)
 
-Official Repository: https://github.com/juliarLang
-Official Website: http://juliar.elementfx.com or http://juliar.tk
+###### Official Repository: https://github.com/juliarLang
+###### Official Website: http://juliar.elementfx.com or http://juliar.tk
 
-Welcome to *JULIAR *
-JULIAR a brand new web language written in DOM/JS that makes it easier for an artistic mind to design :)
+##Welcome to *JULIAR *
+###JULIAR is a brand new "web" language written in pure javascript.
+###It's simple that makes it easier for an artistic mind to design :)
 
 Why use *JULIAR * ?
 -Recursive -> Fast Computing
