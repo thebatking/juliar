@@ -3,6 +3,7 @@
 
 ###### Official Repository: https://github.com/juliarLang
 ###### Official Website: http://juliar.elementfx.com or http://juliar.tk
+###### Twitter: https://twitter.com/juliarLang
 
 ##Welcome to *JULIAR *
 ###JULIAR is a brand new "web" language written in pure javascript. Its simplicity makes it easy for
