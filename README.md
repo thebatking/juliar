@@ -1,4 +1,6 @@
 # *Juliar *
+![](https://github.com/github/training-kit/blob/master/images/professortocat.png)
+
 
 Official Repository: https://github.com/juliarLang
 Official Website: http://juliar.elementfx.com or http://juliar.tk
