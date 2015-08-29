@@ -66,7 +66,7 @@ function Juliar_parser(str) {
 	var currentindex=0, nextvalue,lastindex, positions = [];
 	while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
 		if(str[currentindex-1] == "\\");
-		else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10)) {
+		else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
 			positions.push(currentindex);
 		}
 		else{
@@ -83,6 +83,50 @@ function Juliar_parser(str) {
 	return str.replace(/\\\*/g, "*");
 }
 
+function Juliar_interpreter() {
+	var ijuliars = document.getElementsByTagName("ijuliar"),len = ijuliars.length;
+	if(len != 0){ juliar.history = [];juliar.historyindex = 0;}
+	while(len--){
+		var jselector = ijuliars[len];
+		jselector.innerHTML = "<br><input type='text' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3);'>";
+		jselector.addEventListener("keydown", Juliar_keydown);
+	}
+}
+
+function Juliar_keydown(e) {
+	var keyCode = e.keyCode;
+	var target = e.target;
+	if (keyCode === 13) {
+		var str = target.value;
+		juliar.history.unshift(str);
+		juliar.historyindex = 0;
+		var temp = document.createElement("div");
+		temp.innerHTML = Juliar_parser(str);
+		target.parentNode.insertBefore(temp, target);
+		target.value = "";
+		var event = new Event('juliar_done');
+		document.dispatchEvent(event);
+	}
+	else if (keyCode === 38) {
+		if (juliar.history.length !== 0) {
+			if (juliar.historyindex === juliar.history.length) {
+				juliar.historyindex = 0;
+			}
+			target.value = juliar.history[juliar.historyindex];
+			juliar.historyindex += 1;
+		}
+	}
+	else if (keyCode === 40) {
+		if (juliar.history.length !== 0) {
+			if (juliar.historyindex === -1) {
+				juliar.historyindex = juliar.history.length - 1;
+			}
+			target.value = juliar.history[juliar.historyindex];
+			juliar.historyindex -= 1;
+		}
+	}
+}
+
 function juliar_core_init(){
 	var juliars = document.getElementsByTagName("juliar");
 	for (var i = 0, juliar = juliars.length; i < juliar; i++) {
@@ -90,6 +134,7 @@ function juliar_core_init(){
 		jselector.innerHTML = Juliar_parser(jselector.innerHTML);
 	}
 	Juliar_code();
+	Juliar_interpreter();
 	document.dispatchEvent(new Event('juliar_done'));
 }
 
