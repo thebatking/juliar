@@ -48,20 +48,70 @@ Other Contributors: Julia Romanova
 	Please consider donating, all the money will go into an upkeep of the website and improvement of the language.
 	Licensed under GPL 3.0
 	
+##Getting Started
 In order to start coding in this language all you need to do is copy the js file into a web directory and then do:
 
 	<script src="/path/to/julia"></script>
 	<juliar></juliar>
 
-and that's it! You can now write juliar code between <juliar> and </juliar>.
-I've also included an interpreter that can be accessed by using <ijuliar></ijuliar>. You can initiate as many interpreters as you want. Interpreters are useful in testing out code.
+and that's it! You can now write juliar code between 
 
-The math section of the code was inspired by polish notation as it allows to perform operations without need of parenthesis.
+	<juliar>
+	
+and
 
-In the future, I plan to use webworkers in order to run the recursive function, please help achieve that if you know how!
+        </juliar>
+        
+I've also included an interpreter that can be rendered using 
+
+	<ijuliar></ijuliar>
+	
+NOTE: You can initiate as many interpreters as you want.
+Interpreters are very useful in testing out code.
+
+The class that controls the *Juliar * language is
+
+	function Juliar(verbose) {
+	    this.verbose = verbose || 0;
+	        var objects = {};
+	        var jscode = [];
+	        this.modules = [];
+	        var csscode = "";
+	        this.css = function(str){csscode+=str;}
+	        this.getcss = function(){return css;}
+	        this.index = function(){return jscode.length;};
+	        this.code = function(code){ jscode.push(code);return jscode.length;};
+	        this.checkobject = function(obj){return objects.obj?  true:false;};
+	        this.setobject = function(obj,value){return objects.obj = value;};
+	        this.getobject = function(obj){return objects.obj};
+	        this.deleteobject = function(obj){if(objects.obj){objects.obj = undefined;return true;}return false;};
+	}var juliar = new Juliar();
+
+In order to see the available commands. One can type *commands *  between the juliar tags, and it will render all available commands. NOTE: When you use *import * command you will be able to import more juliar scripts (also known as modules) and therefore you will have access to more commands. Some commands will be "overwritten" when using *import *, in order to restore the function, one can use command *deport *. 
+
+For example
+	*add 3 2 *
+	*import funny_math *
+	*add 3 2 *
+	*add 5 6 *
+**Output:  5 32 56**
+
+In order to prevent override. One can *deport * i.e.
+	*add 3 2 *
+	*import funny_math *
+	*add 3 2 *
+	*deport funny_math *
+	*add 5 6 *
+**Output: 5 32 11**
+
+Please check out the sample __index.html__ to get an idea of how to use this language.
 
 Due to timing restraints, I would greatly appreciate any help I can get in order to make this language perfect. Please visit 
  http://juliar.elementfx.com and post that you want to join the team. Thanks for reading this! Again, let's make this language great!
+ 
+ The math section of the code was inspired by polish notation as it allows to perform operations without need of parenthesis.
+ 
+In the future, I plan to use webworkers in order to run the recursive function, please help achieve that if you know how!
  
  Please consider donating via paypal: http://juliar.elementfx.com
  
