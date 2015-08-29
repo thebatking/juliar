@@ -87,21 +87,27 @@ The class that controls the *Juliar * language is
 	        this.deleteobject = function(obj){if(objects.obj){objects.obj = undefined;return true;}return false;};
 	}var juliar = new Juliar();
 
-In order to see the available commands. One can type *commands *  between the juliar tags, and it will render all available commands. NOTE: When you use *import * command you will be able to import more juliar scripts (also known as modules) and therefore you will have access to more commands. Some commands will be "overwritten" when using *import *, in order to restore the function, one can use command *deport *. 
+In order to see the available commands. One can type *commands *  between the juliar tags, and it will render all available commands.
+
+NOTE: When you use *import * command you will be able to import more juliar scripts (also known as modules) and therefore you will have access to more commands. Some commands will be "overwritten" when using *import *, in order to restore the function, one can use command *deport *. 
 
 For example
+
 	*add 3 2 *
 	*import funny_math *
 	*add 3 2 *
 	*add 5 6 *
+	
 **Output:  5 32 56**
 
 In order to prevent override. One can *deport * i.e.
+
 	*add 3 2 *
 	*import funny_math *
 	*add 3 2 *
 	*deport funny_math *
 	*add 5 6 *
+	
 **Output: 5 32 11**
 
 Please check out the sample __index.html__ to get an idea of how to use this language.
