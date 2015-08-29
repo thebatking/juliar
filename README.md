@@ -9,31 +9,35 @@
 
 Why use *JULIAR * ?
 
--Recursive -> Fast Computing
+-Recursive -> Fast Computation
 
--Multi Threaded(coming soon) -> Even Faster Computing
+-Workers(coming soon) -> Built in workers will be used to improve the script.
 
--Easy to Learn
+-Easy to Learn -> Juliar Language is very simple to learn. Even if you don't know much programming, you will be coding like a pro in an hour.
 
--Simple to Use (Made for a mind of a designer and not a programmer)
+-Simple  -> Made for a mind of a designer, not a programmer
 
--Cross Platform
+-Cross Platform -> Since juliar is built on top of javascript. Any computer that can run a web browser, can run juliar. Build once use it everywhere.
 
--Professional
+-Professional -> Don't let the simple syntax fool you, juliar is built to be a professional language.
 
 -Generate High Quality Website pages, Professional Articles, or Powerful Presentations
 
--Very similar to LaTex but generates the output way faster.
+-If you are a LaTex nerd, Juliar libraries will allow you to generate content as well as on LaTex.
 
--Easily Integrates with the current website.
+-Easily Integrates with the current website-> No need to worry about the current code not working. Juliar is designed to be safe with many libraries.
+
+-Write Once, use it all the time -> Once you write the code in Juliar, you don't need to worry about updating the code in the future. Juliar will always stay updated, so don't even think about it. Just keep on writing in Juliar.
 
 -Interpreter INCLUDED! Makes it easier to test code on the fly or create computations.
 
-
+###Other Info
 First Published: 4/12/2015
+
 Creator: Andrei Makhanov
+
 Other Contributors: Julia Romanova
-Comment:
+
 	I created this programming language for Julia hence the name of the language juliar.
 	She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css.
 	This language is simple to use and people with a nonlogical mind will be able to use it quickly and easily.
