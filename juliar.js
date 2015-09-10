@@ -1,5 +1,6 @@
 function Juliar(verbose) {
-    this.verbose = verbose || 0;
+	this.verbose = verbose || 0;
+	this.log = "";
 	var objects = {};
 	var jscode = [];
 	this.modules = [];
@@ -9,10 +10,10 @@ function Juliar(verbose) {
 	this.index = function(){return jscode.length;};
 	this.code = function(code){ jscode.push(code);return jscode.length;};
 	this.getcode = function(id){return Number(id) > -1? jscode[id]:jscode;}
-	this.checkobject = function(obj){return objects.obj?  true:false;};
-	this.setobject = function(obj,value){return objects.obj = value;};
-	this.getobject = function(obj){return objects.obj};
-	this.deleteobject = function(obj){if(objects.obj){objects.obj = undefined;return true;}return false;};
+	this.checkobject = function(obj){return objects[obj]?  true:false;};
+	this.setobject = function(obj,value){return objects[obj] = value;};
+	this.getobject = function(obj){return objects[obj];};
+	this.deleteobject = function(obj){if(objects[obj]){objects[obj] = undefined;return true;}return false;};
 }var juliar = new Juliar();
 
 function Juliar_code(){
@@ -146,7 +147,7 @@ function juliar_core_version(){
 function juliar_core_help(str) { //Opens Documentation for the commands
 	if(str.replace(/ /g,'')) return "Type \\*help  'command name' \\* to see help";
 	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "http://www.juliar.elementfx.com/juliar/language?q="+str, !1);
+	xmlhttp.open("GET", "http://www.juliar.elementfx.com/juliar/help?q="+str, !1);
 	xmlhttp.send();
 	if(xmlhttp.status!=200) return "No Such Command Exists. Please Check Spelling";
 	return xmlhttp.responseText;
@@ -211,10 +212,12 @@ function juliar_core_import(str,args){
 	http.send();
 	if(http.status!=200){
         if(!(repo) == true) return "Cannot load module from \""+str;
-        var http2 = new XMLHttpRequest();
-        http2.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar", !1);
-        http2.send();
-        if(http2.responseText.indexOf("Not Found") == 1 || http2.status!=200) return "Cannot load module \""+str+"\" Github and Local module does not exist";
+        var http = new XMLHttpRequest();
+		var temp = temp = str.split("/");
+        http.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar", !1);
+        http.send();
+        if(http.responseText.indexOf("Not Found") == 1 || http2.status!=200) return "Cannot load module \""+str+"\" Github and Local module does not exist";
+		console.log(http.responseText)
 	}
 	var outp = http.responseText;
 	str = str.split("/").pop().split(".")[0];
