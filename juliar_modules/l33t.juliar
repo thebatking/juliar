@@ -1,0 +1,79 @@
+/*
+	Language: juliar
+	Type: Module
+	Name: l33t.juliar
+	Version: 0.1
+	First Published: 5/27/2015
+	Creator: Andrei Makhanov
+	Official Repository: https://github.com/juliarLang
+	Official Website: http://s13.zifboards.com/juliar
+	Comment:
+	This is a second official module for *juliar*
+	This module lets users convert words to l33t language.
+	L33t dictionary is based on http://simple.wikipedia.org/wiki/Leet
+*/
+
+var l33t_a = ["4","/-\\", "/_\\", "@", "/\\"];
+var l33t_b = ["8","|3", "13", "|}", "|:", "|8", "18", "6", "|B"];
+var l33t_c = ["<", "{", "[", "("];
+var l33t_d = ["|)", "|}", "|]"];
+var l33t_e = ["3"];
+var l33t_f = ["|=", "ph", "|#", "|\""];
+var l33t_g = ["[","-","[+","6"];
+var l33t_h = ["|-|", "[-]", "{-}", "|=|", "[=]", "{=}"];
+var l33t_i = ["1","|"];
+var l33t_j = ["_|", "_/", "_7", "_)"];
+var l33t_k = ["1<","|<"];
+var l33t_l = ["|_","|", "1"];
+var l33t_m = [""];
+var l33t_n = ["|\\|", "/\\/", "/V", "][\\\\]["];
+var l33t_o = ["0", "()", "[]", "{}"];
+var l33t_p = ["|o","|O", "|>", "|*", "|°", "|D", "/o"];
+var l33t_q = ["O_", "9", "(,),"];
+var l33t_r = ["|2", "12", ".-", "|^"];
+var l33t_s = ["5", "$", "§"];
+var l33t_t = ["7", "+", "7`", "\'|\'"];
+var l33t_u = ["|_|", "\\_\\", "/_/", "\\_/", "(_)"];
+var l33t_v = ["\\/"];
+var l33t_w = ["\\/\\/", "(/\\)", "\\^/", "|/\\|", "\\X/", "\\\\\'/\\\'//"];
+var l33t_x = ["%","*","><","}{",")("];
+var l33t_y = ["`/", "¥"];
+var l33t_z = ["2", "7_", ">_"];
+var l33t_ = [" "];
+
+var letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+
+function juliar_l33t_encode(str){
+    var output = "";
+	var escaper = 0;
+	for(var i=0, length = str.length; i<length;++i){
+		if(str[i] == '<') escaper = 1;
+		if(str[i] == "\\" && str[i+1] == "*"){ output +="\\*";++i;}
+		else if(escaper === 0 && str[i].match(/[a-z]/i)){
+		var temp = eval("l33t_"+str[i].toLowerCase());
+		output += temp[Math.floor(Math.random() * temp.length)]
+		}
+		else {output += str[i];}
+		if(str[i] == '>') escaper = 0;
+	}
+	return output; 
+}
+
+/*
+function juliar_l33t_decode(str){
+    var output = "";
+	var escaper = 0;
+	for(var i=0, length = str.length; i<length;++i){
+		if(str[i] == '<') escaper = 1;
+		if(str[i] == "\\" && str[i+1] == "*"){ output +="\\*";++i;}
+		else if(escaper === 0){
+			var temp = str[i];
+			for(var j=0, jlength = letters.length; j<jlength;++j){
+		
+			}
+		}
+		else {output += str[i];}
+		if(str[i] == '>') escaper = 0;
+	}
+	return output; 
+}*/
