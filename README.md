@@ -11,27 +11,27 @@
 ###### Documentation: http://juliar.readthedocs.org/en/latest/
 
 ##Welcome to *JULIAR *
-####JULIAR was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
+#####*JULIAR * was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
 
-Why use *JULIAR * ?
+####Why use *JULIAR * ?
 
-- Functional -> Unlike C, C++, JAVA etc...Juliar is a functional language, which means that everything is a function!
+- _Functional_ -> Unlike C, C++, JAVA etc...Juliar is a functional language, which means that everything is a function!
 
-- Workers(coming soon) -> Multi-processing will be used to keep the code running faster.
+- _Fast_ -> Multi-processing will be used to keep the code running faster.
 
-- Easy to Learn -> Juliar Language is very simple to learn. Even if you don't know much programming, you will be a code hero within hours.
+- _Easy to Learn_ -> Juliar Language is very simple to learn. Even if you don't know much programming, you will be a code hero within hours.
 
-- Cross Platform -> Juliar runs on Windows, Mac, Linux, Unix, Android, iOS, and any other system you use.
+- _Cross Platform_ -> Juliar runs on Windows, Mac, Linux, Unix, Android, iOS, and any other system you use.
 
-- Professional -> Generate High Quality Website pages, Professional Articles, or Powerful Presentations.
+- _Professional_ -> Generate High Quality Website pages, Professional Articles, or Powerful Presentations.
 
-- LaTex Friendly -> Juliar has a LaTex library, which allows you to generate LaTex content.
+- _LaTex Friendly_ -> Juliar has a LaTex library, which allows you to generate LaTex content.
 
-- Integratable -> No need to worry about the current code not working. Juliar is designed to be safe with many libraries.
+- _Sandbox_ -> Juliar runs in a sandbox environment.
 
-- Write Once, use it all the time -> No need to rewrite your code as Juliar interpreters and JIT compilers will upkeep it for you.
+- _Write Once_ -> No need to rewrite your code as Juliar interpreters and JIT compilers will upkeep it for you.
 
-- Open Source -> All Juliar code is interpreted or compiled at run time.
+- _Open Source_ -> All Juliar code is interpreted or compiled at run time.
 
 ##Getting Started
 In order to start coding in Juliar. All you need to do is open index.html.
