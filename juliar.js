@@ -66,36 +66,48 @@ function Juliar(verbose) {
 	}
 	
 	function pick(str,juliar){
-		var eq = str.indexOf("=");
-		var space = str.indexOf(" ");
-		var command, content,args, t,t1,t2, index1;
-		if(eq != -1 && eq < space){
+		/*var eq = str.indexOf("="); //Future?? But doesn't work in current test with picture...
+			var space = str.indexOf(" ");
+			var command, content,args, t,t1,t2, index1;
+			if(eq != -1 && eq < space){
 			command = str.substr(0,eq);
 			t = str.substr(eq+1).split(",");
 			t1 = t.pop(); //t now contains all but one argument, t1 contains 1 arg + content
 			if((index1 = t1.indexOf(" ")) != -1){
-				t.push(t1.substr(0,index1));
-				args = t;
-				content = t1.substr(index1+1);
+			t.push(t1.substr(0,index1));
+			args = t;
+			content = t1.substr(index1+1);
 			}
 			else{
-				content = "";
-				args = t.concat(t1);
+			content = "";
+			args = t.concat(t1);
 			}
-		}
-		else{
+			}
+			else{
 			command = str.substr(0,space);
 			content = str.substr(space+1);
 			args = [];
-		}
-        if(parseInt(command[0])) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
+		}*/
+		var temp = str.split(' ')[0];
+        var length = temp.length;
+        temp = temp.split("=");
+        var command = temp[0];
+        var args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
+		var first = command[0];
+		if (first == '+'){ command = "add" + command.slice(1);}
+		else if(first == '-'){ command = "subtract" + command.slice(1);}
+		else if(first == 'x' && command[1] === undefined) command = "multiply" + command.slice(1);
+		else if(first == '/') command = "divide" + command.slice(1);
+		else if(first == '^') command = "power" + command.slice(1);
+        else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
+		
 		var mods = Object.keys(juliar.modules);
         for(var i = 0, len = mods.length; i < len;i++) {
 			if (typeof juliar.modules[mods[i]][command] === "function") {
-				return juliar.modules[mods[i]][command](content.trim(),args);
+				return juliar.modules[mods[i]][command](str.substr(length).trim(),args);
 			}
 		}
-        return "<span class='juliar_error'>Unknown command '" +command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: "+content+" </em>";
+        return "<span class='juliar_error'>Unknown command '" +command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: "+str.substr(length).trim()+" </em>";
 		
 	}
 	//MODULES
@@ -165,8 +177,8 @@ function Juliar_main(juliar){
 	}*/
 	/*this.download = function(str){
 		if(str.indexOf("//") === -1){
-			var temp = str.split("/");
-			str = "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar";
+		var temp = str.split("/");
+		str = "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar";
 		}
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", str, !1);
@@ -186,13 +198,13 @@ function Juliar_main(juliar){
 		str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "juliar_modules/"+str+".juliar", !1);
 		http.send();
 		if(http.status!=200){
-			if(!(repo) == true) return "Cannot load module from \""+str;
-			var http = new XMLHttpRequest();
-			var temp = temp = str.split("/");
-			http.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar", !1);
-			http.send();
-			if(http.responseText.indexOf("Not Found") == 1 || http2.status!=200) return "Cannot load module \""+str+"\" Github and Local module does not exist";
-			console.log(http.responseText)
+		if(!(repo) == true) return "Cannot load module from \""+str;
+		var http = new XMLHttpRequest();
+		var temp = temp = str.split("/");
+		http.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar", !1);
+		http.send();
+		if(http.responseText.indexOf("Not Found") == 1 || http2.status!=200) return "Cannot load module \""+str+"\" Github and Local module does not exist";
+		console.log(http.responseText)
 		}
 		var outp = http.responseText;
 		str = str.split("/").pop().split(".")[0];
@@ -207,7 +219,7 @@ function Juliar_main(juliar){
 		"function" === str2 && str2();
 		return "Imported Module: "+str;
 	}*/
-	/*this.commands = function() { //List commands
+	this.commands = function() { //List commands
 		var modules = Object.keys(juliar.modules);
 		var functions = "";
 		for(var i=0,length = modules.length;i<length;i++){
@@ -220,7 +232,7 @@ function Juliar_main(juliar){
 			}
 		}
 		return functions;
-	}*/
+	}
 	this.modules = function(){
 		return Object.keys(juliar.modules);
 	}
@@ -284,11 +296,11 @@ function Juliar_main(juliar){
 		form.setAttribute("method", "post");
 		form.setAttribute("action", str || "");
 		for(var i=0, length = args.length; i<length;++i){
-			var hiddenField = document.createElement("input");
-			hiddenField.setAttribute("type", "hidden");
-			hiddenField.setAttribute("name", args[i]);
-			hiddenField.setAttribute("value", juliar.getobject(args[i]));
-			form.appendChild(hiddenField);  
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", args[i]);
+		hiddenField.setAttribute("value", juliar.getobject(args[i]));
+		form.appendChild(hiddenField);  
 		}
 		document.body.appendChild(form);
 		form.submit();
@@ -820,7 +832,7 @@ function Juliar_interpreter(juliar){
 			var now = new Date();
 			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006; </span>"+
 			"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
-		"<div class='commandused' onclick='(function(element){element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0].value = element.innerHTML;})(this)'>"+str+"</div><hr>"+juliar.parser(str);
+			"<div class='commandused' onclick='(function(element){element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0].value = element.innerHTML;})(this)'>"+str+"</div><hr>"+juliar.parser(str);
 			target.parentElement.parentNode.insertBefore(temp, target.parentElement);
 			target.value = "";
 			target.scrollIntoView(true);
