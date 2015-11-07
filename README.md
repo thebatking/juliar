@@ -88,12 +88,12 @@ Output:
 	32 
 	11
 
-###Other Info
+###Author Comment
 
-	_I created this programming language for Julia hence the name of the language juliar.
-	She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css.
-	This language is simple to use and people with a nonlogical mind will be able to use it quickly and easily.
-	Juliar can be easily  integrated into other sites simply by using <juliar></juliar> tags.
-	This language is inspired by BBCode, Python, HTML 3.2, and AngularJS.
-	If you have an improvement to the language i.e. improved code or a new function please commit it on github 
-	and I will gladly "pull" your request._
+_I created this programming language for Julia hence the name of the language juliar.
+She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css.
+This language is simple to use and people with a nonlogical mind will be able to use it quickly and easily.
+Juliar can be easily  integrated into other sites simply by using <juliar></juliar> tags.
+This language is inspired by BBCode, Python, HTML 3.2, and AngularJS.
+If you have an improvement to the language i.e. improved code or a new function please commit it on github 
+and I will gladly "pull" your request._
