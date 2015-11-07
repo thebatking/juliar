@@ -15,23 +15,23 @@
 
 ####Why use *JULIAR * ?
 
-- __Functional__ Unlike C, C++, JAVA etc...Juliar is a functional language, which means that everything is a function!
+- __Functional__ _Unlike C, C++, JAVA etc...Juliar is a functional language, which means that everything is a function!_
 
-- __Fast__ Multi-processing will be used to keep the code running faster.
+- __Fast__ _Multi-processing will be used to keep the code running faster._
 
-- __Easy to Learn__ Juliar Language is very simple to learn. Even if you don't know much programming, you will be a code hero within hours.
+- __Easy to Learn__ _Juliar Language is very simple to learn. Even if you don't know much programming, you will be a code hero within hours._
 
-- __Cross Platform__ Juliar runs on Windows, Mac, Linux, Unix, Android, iOS, and any other system you use.
+- __Cross Platform__ _Juliar runs on Windows, Mac, Linux, Unix, Android, iOS, and any other system you use._
 
-- __Professional__ Generate High Quality Website pages, Professional Articles, or Powerful Presentations.
+- __Professional__ _Generate High Quality Website pages, Professional Articles, or Powerful Presentations._
 
-- __LaTex Friendly__ Juliar has a LaTex library, which allows you to generate LaTex content.
+- __LaTex Friendly__ _Juliar has a LaTex library, which allows you to generate LaTex content._
 
-- __Sandbox__ Juliar runs in a sandbox environment.
+- __Sandbox__ _Juliar runs in a sandbox environment._
 
-- __Write Once__ No need to rewrite your code as Juliar interpreters and JIT compilers will upkeep it for you.
+- __Write Once__ _No need to rewrite your code as Juliar interpreters and JIT compilers will upkeep it for you._
 
-- __Open Source__ All Juliar code is interpreted or compiled at run time.
+- __Open Source__ _All Juliar code is interpreted or compiled at run time._
 
 ##Getting Started
 In order to start coding in Juliar. All you need to do is open index.html.
