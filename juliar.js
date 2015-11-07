@@ -113,8 +113,14 @@ function Juliar_main(juliar){
 	css += ".progress-bar span{display: inline-block;height: 100%;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}";
 	css += "text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset";
 	css += "transition: all 0.7s ease 0s;}input[type='text'].searchable:focus{width: 200px;}";
-	css += ".juliar_error{color:red}"
+	css += ".juliar_error{color:red}";
+	css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
+	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
 	juliar.css(css);
+	
+	this.block = function(str){
+		return "<span class='juliar_block'>"+str+"</span>";
+	}
 	
 	this.version = function(){
 		return "Language \\*Juliar \\* version Alpha 3. Running on " + navigator.userAgent;
