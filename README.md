@@ -1,5 +1,8 @@
-# *Juliar * Alpha 2
+# *Juliar * Alpha 3
 ![logo](https://cloud.githubusercontent.com/assets/11934545/9560198/1641db26-4dd6-11e5-8b7d-8aaf54ca2ea1.png)
+[![Latest Stable Version](https://poser.pugx.org/juliarlang/juliar/v/stable)](https://packagist.org/packages/juliarlang/juliar) [![Total Downloads](https://poser.pugx.org/juliarlang/juliar/downloads)](https://packagist.org/packages/juliarlang/juliar) [![Latest Unstable Version](https://poser.pugx.org/juliarlang/juliar/v/unstable)](https://packagist.org/packages/juliarlang/juliar) [![License](https://poser.pugx.org/juliarlang/juliar/license)](https://packagist.org/packages/juliarlang/juliar)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/JuliarLang/juliar.svg)](http://isitmaintained.com/project/JuliarLang/juliar "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/JuliarLang/juliar.svg)](http://isitmaintained.com/project/JuliarLang/juliar "Percentage of issues still open")
 
 ###### Official Repository: https://github.com/juliarLang
 ###### Official Website: http://juliar.elementfx.com or http://juliar.tk
