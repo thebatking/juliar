@@ -11,7 +11,7 @@
 ###### Documentation: http://juliar.readthedocs.org/en/latest/
 
 ##Welcome to *JULIAR *
-###JULIAR was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
+####JULIAR was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
 
 Why use *JULIAR * ?
 
@@ -54,20 +54,20 @@ I've also included an interpreter that can be rendered using
 	
 NOTE: You can initiate as many interpreters as you want.
 Interpreters are very useful in testing out code.
-
-
+#####Example:
+![Interpreter](http://i1382.photobucket.com/albums/ah274/andreifundrei/simple_zpsvejpkyu2.png)
 
 In order to see the available commands. One can type *commands *  between the juliar tags, and it will render all available commands.
 You use *import * command to be able to import more juliar scripts (also known as modules) and therefore you will have access to more commands. Some commands will be "overwritten" when using *import *, in order to restore the function, one can use command *deport *. 
 
-For example
+#####Example:
 
 	*add 3 2 *
 	*import funny_math *
 	*add 3 2 *
 	*add 5 6 *
 	
-`Output:`
+Output:
 
 	5
 	32 
@@ -81,7 +81,7 @@ In order to prevent override. One can *deport * i.e.
 	*deport funny_math *
 	*add 5 6 *
 	
-`Output:`
+Output:
 
 	5
 	32 
