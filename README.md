@@ -11,6 +11,7 @@
 ###### Documentation: http://juliar.readthedocs.org/en/latest/
 
 ##Welcome to *JULIAR *
+_Incepted On: 4/12/2015_
 #####*JULIAR * was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
 
 ####Why use *JULIAR * ?
@@ -88,15 +89,11 @@ Output:
 	11
 
 ###Other Info
-First Published: 4/12/2015
-	I created this programming language for Julia hence the name of the language juliar.
+
+	_I created this programming language for Julia hence the name of the language juliar.
 	She has an artistic mind and thus, it's difficult for her to code in language, let alone javascript and css.
 	This language is simple to use and people with a nonlogical mind will be able to use it quickly and easily.
 	Juliar can be easily  integrated into other sites simply by using <juliar></juliar> tags.
 	This language is inspired by BBCode, Python, HTML 3.2, and AngularJS.
 	If you have an improvement to the language i.e. improved code or a new function please commit it on github 
-	and I will gladly "pull" your request.
-	Please consider donating. All the money will go into an upkeep of the website and the improvement of the language.
-	Licensed under GPL 3.0
-	-AndreiM
-	
+	and I will gladly "pull" your request._
