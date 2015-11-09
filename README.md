@@ -5,10 +5,11 @@
 [![Documentation Status](https://readthedocs.org/projects/juliar/badge/?version=latest)](http://juliar.readthedocs.org/en/latest/?badge=latest)
 
 
-###### Official Repository: https://github.com/juliarLang
-###### Official Website: http://juliar.elementfx.com or http://juliar.tk
-###### Twitter: https://twitter.com/juliarLang
-###### Documentation: http://juliar.readthedocs.org/en/latest/
+###### Official Repository: https://github.com/juliarLang or http://www.src.juliar.org
+###### Official Website: http://www.juliar.org
+###### Twitter: https://twitter.com/juliarLang or http://www.twitter.juliar.org
+###### Documentation: http://juliar.readthedocs.org/en/latest/ or http://www.docs.juliar.org
+###### Forums: http://juliar.tk or http://www.forums.juliar.org
 
 ##Welcome to *JULIAR *
 _Incepted On: 4/12/2015_
