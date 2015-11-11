@@ -782,7 +782,7 @@ function Juliar_interpreter(juliar){
 	css += ".juliar-console .background{background-color:white;outline: 0px;position:absolute;top:0px;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
 	css += ".juliar-console .bar{line-height:21px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
-	css += "ijuliar{background-color:#D2D5DA;display:inline-block;width:100%;}";
+	css += "ijuliar{display:inline-block;width:100%;}";
 	css += "ijuliar .realblock{box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
 	css += "ijuliar .commandused{font-style: italic;color:#1abc9c;display:inline;}";
