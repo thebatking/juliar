@@ -747,20 +747,110 @@ function Juliar_main(juliar){
 	}
 	//
 	//Math Functions
+	//constants
 	this.e = function(str) {
 		return Math.exp(Number(str) || 1);
 	}
 	this.pi = function() {
 		return '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089';
 	}
-	this.sin = function(str) {
+	this.pythagoras = function(){
+		return '1.4142135623730951';
+	}
+	this.aperys = function(){
+		return '1.2020569';
+	}
+	this.goldenratio = function(){
+		return '1.618033988749895';
+	}
+	this.mascheroni = function(){
+		return '0.57721';
+	}
+	this.conways = function(){
+		return '1.30357';
+	}
+	this.khinchins = function(){
+		return '2.6854520010';
+	}
+	this.kinkelin = function(){
+		return '1.2824271291';
+	}
+	this.epsilon = function(str){
+		switch(str){
+		case "Vacuum":
+		return 1;
+		case "Air":
+		return "1.00058986";
+		case "Methanol":
+		return "30";
+		case "Water":
+		return "80";
+		default:
+			return 1;
+		}
+	}
+	//trig
+	this.sine = this.sin = function(str) {
 		return Math.sin(str);
 	}
-	this.cos = function(str) {
+	this.cosine = this.cos = function(str) {
 		return Math.cos(str);
 	}
-	this.tangent = function(str) {
+	this.tangent = this.tan = function(str) {
 		return Math.tan(str);
+	}
+	this.secant = this.sin = function(str) {
+		return 1/Math.cos(str);
+	}
+	this.cosecant = this.cos = function(str) {
+		return 1/Math.sin(str);
+	}
+	this.cotangent = this.cot = function(str) {
+		return 1/Math.tan(str);
+	}
+	this.asin = this.arcsin = function(str) {
+		return Math.asin(str);
+	}
+	this.acos = this.arccos = function(str) {
+		return Math.acos(str);
+	}
+	this.atan = this.arctangent = function(str) {
+		return Math.atan(str);
+	}
+	this.arcsec = this.arcsecant = function(str) {
+		return Math.acos(1/str);
+	}
+	this.arccsc = this.arccosecant = function(str) {
+		return Math.asin(1/str);
+	}
+	this.arccot = this.arccotangent = function(str) {
+		return Math.pi/2-Math.atan(str);
+	}
+	//Hyperbola Functions
+	this.cosh = function(str){
+		return Math.cosh(str);
+	}
+	this.sinh = function(str){
+		return Math.sinh(str);
+	}
+	this.tanh = function(str){
+		return Math.tanh(str);
+	}
+	this.coth = function(str){
+		return 1/Math.tanh(str);
+	}
+	this.sech = function(str){
+		return 1/Math.cosh(str);
+	}
+	this.csch = function(str){
+		return 1/Math.sinh(str);
+	}
+	//
+	this.root = function(str,args){
+		var root = args[0] || 2;
+		var y = Math.pow(Math.abs(str), 1/root);
+		if(root%2)return str < 0 ? -y : y;
+		return str < 0 ? y+"i" : y;
 	}
 	this.power = function(str) {
 		var temp;
@@ -770,11 +860,11 @@ function Juliar_main(juliar){
 		return temp;
 	}
 	this.divide = function(str) {
-		var temp;
-		str.split(" ").forEach(function(element) {
-			Number(element)&&(temp=null==temp?Number(element):temp/Number(element));
-		});
-		return temp;
+	var temp;
+	str.split(" ").forEach(function(element) {
+		Number(element)&&(temp=null==temp?Number(element):temp/Number(element));
+	});
+	return temp;
 	}
 	this.multiply = function(str) {
 		var temp = 1;
@@ -832,48 +922,48 @@ function Juliar_interpreter(juliar){
 		}
 	}
 	this.keydown = function(e) {
-		var keyCode = e.keyCode;
-		var target = e.target;
-		if (keyCode === 13 && target.value != "") {
-			juliar.clearcode();
-			var str = target.value;
-			juliar.history.unshift(str);
-			juliar.historyindex = 0;
-			var temp = document.createElement("div");
-			temp.className = "realblock";
-			var now = new Date();
-			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006; </span>"+
-			"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
-			"<div class='commandused' onclick='(function(element){element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0].value = element.innerHTML;})(this)'>"+str+"</div><hr>"+juliar.parser(str);
-			target.parentElement.parentNode.insertBefore(temp, target.parentElement);
-			target.value = "";
-			target.scrollIntoView(true);
-			
-			for(var i=0,j=juliar.index();i<j;i++){
-				var fileref=document.createElement("script");
-				fileref.type = "text/javascript";
-				fileref.textContent =juliar.getcode(i);
-				document.head.appendChild(fileref);
-			}
-			document.dispatchEvent(new Event('juliar_done'));
-		}
-		else if (keyCode === 38) {
-			if (juliar.history.length !== 0) {
-				if (juliar.historyindex === juliar.history.length) {
-					juliar.historyindex = 0;
-				}
-				target.value = juliar.history[juliar.historyindex];
-				juliar.historyindex += 1;
-			}
-		}
-		else if (keyCode === 40) {
-			if (juliar.history.length !== 0) {
-				if (juliar.historyindex === -1) {
-					juliar.historyindex = juliar.history.length - 1;
-				}
-				target.value = juliar.history[juliar.historyindex];
-				juliar.historyindex -= 1;
-			}
-		}
+	var keyCode = e.keyCode;
+	var target = e.target;
+	if (keyCode === 13 && target.value != "") {
+	juliar.clearcode();
+	var str = target.value;
+	juliar.history.unshift(str);
+	juliar.historyindex = 0;
+	var temp = document.createElement("div");
+	temp.className = "realblock";
+	var now = new Date();
+	temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006; </span>"+
+	"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
+	"<div class='commandused' onclick='(function(element){element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0].value = element.innerHTML;})(this)'>"+str+"</div><hr>"+juliar.parser(str);
+	target.parentElement.parentNode.insertBefore(temp, target.parentElement);
+	target.value = "";
+	target.scrollIntoView(true);
+	
+	for(var i=0,j=juliar.index();i<j;i++){
+	var fileref=document.createElement("script");
+	fileref.type = "text/javascript";
+	fileref.textContent =juliar.getcode(i);
+	document.head.appendChild(fileref);
 	}
-}
+	document.dispatchEvent(new Event('juliar_done'));
+	}
+	else if (keyCode === 38) {
+	if (juliar.history.length !== 0) {
+	if (juliar.historyindex === juliar.history.length) {
+	juliar.historyindex = 0;
+	}
+	target.value = juliar.history[juliar.historyindex];
+	juliar.historyindex += 1;
+	}
+	}
+	else if (keyCode === 40) {
+	if (juliar.history.length !== 0) {
+	if (juliar.historyindex === -1) {
+	juliar.historyindex = juliar.history.length - 1;
+	}
+	target.value = juliar.history[juliar.historyindex];
+	juliar.historyindex -= 1;
+	}
+	}
+	}
+	}	
