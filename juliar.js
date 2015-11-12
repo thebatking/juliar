@@ -77,6 +77,10 @@ function Juliar(verbose) {
 		else if(first == 'x' && command[1] === undefined) command = "multiply" + command.slice(1);
 		else if(first == '/') command = "divide" + command.slice(1);
 		else if(first == '^') command = "power" + command.slice(1);
+		else if(first == '!') command = "not" + command.slice(1);
+		else if(first == '<') command = "less" + command.slice(1);
+		else if(first == '>') command = "greater" + command.slice(1);
+		else if(first == '=') command = "equal" + command.slice(1);
         else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
 		
 		var mods = Object.keys(juliar.modules);
@@ -148,6 +152,13 @@ function Juliar_main(juliar){
 			if (eval(args[i])) return str;
 		}
 		return "";
+	}
+	this.and = function(str,args){ //AND conditional to be used with condition
+		if(args[0]==undefined) return true;
+		for(var i=0, length = args.length;i<length;i++){
+			if(eval(args[i]) == false) return false;
+		}
+		return true;
 	}
 	this.code = function(str){
 		return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -234,14 +245,24 @@ function Juliar_main(juliar){
 	this.commands = function() { //List commands
 		var modules = Object.keys(juliar.modules);
 		var functions = "";
-		for(var i=0,length = modules.length;i<length;i++){
-			functions += " >> IMPORTED from "+modules[i]+"<br/>";
+		var i = modules.length;
+		var temp = [];
+		var tempinfo = [];
+		while(i--){
 			for( var x in juliar.modules[modules[i]]) {
-				if(typeof juliar.modules[modules[i]][x] === "function") {
-					functions += " "+x + " ";
-					functions += "<br>";
+				if(temp.indexOf(x) == -1 && typeof juliar.modules[modules[i]][x] === "function") {
+					temp.push(x);
+					tempinfo.push((i>0)? " <em>>> IMPORTED from <strong>"+modules[i] +"</strong><span class='juliar_error'> level: "+i+"</span></em>"  : "");
 				}
 			}
+		}
+		var list = [];
+		for (var j=0; j<temp.length; j++) list.push({'name': temp[j], 'info': tempinfo[j]});
+		list.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
+		var y = temp.length;
+		for(i=0;i<y;i++){
+			functions += " \\*"+list[i].name +" "+"\\* " + list[i].info;
+			functions += "<br>";
 		}
 		return functions;
 	}
@@ -612,9 +633,13 @@ function Juliar_main(juliar){
 		var now = new Date();
 		return ("0"+(now.getMonth()+1)).slice(-2)+"/"+("0"+now.getDate()).slice(-2)+"/"+now.getFullYear();
 	}
-	this.time = function(){
+	this.time = function(str){
 		var now = new Date();
 		return ("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2);
+	}
+	this.timezone = function(str){
+		var d = new Date().getTimezoneOffset()/60;
+		return d > 0 ? "GMT-"+d : 'GMT+'.Math.abs(d); 
 	}
 	//
 	//News Related
@@ -777,15 +802,15 @@ function Juliar_main(juliar){
 	}
 	this.epsilon = function(str){
 		switch(str){
-		case "Vacuum":
-		return 1;
-		case "Air":
-		return "1.00058986";
-		case "Methanol":
-		return "30";
-		case "Water":
-		return "80";
-		default:
+			case "Vacuum":
+			return 1;
+			case "Air":
+			return "1.00058986";
+			case "Methanol":
+			return "30";
+			case "Water":
+			return "80";
+			default:
 			return 1;
 		}
 	}
@@ -860,11 +885,11 @@ function Juliar_main(juliar){
 		return temp;
 	}
 	this.divide = function(str) {
-	var temp;
-	str.split(" ").forEach(function(element) {
-		Number(element)&&(temp=null==temp?Number(element):temp/Number(element));
-	});
-	return temp;
+		var temp;
+		str.split(" ").forEach(function(element) {
+			Number(element)&&(temp=null==temp?Number(element):temp/Number(element));
+		});
+		return temp;
 	}
 	this.multiply = function(str) {
 		var temp = 1;
@@ -918,52 +943,55 @@ function Juliar_interpreter(juliar){
 			var jselector = ijuliars[len];
 			
 			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
-			jselector.addEventListener("keydown", juliar.modules.interpreter.keydown);
+			jselector.addEventListener("keydown", juliar.modules.interpreter.exportall);
 		}
 	}
-	this.keydown = function(e) {
-	var keyCode = e.keyCode;
-	var target = e.target;
-	if (keyCode === 13 && target.value != "") {
-	juliar.clearcode();
-	var str = target.value;
-	juliar.history.unshift(str);
-	juliar.historyindex = 0;
-	var temp = document.createElement("div");
-	temp.className = "realblock";
-	var now = new Date();
-	temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006; </span>"+
-	"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
-	"<div class='commandused' onclick='(function(element){element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0].value = element.innerHTML;})(this)'>"+str+"</div><hr>"+juliar.parser(str);
-	target.parentElement.parentNode.insertBefore(temp, target.parentElement);
-	target.value = "";
-	target.scrollIntoView(true);
-	
-	for(var i=0,j=juliar.index();i<j;i++){
-	var fileref=document.createElement("script");
-	fileref.type = "text/javascript";
-	fileref.textContent =juliar.getcode(i);
-	document.head.appendChild(fileref);
+	this.exportall = function(e) {
+		var keyCode = e.keyCode;
+		if(keyCode === undefined){ 
+			return "Coming soon...";
+		}
+		var target = e.target;
+		if (keyCode === 13 && target.value != "") {
+			juliar.clearcode();
+			var str = target.value;
+			juliar.history.unshift(str);
+			juliar.historyindex = 0;
+			var temp = document.createElement("div");
+			temp.className = "realblock";
+			var now = new Date();
+			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006; </span>"+
+			"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
+			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr>"+juliar.parser(str);
+			target.parentElement.parentNode.insertBefore(temp, target.parentElement);
+			target.value = "";
+			target.scrollIntoView(true);
+			
+			for(var i=0,j=juliar.index();i<j;i++){
+				var fileref=document.createElement("script");
+				fileref.type = "text/javascript";
+				fileref.textContent =juliar.getcode(i);
+				document.head.appendChild(fileref);
+			}
+			document.dispatchEvent(new Event('juliar_done'));
+		}
+		else if (keyCode === 38) {
+			if (juliar.history.length !== 0) {
+				if (juliar.historyindex === juliar.history.length) {
+					juliar.historyindex = 0;
+				}
+				target.value = juliar.history[juliar.historyindex];
+				juliar.historyindex += 1;
+			}
+		}
+		else if (keyCode === 40) {
+			if (juliar.history.length !== 0) {
+				if (juliar.historyindex === -1) {
+					juliar.historyindex = juliar.history.length - 1;
+				}
+				target.value = juliar.history[juliar.historyindex];
+				juliar.historyindex -= 1;
+			}
+		}
 	}
-	document.dispatchEvent(new Event('juliar_done'));
-	}
-	else if (keyCode === 38) {
-	if (juliar.history.length !== 0) {
-	if (juliar.historyindex === juliar.history.length) {
-	juliar.historyindex = 0;
-	}
-	target.value = juliar.history[juliar.historyindex];
-	juliar.historyindex += 1;
-	}
-	}
-	else if (keyCode === 40) {
-	if (juliar.history.length !== 0) {
-	if (juliar.historyindex === -1) {
-	juliar.historyindex = juliar.history.length - 1;
-	}
-	target.value = juliar.history[juliar.historyindex];
-	juliar.historyindex -= 1;
-	}
-	}
-	}
-	}	
+}	
