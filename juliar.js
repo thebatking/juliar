@@ -176,6 +176,34 @@ function Juliar_main(juliar){
 		fileref.click();
 		return "";
 	}*/
+	this.import = function(str,args){
+		if(window.location.protocol == 'file:'){
+			var fileref=document.createElement("input");
+			fileref.type = "file";
+			fileref.onchange = function(evt)
+			{
+				f = evt.target.files[0];
+				alert("Changed!");
+				var reader = new FileReader();
+				reader.onload = function(e){
+					var contents = e.target.result;
+					var ext = f.name.split('.').pop();
+					console.log(f.name);
+					console.log(contents);
+				}
+				reader.readAsText(f);
+			}
+			document.body.appendChild(fileref);
+			fileref.click();
+			return "Import Locally is not currently supported";
+		}
+		else{
+			var repo = args[0] || true;
+			var http = new XMLHttpRequest();
+			str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "modules/"+str+".juliar", !1);
+			http.send();
+		}
+	}
 	/*this.import = function(str,args){
 		var repo = args[0] || true;
 		var http = new XMLHttpRequest();
