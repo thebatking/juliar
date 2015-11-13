@@ -645,6 +645,14 @@ function Juliar_main(juliar){
 	}
 	//
 	//Date & Time
+	this.completedate = function(){
+		var now = new Date();
+		var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+		var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+		var year = now.getYear();
+		var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
+		return days[now.getDay()]+", "+months[now.getMonth()]+" "+date+", "+((year < 1000) ? year + 1900 : year);
+	}
 	this.date = function(){
 		var now = new Date();
 		return ("0"+(now.getMonth()+1)).slice(-2)+"/"+("0"+now.getDate()).slice(-2)+"/"+now.getFullYear();
