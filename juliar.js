@@ -50,7 +50,7 @@ function Juliar(verbose) {
 			}
 			++currentindex;
 		}
-		if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of Extra &#42 : "+positions.length+"</em>";
+		if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
 		var css = document.createElement("style");
 		css.type = "text/css";
 		css.innerHTML = csscode;
@@ -78,9 +78,13 @@ function Juliar(verbose) {
 		else if(first == '/') command = "divide" + command.slice(1);
 		else if(first == '^') command = "power" + command.slice(1);
 		else if(first == '!') command = "not" + command.slice(1);
-		else if(first == '<') command = "less" + command.slice(1);
-		else if(first == '>') command = "greater" + command.slice(1);
-		else if(first == '=') command = "equal" + command.slice(1);
+		else if(first == '&') command = "and" + command.slice(1);
+		else if(first == '|') command = "or" + command.slice(1);
+		else if(first == '$') command = "root" + command.slice(1);
+		else if(first == '%') command = "remainder" + command.slice(1);
+		else if(first == '<') (command[1] == "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
+		else if(first == '>') (command[1] == "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
+		else if(first == '=') command = "equalto" + command.slice(1);
         else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
 		
 		var mods = Object.keys(juliar.modules);
@@ -135,7 +139,7 @@ function Juliar_main(juliar){
 		if(found !== undefined) return found;
 		return "<span class='juliar_error'>Help could not be found for '"+str+"' </span>";	
 	}
-	this.loop = function(str,args) {
+	this.loop = this.repeat = function(str,args) {
 		var temp = args[0] || 2;
 		var output = str;
 		for(var i=1; i<temp; ++i){
@@ -153,11 +157,57 @@ function Juliar_main(juliar){
 		}
 		return "";
 	}
-	this.and = function(str,args){ //AND conditional to be used with condition
-		for(var i=0, length = args.length;i<length;i++){
-			if(eval(args[i]) == false) return false;
+	this.or = function(str){
+		var temp = str.split(" ");
+		for (var i = 0, length = temp.length; i < length; ++i) {
+			if (JSON.parse(temp[i]) != false) return true;
 		}
-		return true;
+		return false;
+	}
+	this.not = function(str,args){
+		return str.split(" ").every(function(el){
+			return JSON.parse(el) == false;
+		});
+	}
+	this.and = function(str,args){ //AND conditional to be used with condition
+		return str.split(" ").every(function(el){
+			return JSON.parse(el) != false;
+		});
+	}
+	this.lessthan = function(str,args){
+		var out = str.split(" ");
+		var element = out.shift();
+		return out.every(function(el){
+			return element < el;
+		});
+	}
+	this.lessthanorequalto = function(str,args){
+		var out = str.split(" ");
+		var element = out.shift();
+		return out.every(function(el){
+			return element <= el;
+		});
+	}
+	this.greaterthan = function(str,args){
+		var out = str.split(" ");
+		var element = out.shift();
+		return out.every(function(el){
+			return element > el;
+		});
+	}
+	this.greaterthanorequalto = function(str,args){
+		var out = str.split(" ");
+		var element = out.shift();
+		return out.every(function(el){
+			return element >= el;
+		});
+	}
+	this.equalto = function(str,args){
+		var out = str.split(" ");
+		var element = out.shift();
+		return out.every(function(el){
+			return element == el;
+		});
 	}
 	this.code = function(str){
 		return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -281,6 +331,9 @@ function Juliar_main(juliar){
 			functions += "<br>";
 		}
 		return functions;
+	}
+	this.count = function(str){
+		return (str.split(",").length > 1)? str.split(",").length : str.split(" ").length;
 	}
 	this.modules = function(){
 		return Object.keys(juliar.modules);
@@ -922,6 +975,13 @@ function Juliar_main(juliar){
 		});
 		return temp;
 	}
+	this.remainder = function(str){
+		var temp;
+		str.split(" ").forEach(function(element) {
+			Number(element)&&(temp=null==temp?Number(element):temp%Number(element));
+		});
+		return temp;
+	}
 	this.multiply = function(str) {
 		var temp = 1;
 		str.split(" ").forEach(function(element) {
@@ -975,6 +1035,26 @@ function Juliar_interpreter(juliar){
 			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
 			jselector.addEventListener("keydown", keyDown);
 		}
+	}
+	this.deleteinterpreter = function(){
+		var x = document.activeElement.parentNode.parentNode;
+		x.parentNode.removeChild(x);
+		return "";
+	}
+	this.downloadcommands = function(){
+		var a = document.activeElement.parentNode.parentNode.getElementsByClassName("commandused");
+		var content = "<script src='juliar.js'>\r\n<juliar>\r\n";
+		for (var i = 0; i < a.length; ++i) {
+			content += a[i].innerHTML +"\r\n";
+		}
+		content += "</juliar>"
+		var fileref=document.createElement("a");
+		fileref.download =  "output.html";
+		fileref.href = 'data:text/plain;base64,'+btoa(content);
+		document.body.appendChild(fileref);
+		fileref.click();
+		fileref.parentNode.removeChild(fileref);
+		return "Downloading content from interpreter";
 	}
 	var keyDown = function(e) {
 		var keyCode = e.keyCode;
