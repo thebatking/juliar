@@ -136,7 +136,7 @@ function Juliar_main(juliar){
 		return "<span class='juliar_error'>Help could not be found for '"+str+"' </span>";	
 	}
 	this.loop = function(str,args) {
-		var temp = args[0] || 1;
+		var temp = args[0] || 2;
 		var output = str;
 		for(var i=1; i<temp; ++i){
 			output += " "+str+" ";
@@ -154,7 +154,6 @@ function Juliar_main(juliar){
 		return "";
 	}
 	this.and = function(str,args){ //AND conditional to be used with condition
-		if(args[0]==undefined) return true;
 		for(var i=0, length = args.length;i<length;i++){
 			if(eval(args[i]) == false) return false;
 		}
@@ -165,6 +164,9 @@ function Juliar_main(juliar){
 	}
 	this.hide = function() {
 		return "";
+	}
+	this.update = function(str,args){
+		
 	}
 	/*this.deport = function(a) {
 		var b = juliar.modules.indexOf(a);
@@ -187,6 +189,9 @@ function Juliar_main(juliar){
 		fileref.click();
 		return "";
 	}*/
+	this.reimport = function(str,args){
+	
+	}
 	this.import = function(str,args){
 		if(window.location.protocol == 'file:'){
 			var fileref=document.createElement("input");
@@ -198,50 +203,43 @@ function Juliar_main(juliar){
 				var reader = new FileReader();
 				reader.onload = function(e){
 					var contents = e.target.result;
-					var ext = f.name.split('.').pop();
-					console.log(f.name);
-					console.log(contents);
+					var index = f.name.lastIndexOf(".");
+					var name = f.name.slice(0,index);
+					if(f.name.slice(index) == ".juliar"){
+						eval(contents);
+						juliar.modules[name] = eval("new Juliar_"+name);
+					}
+					else{
+						alert("This file type is currently not supported");
+					}
 				}
 				reader.readAsText(f);
 			}
 			document.body.appendChild(fileref);
 			fileref.click();
-			return "Import Locally is not currently supported";
+			fileref.parentNode.removeChild(fileref);
+			return "Let's try to import "+(str || "the file")+" locally...";
 		}
 		else{
 			var repo = args[0] || true;
 			var http = new XMLHttpRequest();
 			str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "modules/"+str+".juliar", !1);
 			http.send();
+			var name = str.split("/").pop();
+			if(http.status!=200){
+				if(repo==false)return "<juliar_alert>Failed to Load the module '"+name+"'</juliar_alert>";
+				http.open("GET", "http://juliar.elementfx.com/repo?package="+name", !1);
+				http.send();
+				if(http.status!=200) return "<juliar_alert>Failed to Load the module '"+name+"'</juliar_alert>";
+			}
+			var fileref=document.createElement("script");
+			fileref.type = "text/javascript";
+			fileref.textContent = http.responseText;
+			document.head.appendChild(fileref);
+			juliar.modules[name] = eval("new Juliar_"+name);
+			return "Successfully imported module '"+name+"'";
 		}
 	}
-	/*this.import = function(str,args){
-		var repo = args[0] || true;
-		var http = new XMLHttpRequest();
-		str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "juliar_modules/"+str+".juliar", !1);
-		http.send();
-		if(http.status!=200){
-		if(!(repo) == true) return "Cannot load module from \""+str;
-		var http = new XMLHttpRequest();
-		var temp = temp = str.split("/");
-		http.open("GET", "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar", !1);
-		http.send();
-		if(http.responseText.indexOf("Not Found") == 1 || http2.status!=200) return "Cannot load module \""+str+"\" Github and Local module does not exist";
-		console.log(http.responseText)
-		}
-		var outp = http.responseText;
-		str = str.split("/").pop().split(".")[0];
-		var fileref=document.createElement("script");
-		fileref.type = "text/javascript";
-		fileref.textContent = outp;
-		document.head.appendChild(fileref);
-		var index = juliar.modules.indexOf(str);
-		-1 < index && juliar.modules.splice(index, 1);
-		juliar.modules.unshift(str);
-		var str2 = window["juliar_"+str+"_init"];
-		"function" === str2 && str2();
-		return "Imported Module: "+str;
-	}*/
 	this.commands = function() { //List commands
 		var modules = Object.keys(juliar.modules);
 		var functions = "";
@@ -665,11 +663,13 @@ function Juliar_main(juliar){
 	//
 	//Media
 	this.pdf = this.flash = this.java = function(str,args){
+		if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
 		var width = args[0] || 420;
 		var height = args[1] || 315;
 		return "<object width='"+width+"' height='"+height+"' data='"+str+"'></object>"
 	}
 	this.video = function(str,args) {
+		if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
 		var width = args[0] || 420;
 		var height = args[1] || 315;
 		var autoplay = args[2] || 0;
@@ -684,8 +684,13 @@ function Juliar_main(juliar){
 	}
 	//
 	//Max,Min & Absolute
-	this.randomnumber = function(str) {
-		return (Math.random() * (parseInt(str) || 100)) + 1 |0;
+	this.randomnumber = function(str,args) {
+		var times = args[0] || 1;
+		var temp = (Math.random() * (parseInt(str) || 100)) + 1 |0;
+		while(--times){
+			temp += "	 "+Math.floor((Math.random() * (parseInt(str) || 100)) + 1);
+		}
+		return temp;
 	}
 	this.largestnumber = function() {
 		return Number.MAX_SAFE_INTEGER;

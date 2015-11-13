@@ -1,0 +1,1 @@
+java -jar minifier.jar --js=juliar.js --js_output_file=juliar.min.js
