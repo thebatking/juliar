@@ -100,7 +100,7 @@ function Juliar(verbose) {
 		var jselector = juliars[i];
 		jselector.innerHTML = this.parser(jselector.innerHTML);
 	}
-	this.modules.interpreter.reset();
+	this.modules.interpreter.clearinterpreter();
 	document.dispatchEvent(new Event('juliar_done'));   
 }var juliar; document.addEventListener("DOMContentLoaded", function(){ juliar = new Juliar();});
 
@@ -165,32 +165,47 @@ function Juliar_main(juliar){
 	this.hide = function() {
 		return "";
 	}
-	this.update = function(str,args){
-		
+	var repolink = "http://juliar.elementfx.com/repo/?juliar=&package=";
+	this.repo = function(str){
+		if(str.trim() == "") return repolink;
+		repolink = str;
+		return "The repo has been now set to "+repolink;
 	}
-	/*this.download = function(str){
-		if(str.indexOf("//") === -1){
+	this.checkrepo = function(str){
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", repolink, !1);
+		return (xmlhttp.status=200)? "The repo <strong>"+repolink+"</strong> has a pulse" : "<juliar_error>repo does not appear to be active! Try changing repo via \\*repo \\*</juliar_error>";
+	}
+	this.update = function(){
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", repolink+"&versions="+Object.keys(juliar.modules).toString(), !1);
+		return (xmlhttp.status==200)? xmlhttp.responseText : "<juliar_error>Could not get the updates! Make sure that the repo is active by typing \\*checkrepo \\*</juliar_error>";
+	}
+	this.download = function(str){
+		var name = str.split("/").pop();
+		if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
+		else if(str.indexOf("//") === -1){
 		var temp = str.split("/");
-		str = "http://github-raw-cors-proxy.herokuapp.com/"+temp.shift()+"/"+temp.shift()+"/master/"+temp.join("/")+".juliar";
+		str = repolink+name;
 		}
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", str, !1);
 		xmlhttp.send();
-		if(xmlhttp.status!=200) return "Cannot download the module. Make sure you provide correct link";
-		if(xmlhttp.responseText.indexOf("Not Found") == 1) return "Cannot download module from GitHub. Make sure that the file exists";
+		console.log(xmlhttp.responseText);
+		if(xmlhttp.status!=200) return "<juliar_error>Cannot download the module. Make sure that you spell the package name correctly.</juliar_error>";
 		var fileref=document.createElement("a");
-		fileref.download = str.split("/").pop();
-		fileref.href = 'data:text/plain;base64,'+btoa(JSON.parse(xmlhttp.responseText));
+		fileref.download =  name+".juliar";
+		fileref.href = 'data:text/plain;base64,'+btoa(xmlhttp.responseText);
 		document.body.appendChild(fileref);
 		fileref.click();
-		return "";
-	}*/
+		fileref.parentNode.removeChild(fileref);
+		return "Downloading '"+name+"' from <a href='"+str+"'>"+str+"</a>";
+	}
 	this.deport = function(a) {
-		//juliar.modules[a]
-		delete juliar.modules[name];
-		return -1 < b ? (juliar.modules.splice(b, 1), 'Deported Module "' + a + '"') : 'Module "' + a + '" does not exists';
+		return (juliar.modules[a] === undefined)? '<juliar_error>Module "' + a + '" does not exists</juliar_error>':(delete juliar.modules[a],'Deported Module "' + a + '"');
 	}
 	this.import = function(str,args){
+		if(str.trim() === "") return "<juliar_error>You Did not specify what to import! Cannot Continue to Import</juliar_error>";
 		var name = str.split("/").pop();
 		if(eval("typeof Juliar_"+name) == "function"){ //cache
 			delete juliar.modules[name];
@@ -203,7 +218,6 @@ function Juliar_main(juliar){
 			fileref.onchange = function(evt)
 			{
 				f = evt.target.files[0];
-				alert("Changed!");
 				var reader = new FileReader();
 				reader.onload = function(e){
 					var contents = e.target.result;
@@ -231,7 +245,8 @@ function Juliar_main(juliar){
 			http.send();
 			if(http.status!=200){
 				if(repo==false)return "<juliar_alert>Failed to Load the module '"+name+"'</juliar_alert>";
-				http.open("GET", "http://juliar.elementfx.com/repo?package="+name, !1);
+				http = new XMLHttpRequest();
+				http.open("GET", repolink+name, !1);
 				http.send();
 				if(http.status!=200) return "<juliar_alert>Failed to Load the module '"+name+"' from Juliar repo</juliar_alert>";
 			}
@@ -943,22 +958,18 @@ function Juliar_interpreter(juliar){
 	css += "ijuliar .juliar_close_btn{float:right;font-size:14px;cursor:pointer;color:#9b9da2;display:none;padding: 0px 20px}";
 	css += "ijuliar .juliar_close_btn:hover{background-color:#40454f;color:white;}";
 	juliar.css(css);
-	
-	this.reset = function(){
+	this.clearinterpreter = function(){
 		var ijuliars = document.getElementsByTagName("ijuliar"),len = ijuliars.length;
 		if(len != 0){ juliar.history = [];juliar.historyindex = 0;}
 		while(len--){
 			var jselector = ijuliars[len];
 			
 			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
-			jselector.addEventListener("keydown", juliar.modules.interpreter.exportall);
+			jselector.addEventListener("keydown", keyDown);
 		}
 	}
-	this.exportall = function(e) {
+	var keyDown = function(e) {
 		var keyCode = e.keyCode;
-		if(keyCode === undefined){ 
-			return "Coming soon...";
-		}
 		var target = e.target;
 		if (keyCode === 13 && target.value != "") {
 			juliar.clearcode();
