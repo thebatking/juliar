@@ -168,10 +168,6 @@ function Juliar_main(juliar){
 	this.update = function(str,args){
 		
 	}
-	/*this.deport = function(a) {
-		var b = juliar.modules.indexOf(a);
-		return -1 < b ? (juliar.modules.splice(b, 1), 'Deported Module "' + a + '"') : 'Module "' + a + '" does not exists';
-	}*/
 	/*this.download = function(str){
 		if(str.indexOf("//") === -1){
 		var temp = str.split("/");
@@ -189,11 +185,19 @@ function Juliar_main(juliar){
 		fileref.click();
 		return "";
 	}*/
-	this.reimport = function(str,args){
-	
+	this.deport = function(a) {
+		//juliar.modules[a]
+		delete juliar.modules[name];
+		return -1 < b ? (juliar.modules.splice(b, 1), 'Deported Module "' + a + '"') : 'Module "' + a + '" does not exists';
 	}
 	this.import = function(str,args){
-		if(window.location.protocol == 'file:'){
+		var name = str.split("/").pop();
+		if(eval("typeof Juliar_"+name) == "function"){ //cache
+			delete juliar.modules[name];
+			juliar.modules[name] = eval("new Juliar_"+name);
+			return "Successfully imported module '"+name+"' from cache";
+		} 
+		else if(window.location.protocol == 'file:'){
 			var fileref=document.createElement("input");
 			fileref.type = "file";
 			fileref.onchange = function(evt)
@@ -225,12 +229,11 @@ function Juliar_main(juliar){
 			var http = new XMLHttpRequest();
 			str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "modules/"+str+".juliar", !1);
 			http.send();
-			var name = str.split("/").pop();
 			if(http.status!=200){
 				if(repo==false)return "<juliar_alert>Failed to Load the module '"+name+"'</juliar_alert>";
-				http.open("GET", "http://juliar.elementfx.com/repo?package="+name", !1);
+				http.open("GET", "http://juliar.elementfx.com/repo?package="+name, !1);
 				http.send();
-				if(http.status!=200) return "<juliar_alert>Failed to Load the module '"+name+"'</juliar_alert>";
+				if(http.status!=200) return "<juliar_alert>Failed to Load the module '"+name+"' from Juliar repo</juliar_alert>";
 			}
 			var fileref=document.createElement("script");
 			fileref.type = "text/javascript";
