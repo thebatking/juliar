@@ -6,6 +6,8 @@ function Juliar(verbose) {
 	//CSS Utilizer
 	var csscode = "";
 	this.css = function(str){csscode+=str;}
+	//CACHE -Alpha Test Only
+	this.cache = [];
 	//HELP/Autofill utilizer
 	var help = {};
 	this.sethelp = function(obj){
@@ -113,7 +115,24 @@ function Juliar(verbose) {
 		document.body.appendChild(css);
 	}
 	//
-	document.dispatchEvent(new Event('juliar_done'));   
+	document.dispatchEvent(new Event('juliar_done'));  
+	//Alpha Cache//
+	function getcache(root){
+		var modules = Object.keys(root.modules);
+		var functions = "";
+		var i = modules.length;
+		var temp = [];
+		var tempinfo = [];
+		while(i--){
+			for( var x in root.modules[modules[i]]) {
+				if(temp.indexOf(x) == -1 && typeof root.modules[modules[i]][x] === "function") {
+					temp.push(x);
+				}
+			}
+		}
+		return temp;
+	}
+	this.cache = getcache(this);
 }var juliar; document.addEventListener("DOMContentLoaded", function(){ juliar = new Juliar();});
 
 
@@ -372,12 +391,14 @@ function Juliar_main(juliar){
 		}
 		var list = [];
 		for (var j=0; j<temp.length; j++) list.push({'name': temp[j], 'info': tempinfo[j]});
+		
 		list.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
 		var y = temp.length;
 		for(i=0;i<y;i++){
 			functions += " \\*"+list[i].name +" "+"\\* " + list[i].info;
 			functions += "<br>";
 		}
+		
 		return functions;
 	};
 	this.count = function(str){
@@ -950,6 +971,34 @@ function Juliar_main(juliar){
 	this.kinkelin = function(){
 		return '1.2824271291';
 	};
+	this.gravity = function(str){
+		str = str.trim().toLowerCase();
+		switch(str){
+			case "sun":
+			return 274;
+			case "jupiter":
+			return 24.92;
+			case "nepture":
+			return 11.15;
+			case "saturn":
+			return 10.44;
+			case "uranus":
+			case "venus":
+			return 8.87;
+			case "mars":
+			return 3.71;
+			case "mercury":
+			return 3.7;
+			case "pluto":
+			return 0.58;
+			case "earth":
+			default:
+			return 9.798;
+		}
+	}
+	this.gravitational = function(){
+		return 6.674e-11;
+	};
 	this.epsilon = function(str){
 		switch(str){
 			case "Vacuum":
@@ -999,7 +1048,7 @@ function Juliar_main(juliar){
 		return Math.asin(1/str);
 	};
 	this.arccot = this.arccotangent = function(str) {
-		return Math.pi/2-Math.atan(str);
+		return Math.atan(1/str);
 	};
 	//Hyperbola Functions
 	this.cosh = function(str){
@@ -1020,6 +1069,21 @@ function Juliar_main(juliar){
 	this.csch = function(str){
 		return 1/Math.sinh(str);
 	};
+	this.temperature = function(str,args){
+		var num = Number(str.trim()) || null;
+		var unit = args[0] || 'K';
+		var cto = args[1] || 'C'
+		switch(unit){
+			case "F":
+			return cto == 'C'? (num-32)*5/9: cto == 'K'? (num+459.67)*5/9 : num;
+			case "C":
+			return cto == 'K'? num+273.15: cto == 'F'? num*9/5+32 : num;
+			case "K":
+			return cto == 'C'? num-273.15: cto == 'F'? num*9/5-459.67: num;
+			default:
+			return "<span class=\"juliar_error\">Cannot convert temperature</span>";
+		}
+	}
 	//
 	this.root = function(str,args){
 		var root = args[0] || 2;
@@ -1090,9 +1154,9 @@ function Juliar_graph(juliar){
 function Juliar_interpreter(juliar){
 	var css = ".juliar-console{width:99%;background-color: white;font-size:21px;color:#aaa;position:relative;margin-left:14px;}";
 	css += ".juliar-console input{font-size:21px;width:100%;margin: 0px;padding:0px;box-shadow: none;}";
-	css += ".juliar-console .background{background-color:white;outline: 0px;position:absolute;top:0px;left:0px;border: 0px transparent;}";
+	css += ".juliar-console .background{top:1px;color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
-	css += ".juliar-console .bar{line-height:21px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
+	css += ".juliar-console .bar{line-height:23px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
 	css += "ijuliar{display:inline-block;width:100%;}";
 	css += "ijuliar .realblock{box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
@@ -1110,7 +1174,7 @@ function Juliar_interpreter(juliar){
 		while(len--){
 			var jselector = ijuliars[len];
 			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
-			jselector.addEventListener("keydown", keyDown);
+			jselector.addEventListener("keyup", keyUp);
 		}
 	};
 	this.deleteinterpreter = function(){
@@ -1136,9 +1200,18 @@ function Juliar_interpreter(juliar){
 		fileref.parentNode.removeChild(fileref);
 		return "Downloading content from interpreter";
 	};
-	var keyDown = function(e) {
+	function find(key, array) {  //Alpha Find
+		for (var i = 0; i < array.length; i++) {
+			if (array[i].indexOf(key) == 0) {
+				return array[i];
+			}
+		}
+		return "";
+	}
+	var keyUp = function(e) {
 		var keyCode = e.keyCode;
 		var target = e.target;
+		var inp = String.fromCharCode(keyCode);
 		if (keyCode === 13 && target.value != "") {
 			juliar.clearcode();
 			var str = target.value;
@@ -1179,6 +1252,9 @@ function Juliar_interpreter(juliar){
 				target.value = juliar.history[juliar.historyindex];
 				juliar.historyindex -= 1;
 			}
+		}
+		else if (/[a-zA-Z0-9]/.test(inp)){ //Alpha
+			if(target.value != "") target.parentNode.getElementsByClassName("background")[0].value = "*"+find(target.value.slice(1),juliar.cache);
 		}
 	}
 }																																														
