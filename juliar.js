@@ -1234,11 +1234,21 @@ function Juliar_main(juliar){
 }
 function Juliar_graph(juliar){
 	this.graph = function(str,args){
+		//Test of generating x^2
+		x_val = [];
+		y_val = [];
+		for(var i=0;i<1000;i++){
+			x_val.push(i);
+			y_val.push(i);
+		}
 		var temp = "";
 		temp += '<svg width=500px height=500px viewBox="0 0 1000 1000">';
 		temp += '<g>';
 		temp += '<line x1="0" y1="500" x2="1000" y2="500" style="stroke:#40454f;stroke-width:2" />';
 		temp += '<line x1="500" y1="0" x2="500" y2="1000" style="stroke:#40454f;stroke-width:2" />';
+		for(var j=0;j<x_val.length;j++){
+			temp += '<circle cx="'+(x_val[j])+'" cy="'+(1000-y_val[j])+'" r="5" stroke="black" stroke-width="1" fill="red" />';
+		}
 		temp += '</g>';
 		temp += '</svg>';
 		return temp;
