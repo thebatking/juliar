@@ -140,7 +140,7 @@ function Juliar_main(juliar){
 	css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
 	css += ".chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
 	css += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
-	css += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 27.5em }100%{ text-indent: -105em }}";
+	css += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 100% }100%{ text-indent: -25% }}";
 	css += ".progress-bar{background-color: #1a1a1a;height: 25px;padding: 5px;width: 350px;margin: 50px 0;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}";
 	css += ".progress-bar span{display: inline-block;height: 100%;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}";
 	css += "text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset";
@@ -148,6 +148,7 @@ function Juliar_main(juliar){
 	css += ".juliar_error{color:red}";
 	css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
+	css += "@keyframes blink {0%{opacity: 1;}50%{opacity: 0;}100%{opacity: 1;}}";
 	juliar.css(css);
 	
 	this.block = function(str){
@@ -390,13 +391,16 @@ function Juliar_main(juliar){
 			}
 		}
 	};
-	this.commands = function() { //List commands
+	this.commands = function(str) { //List commands
+		var command = str.trim() || null;
 		var list = juliar.commands;
 		var y = list.length;
 		var functions = "";
 		for(i=0;i<y;i++){
-			functions += " \\*"+list[i].name +" "+"\\* " + list[i].mods;
-			functions += "<br>";
+			if(!command || list[i].name.indexOf(command) == 0){
+				functions += " \\*"+list[i].name +" "+"\\* " + list[i].mods;
+				functions += "<br>";
+			}
 		}
 		
 		return functions;
@@ -810,14 +814,9 @@ function Juliar_main(juliar){
 		return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
 	};
 	this.blink = function(str,args){
-		var rate = args[0] || 500;
-		var temp = juliar.index();
-		juliar.code(
-		'var f = document.getElementsByTagName("juliar_blink_'+temp+'")[0];'+
-		'setInterval(function() {'+
-		'f.style.visibility = (f.style.visibility == "hidden" ? "" : "hidden");'+
-		'}, '+rate+');');
-		return "<juliar_blink_"+temp+">"+str+"</juliar_blink_"+temp+">";
+		var sec = args[0] || 2;
+		var steps = args[1] || 4;
+		return "<juliar_blink style='animation: blink "+sec+"s steps("+steps+") infinite;'>"+str+"</juliar_blink>";
 	};
 	//
 	//Date & Time
@@ -844,7 +843,7 @@ function Juliar_main(juliar){
 	//
 	//News Related
 	this.newsbanner = function(str,args){
-		var temp = args[0] || 50;
+		var temp = args[0] || 15;
 		return "<div class='marquee' style='animation: marquee "+temp+"s linear infinite;'>"+str+"</div>";
 	};
 	this.newspaper = function(str,args){
@@ -894,11 +893,11 @@ function Juliar_main(juliar){
 		}
 		return temp;
 	};
-	this.largestnumber = function() {
-		return Number.MAX_SAFE_INTEGER;
+	this.largenumber = function() {
+		return Number.MAX_VALUE;
 	};
-	this.smallestnumber = function() {
-		return Number.MIN_SAFE_INTEGER;
+	this.smallnumber = function() {
+		return Number.MIN_VALUE;
 	};
 	this.maximum = function(str) {
 		return Math.max.apply(Math, str.split(" "));
@@ -1291,7 +1290,7 @@ function Juliar_interpreter(juliar){
 			}
 		}
 		return "";
-	}
+	};
 	var keyUp = function(e) {
 		var keyCode = e.keyCode;
 		var target = e.target;
