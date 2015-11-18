@@ -6,9 +6,9 @@ function Juliar(verbose) {
 	//CSS Utilizer
 	var csscode = "";
 	this.css = function(str){csscode+=str;}
-	//CACHE -Alpha Test Only
-	this.cache = [];
-	//HELP/Autofill utilizer
+	this.getcss = function(){return csscode;}
+	this.clearcss = function(){csscode="";}
+	//Create HELP HERE!
 	var help = {};
 	this.sethelp = function(obj){
 		
@@ -17,7 +17,8 @@ function Juliar(verbose) {
 	
 	/*NOT TESTED */
 	var objects = {};
-	var jscode = [];
+	jscode = [];
+	this.jscodelength = jscode.length;
 	this.index = function(){return jscode.length;}; //KEEPS IT UNIQUE
 	this.code = function(code){ jscode.push(code);return jscode.length;};
 	this.getcode = function(id){return Number(id) > -1? jscode[id]:jscode;}
@@ -27,72 +28,6 @@ function Juliar(verbose) {
 	this.checkobject = function(obj){return objects[obj]?  true:false;};
 	this.deleteobject = function(obj){if(objects[obj]){objects[obj] = undefined;return true;}return false;};
 	//END OF NOT TESTED
-	
-	this.parser = function(str){
-		var currentindex=0, nextvalue,lastindex =0, positions = [];
-		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
-			if(str[currentindex-1] == "\\");
-			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
-				positions.push(currentindex);
-			}
-			else{
-				if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";
-				else {
-					var oldstring = str.slice(lastindex, ++currentindex);
-					str = str.substr(0, lastindex) + pick(oldstring.slice(1, -1),this) + str.substr(currentindex);
-					currentindex = lastindex-1;
-				}
-			}
-			++currentindex;
-		}
-		if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
-		for(var i=0,j=jscode.length;i<j;i++){
-			var fileref=document.createElement("script");
-			fileref.type = "text/javascript";
-			fileref.textContent = this.getcode(i);
-			document.head.appendChild(fileref);
-		}
-		if(csscode != ""){
-			var css = document.createElement("style");
-			css.type = "text/css";
-			css.innerHTML = csscode;
-			csscode = "";
-			document.body.appendChild(css);
-		}
-		return str.replace(/\\\*/g, "*");
-	}
-	
-	function pick(str,juliar){
-		var temp = str.replace(/\s/g, " ").split(' ')[0];
-		var length = temp.length;
-		temp = temp.split("=");
-		var command = temp[0];
-		var args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
-		var first = command[0];
-		if (first == '+'){ command = "add" + command.slice(1);}
-		else if(first == '-'){ command = "subtract" + command.slice(1);}
-		else if(first == 'x' && command[1] === undefined) command = "multiply" + command.slice(1);
-		else if(first == '/') command = "divide" + command.slice(1);
-		else if(first == '^') command = "power" + command.slice(1);
-		else if(first == '!') command = "not" + command.slice(1);
-		else if(first == '&') command = "and" + command.slice(1);
-		else if(first == '|') command = "or" + command.slice(1);
-		else if(first == '$') command = "root" + command.slice(1);
-		else if(first == '%') command = "remainder" + command.slice(1);
-		else if(first == '<') (command[1] == "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
-		else if(first == '>') (command[1] == "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
-		else if(first == '=') command = "equalto" + command.slice(1);
-		else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
-		
-		var mods = Object.keys(juliar.modules);
-		for(var i = 0, len = mods.length; i < len;i++) {
-			if (typeof juliar.modules[mods[i]][command] === "function") {
-				return juliar.modules[mods[i]][command](str.substr(length).trim(),args);
-			}
-		}
-		return "<span class='juliar_error'>Unknown command '" +command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: "+str.substr(length).trim()+" </em>";
-		
-	}
 	//MODULES
 	this.modules = {"main": new Juliar_main(this),"graph": new Juliar_graph, "interpreter": new Juliar_interpreter(this)};
 	//
@@ -107,33 +42,95 @@ function Juliar(verbose) {
 	viewPortTag.name = "viewport";
 	viewPortTag.content = "initial-scale=1.0, maximum-scale=1.0, user-scalable=0";
 	document.getElementsByTagName('head')[0].appendChild(viewPortTag);
-	if(csscode != ""){
+	if(this.getcss() != ""){
 		var css = document.createElement("style");
 		css.type = "text/css";
-		css.innerHTML = csscode;
-		csscode = "";
+		css.innerHTML = this.getcss();
+		this.clearcss();
 		document.body.appendChild(css);
 	}
 	//
 	document.dispatchEvent(new Event('juliar_done'));  
 	//Alpha Cache//
-	function getcache(root){
-		var modules = Object.keys(root.modules);
-		var functions = "";
-		var i = modules.length;
-		var temp = [];
-		var tempinfo = [];
-		while(i--){
-			for( var x in root.modules[modules[i]]) {
-				if(temp.indexOf(x) == -1 && typeof root.modules[modules[i]][x] === "function") {
-					temp.push(x);
-				}
+	//CACHE -Alpha Test Only
+	var modules = Object.keys(this.modules);
+	var i = modules.length;
+	var temp = [];
+	while(i--){
+		for( var x in this.modules[modules[i]]) {
+			if(temp.indexOf(x) == -1 && typeof this.modules[modules[i]][x] === "function") {
+				temp.push({'name':x,'mods':(i>0)? " <em>>> IMPORTED from <strong>"+modules[i] +"</strong><span class='juliar_error'> level: "+i+"</span></em>"  : ""});
 			}
 		}
-		return temp;
 	}
-	this.cache = getcache(this);
-}var juliar; document.addEventListener("DOMContentLoaded", function(){ juliar = new Juliar();});
+	temp.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
+	this.commands = temp;
+}
+Juliar.prototype.parser = function(str){
+	var currentindex=0, nextvalue,lastindex =0, positions = [];
+	while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
+		if(str[currentindex-1] == "\\");
+		else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+			positions.push(currentindex);
+		}
+		else{
+			if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";
+			else {
+				var oldstring = str.slice(lastindex, ++currentindex);
+				str = str.substr(0, lastindex) + this.picker(oldstring.slice(1, -1)) + str.substr(currentindex);
+				currentindex = lastindex-1;
+			}
+		}
+		++currentindex;
+	}
+	if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
+	for(var i=0,j=this.jscodelength;i<j;i++){
+		var fileref=document.createElement("script");
+		fileref.type = "text/javascript";
+		fileref.textContent = this.getcode(i);
+		document.head.appendChild(fileref);
+	}
+	if(this.getcss() != ""){
+		var css = document.createElement("style");
+		css.type = "text/css";
+		css.innerHTML = this.getcss();
+		this.clearcss();
+		document.body.appendChild(css);
+	}
+	return str.replace(/\\\*/g, "*");
+}
+Juliar.prototype.picker = function(str){
+	var temp = str.replace(/\s/g, " ").split(' ')[0];
+	var length = temp.length;
+	temp = temp.split("=");
+	var command = temp[0];
+	var args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
+	var first = command[0];
+	if (first == '+'){ command = "add" + command.slice(1);}
+	else if(first == '-'){ command = "subtract" + command.slice(1);}
+	else if(first == 'x' && command[1] === undefined) command = "multiply" + command.slice(1);
+	else if(first == '/') command = "divide" + command.slice(1);
+	else if(first == '^') command = "power" + command.slice(1);
+	else if(first == '!') command = "not" + command.slice(1);
+	else if(first == '&') command = "and" + command.slice(1);
+	else if(first == '|') command = "or" + command.slice(1);
+	else if(first == '$') command = "root" + command.slice(1);
+	else if(first == '%') command = "remainder" + command.slice(1);
+	else if(first == '<') (command[1] == "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
+	else if(first == '>') (command[1] == "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
+	else if(first == '=') command = "equalto" + command.slice(1);
+	else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
+	
+	var mods = Object.keys(this.modules);
+	for(var i = 0, len = mods.length; i < len;i++) {
+		if (typeof this.modules[mods[i]][command] === "function") {
+			return this.modules[mods[i]][command](str.substr(length).trim(),args);
+		}
+	}
+	return "<span class='juliar_error'>Unknown command '" +command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: "+str.substr(length).trim()+" </em>";
+	
+}
+var juliar; document.addEventListener("DOMContentLoaded", function(){ juliar = new Juliar();});
 
 
 function Juliar_main(juliar){
@@ -273,8 +270,22 @@ function Juliar_main(juliar){
 		fileref.parentNode.removeChild(fileref);
 		return "Downloading '"+name+"' from <a href='"+str+"'>"+str+"</a>";
 	};
+	function countcommands(){
+		var modules = Object.keys(juliar.modules);
+		var i = modules.length;
+		var temp = [];
+		while(i--){
+			for( var x in juliar.modules[modules[i]]) {
+				if(temp.indexOf(x) == -1 && typeof juliar.modules[modules[i]][x] === "function") {
+					temp.push({'name':x,'mods':(i>0)? " <em>>> IMPORTED from <strong>"+modules[i] +"</strong><span class='juliar_error'> level: "+i+"</span></em>"  : ""});
+				}
+			}
+		}
+		temp.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
+		juliar.commands = temp;	
+	}
 	this.deport = function(a) {
-		return (juliar.modules[a] === undefined)? '<juliar_error>Module "' + a + '" does not exists</juliar_error>':(delete juliar.modules[a],'Deported Module "' + a + '"');
+		return (juliar.modules[a] === undefined)? '<juliar_error>Module "' + a + '" does not exists</juliar_error>':(delete juliar.modules[a],countcommands(),document.dispatchEvent(new Event('deleted '+a)),'Deported Module "' + a + '"');
 	};
 	this.javascript = function(str) {
 		if(str.split(" ")[0].indexOf(".js") !== -1){ 
@@ -287,12 +298,14 @@ function Juliar_main(juliar){
 		return "";
 	};
 	this.import = function(str,args){
+		var alias = args[0] || null;
 		if(str.trim() === "") return "<juliar_error>You Did not specify what to import! Cannot Continue to Import</juliar_error>";
 		var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
 		var name = str.split("/").pop();
 		if(ext == "juliar" && eval("typeof Juliar_"+name) == "function"){ //cache
 			delete juliar.modules[name];
-			juliar.modules[name] = eval("new Juliar_"+name);
+			alias? juliar.modules[alias] = eval("new Juliar_"+name) : juliar.modules[name] = eval("new Juliar_"+name); 
+			countcommands();
 			return "Successfully imported module '"+name+"' from cache";
 		} 
 		else if(window.location.protocol == 'file:'){
@@ -308,7 +321,8 @@ function Juliar_main(juliar){
 					var name = f.name.slice(0,index);
 					if(f.name.slice(index) == ".juliar"){
 						eval(contents);
-						juliar.modules[name] = eval("new Juliar_"+name);
+						alias? juliar.modules[alias] = eval("new Juliar_"+name) : juliar.modules[name] = eval("new Juliar_"+name); 
+						countcommands();
 					}
 					else if(f.name.slice(index) == ".jss"){
 						var css = document.createElement("style");
@@ -334,7 +348,7 @@ function Juliar_main(juliar){
 		}
 		else{
 			if(ext == "juliar"){
-				var repo = args[0] || true;
+				var repo = args[1] || true;
 				var http = new XMLHttpRequest();
 				str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "modules/"+str+".juliar", !1);
 				http.send();
@@ -349,7 +363,8 @@ function Juliar_main(juliar){
 				fileref.type = "text/javascript";
 				fileref.textContent = http.responseText;
 				document.head.appendChild(fileref);
-				juliar.modules[name] = eval("new Juliar_"+name);
+				alias? juliar.modules[name] = eval("new Juliar_"+name) : juliar.modules[alias] = eval("new Juliar_"+name); 
+				countcommands();
 				return "Successfully imported module '"+name+"'";
 			}
 			else if(ext == "jss"){
@@ -376,26 +391,11 @@ function Juliar_main(juliar){
 		}
 	};
 	this.commands = function() { //List commands
-		var modules = Object.keys(juliar.modules);
+		var list = juliar.commands;
+		var y = list.length;
 		var functions = "";
-		var i = modules.length;
-		var temp = [];
-		var tempinfo = [];
-		while(i--){
-			for( var x in juliar.modules[modules[i]]) {
-				if(temp.indexOf(x) == -1 && typeof juliar.modules[modules[i]][x] === "function") {
-					temp.push(x);
-					tempinfo.push((i>2)? " <em>>> IMPORTED from <strong>"+modules[i] +"</strong><span class='juliar_error'> level: "+(i-2)+"</span></em>"  : "");
-				}
-			}
-		}
-		var list = [];
-		for (var j=0; j<temp.length; j++) list.push({'name': temp[j], 'info': tempinfo[j]});
-		
-		list.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
-		var y = temp.length;
 		for(i=0;i<y;i++){
-			functions += " \\*"+list[i].name +" "+"\\* " + list[i].info;
+			functions += " \\*"+list[i].name +" "+"\\* " + list[i].mods;
 			functions += "<br>";
 		}
 		
@@ -518,6 +518,42 @@ function Juliar_main(juliar){
 		}
 		return output;
 	};
+	this.backgroundcolor = function(str,args){
+		args[0] = args[0] || "#428bca";
+		return "<span stlye=\"background-color:"+args[0]+"\">"+str+"</span>";
+	};
+	
+	this.padding = function(str,args){
+		var size = args[0] || "5px";
+		var pad = args[1] || "all";
+		switch(pad){
+			case "all":
+			return "<span style='padding:"+size+"'>"+str+"</span>";
+			case "top":
+			return "<span style='padding-top:"+size+"'>"+str+"</span>";
+			case "bottom":
+			return "<span style='padding-bottom:"+size+"'>"+str+"</span>";
+			case "left":
+			return "<span style='padding-left:"+size+"'>"+str+"</span>";
+			case "right":
+			return "<span style='padding-right:"+size+"'>"+str+"</span>";
+			case "sides":
+			return "<span style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</span>";
+			case "vertical":
+			return "<span style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</span>";
+			default:
+			return "<span style='padding:"+size+"'>"+str+"</span>";
+		}
+	}
+	
+	this.notice = function(str,args){
+		var bgcolor = args[0] || "#428bca";
+		var color = args[1] || "white";
+		var fontsize = args[2] || "16px";
+		var padding = args[3] || "5px";
+		return "<div style='background-color:"+bgcolor+";color:"+color+";font-size:"+fontsize+";padding:"+padding+";'>"+str+"</div>";
+	};
+	
 	this.ask = function(str,args) {
 		var temp = args[0] || "";
 		return prompt(str, temp);
@@ -1014,60 +1050,108 @@ function Juliar_main(juliar){
 		}
 	};
 	//trig
-	this.sine = this.sin = function(str) {
+	this.sine = this.sin = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.sin(str*Math.PI / 180);
 		return Math.sin(str);
 	};
-	this.cosine = this.cos = function(str) {
+	this.cosine = this.cos = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.cos(str*Math.PI / 180);
 		return Math.cos(str);
 	};
-	this.tangent = this.tan = function(str) {
+	this.tangent = this.tan = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.tan(str*Math.PI / 180);
 		return Math.tan(str);
 	};
-	this.secant = this.sin = function(str) {
+	this.secant = this.sin = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.cos(str*Math.PI / 180);
 		return 1/Math.cos(str);
 	};
-	this.cosecant = this.cos = function(str) {
+	this.cosecant = this.cos = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.sin(str*Math.PI / 180);
 		return 1/Math.sin(str);
 	};
-	this.cotangent = this.cot = function(str) {
+	this.cotangent = this.cot = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.tan(str*Math.PI / 180);
 		return 1/Math.tan(str);
 	};
-	this.asin = this.arcsin = function(str) {
+	this.asin = this.arcsin = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asin(str)*180/Math.PI;
 		return Math.asin(str);
 	};
-	this.acos = this.arccos = function(str) {
+	this.acos = this.arccos = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acos(str)*180/Math.PI;
 		return Math.acos(str);
 	};
-	this.atan = this.arctangent = function(str) {
+	this.atan = this.arctangent = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atan(str)*180/Math.PI;
 		return Math.atan(str);
 	};
-	this.arcsec = this.arcsecant = function(str) {
+	this.arcsec = this.arcsecant = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acos(1/str)*180/Math.PI;
 		return Math.acos(1/str);
 	};
-	this.arccsc = this.arccosecant = function(str) {
+	this.arccsc = this.arccosecant = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asin(1/str)*180/Math.PI;
 		return Math.asin(1/str);
 	};
-	this.arccot = this.arccotangent = function(str) {
+	this.arccot = this.arccotangent = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atan(1/str)*180/Math.PI;
 		return Math.atan(1/str);
 	};
 	//Hyperbola Functions
-	this.cosh = function(str){
+	this.cosh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.cosh(str*Math.PI / 180);
 		return Math.cosh(str);
 	};
-	this.sinh = function(str){
+	this.sinh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.sinh(str*Math.PI / 180);
 		return Math.sinh(str);
 	};
-	this.tanh = function(str){
+	this.tanh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.tanh(str*Math.PI / 180);
 		return Math.tanh(str);
 	};
-	this.coth = function(str){
+	this.coth = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.tanh(str*Math.PI / 180);
 		return 1/Math.tanh(str);
 	};
-	this.sech = function(str){
+	this.sech = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.cosh(str*Math.PI / 180);
 		return 1/Math.cosh(str);
 	};
-	this.csch = function(str){
+	this.csch = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.sinh(str*Math.PI / 180);
 		return 1/Math.sinh(str);
+	};
+	this.asinh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asinh(str)*180/Math.PI;
+		return Math.asinh(str);
+	};
+	this.acosh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acosh(str)*180/Math.PI;
+		return Math.acosh(str);
+	};
+	this.atanh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atanh(str)*180/Math.PI;
+		return Math.atanh(str);
+	};
+	this.asech = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acosh(1/str)*180/Math.PI;
+		return Math.acosh(1/str);
+	};
+	this.acsch = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asinh(1/str)*180/Math.PI;
+		return Math.asinh(1/str);
+	};
+	this.acotanh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atanh(1/str)*180/Math.PI;
+		return Math.atanh(1/str);
+	};
+	this.toDegrees = function(str){
+		return str*180/Math.PI;
+	};
+	this.toRadians = function(str){
+		return str*Math.PI/180;
 	};
 	this.temperature = function(str,args){
 		var num = Number(str.trim()) || null;
@@ -1154,7 +1238,7 @@ function Juliar_graph(juliar){
 function Juliar_interpreter(juliar){
 	var css = ".juliar-console{width:99%;background-color: white;font-size:21px;color:#aaa;position:relative;margin-left:14px;}";
 	css += ".juliar-console input{font-size:21px;width:100%;margin: 0px;padding:0px;box-shadow: none;}";
-	css += ".juliar-console .background{top:1px;color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
+	css += ".juliar-console .background{top:2px;color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
 	css += ".juliar-console .bar{line-height:23px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
 	css += "ijuliar{display:inline-block;width:100%;}";
@@ -1202,8 +1286,8 @@ function Juliar_interpreter(juliar){
 	};
 	function find(key, array) {  //Alpha Find
 		for (var i = 0; i < array.length; i++) {
-			if (array[i].indexOf(key) == 0) {
-				return array[i];
+			if (array[i].name.indexOf(key) == 0) {
+				return array[i].name;
 			}
 		}
 		return "";
@@ -1220,11 +1304,13 @@ function Juliar_interpreter(juliar){
 			var temp = document.createElement("div");
 			temp.className = "realblock";
 			var now = new Date();
-			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006; </span>"+
+			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006;</span>"+
+			"<span onclick='(function(element){var el=element.getElementsByClassName(\"jcontent\")[0];el.style.display = (el.style.display==\"none\")? \"block\": \"none\";})(this.parentNode)' class='juliar_close_btn'> &boxminus; </span>"+
 			"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
-			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr>"+juliar.parser(str);
+			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr><span class='jcontent'>"+juliar.parser(str)+"</span>";
 			target.parentElement.parentNode.insertBefore(temp, target.parentElement);
 			target.value = "";
+			target.parentNode.getElementsByClassName("background")[0].value = "";
 			target.scrollIntoView(true);
 			
 			for(var i=0,j=juliar.index();i<j;i++){
@@ -1241,6 +1327,7 @@ function Juliar_interpreter(juliar){
 					juliar.historyindex = 0;
 				}
 				target.value = juliar.history[juliar.historyindex];
+				target.parentNode.getElementsByClassName("background")[0].value = "";
 				juliar.historyindex += 1;
 			}
 		}
@@ -1250,11 +1337,13 @@ function Juliar_interpreter(juliar){
 					juliar.historyindex = juliar.history.length - 1;
 				}
 				target.value = juliar.history[juliar.historyindex];
+				target.parentNode.getElementsByClassName("background")[0].value = "";
 				juliar.historyindex -= 1;
 			}
 		}
-		else if (/[a-zA-Z0-9]/.test(inp)){ //Alpha
-			if(target.value != "") target.parentNode.getElementsByClassName("background")[0].value = "*"+find(target.value.slice(1),juliar.cache);
+		else if (/[a-zA-Z]/.test(inp) || keyCode == 8){ //Alpha
+			var val = target.value;
+			target.parentNode.getElementsByClassName("background")[0].value = (val != "" && val.length != val.lastIndexOf("*")+1)?  target.value.slice(0,val.lastIndexOf("*")+1)+find(val.slice(val.lastIndexOf("*")+1),juliar.commands) : "";
 		}
 	}
-}																																														
+}																																															
