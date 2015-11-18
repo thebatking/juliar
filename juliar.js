@@ -59,7 +59,7 @@ function Juliar(verbose) {
 	while(i--){
 		for( var x in this.modules[modules[i]]) {
 			if(temp.indexOf(x) == -1 && typeof this.modules[modules[i]][x] === "function") {
-				temp.push({'name':x,'mods':(i>0)? " <em>>> IMPORTED from <strong>"+modules[i] +"</strong><span class='juliar_error'> level: "+i+"</span></em>"  : ""});
+				temp.push({'name':x,'mods':(i>0)? modules[i] : "",'level':i});
 			}
 		}
 	}
@@ -278,7 +278,7 @@ function Juliar_main(juliar){
 		while(i--){
 			for( var x in juliar.modules[modules[i]]) {
 				if(temp.indexOf(x) == -1 && typeof juliar.modules[modules[i]][x] === "function") {
-					temp.push({'name':x,'mods':(i>0)? " <em>>> IMPORTED from <strong>"+modules[i] +"</strong><span class='juliar_error'> level: "+i+"</span></em>"  : ""});
+					temp.push({'name':x,'mods':(i>0)? modules[i]:"",'level':i});
 				}
 			}
 		}
@@ -391,14 +391,25 @@ function Juliar_main(juliar){
 			}
 		}
 	};
-	this.commands = function(str) { //List commands
-		var command = str.trim() || null;
+	this.commands = function(str,args) { //List commands
+		var command = str.trim() || false;
+		var names = [];
+		var keys = Object.keys(juliar.modules);
+		for(var i=0;i<args.length;i++){
+			if(Number(args[i])){
+				names.push(keys[args[i]]);
+			}
+			else if(keys.indexOf(args[i]) != -1){
+				names.push(args[i]);
+			}
+		}
 		var list = juliar.commands;
 		var y = list.length;
 		var functions = "";
 		for(i=0;i<y;i++){
-			if(!command || list[i].name.indexOf(command) == 0){
-				functions += " \\*"+list[i].name +" "+"\\* " + list[i].mods;
+			if((!command && names.length == 0) || (command && list[i].name.indexOf(command) == 0) || (names.indexOf(list[i].mods) != -1)){
+				functions += " \\*"+list[i].name +" "+"\\* ";
+				if(list[i].mods != "") functions += "<em>>> IMPORTED from <strong>"+list[i].mods +"</strong><span class='juliar_error'> level: "+list[i].level+"</span></em>";
 				functions += "<br>";
 			}
 		}
@@ -1259,6 +1270,9 @@ function Juliar_interpreter(juliar){
 			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
 			jselector.addEventListener("keyup", keyUp);
 		}
+		if (sessionStorage.getItem("juliar_interpreter_history")) {
+			juliar.history = sessionStorage.getItem("juliar_interpreter_history").split("*!!!!*");
+		}
 	};
 	this.deleteinterpreter = function(){
 		var x = document.activeElement.parentNode.parentNode;
@@ -1318,6 +1332,11 @@ function Juliar_interpreter(juliar){
 				fileref.textContent =juliar.getcode(i);
 				document.head.appendChild(fileref);
 			}
+			if (sessionStorage.getItem("juliar_interpreter_history")) {
+				sessionStorage.setItem("juliar_interpreter_history", sessionStorage.getItem("juliar_interpreter_history")+"*!!!!*"+str);
+			}else{
+				sessionStorage.setItem("juliar_interpreter_history",str);
+			}
 			document.dispatchEvent(new Event('juliar_done'));
 		}
 		else if (keyCode === 38) {
@@ -1340,9 +1359,13 @@ function Juliar_interpreter(juliar){
 				juliar.historyindex -= 1;
 			}
 		}
+		else if (keyCode == 39){
+			var val = target.value;
+			target.value = val.slice(0,val.lastIndexOf("*")+1) + find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+		}
 		else if (/[a-zA-Z]/.test(inp) || keyCode == 8){ //Alpha
 			var val = target.value;
-			target.parentNode.getElementsByClassName("background")[0].value = (val != "" && val.length != val.lastIndexOf("*")+1)?  target.value.slice(0,val.lastIndexOf("*")+1)+find(val.slice(val.lastIndexOf("*")+1),juliar.commands) : "";
+			target.parentNode.getElementsByClassName("background")[0].value = (val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1)?  target.value.slice(0,val.lastIndexOf("*")+1)+find(val.slice(val.lastIndexOf("*")+1),juliar.commands) : "";
 		}
 	}
 }																																															
