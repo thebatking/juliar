@@ -462,8 +462,9 @@ function Juliar_main(juliar){
 	};
 	//
 	//3D Stuff
-	this.threed = function(str){
-		return "<span style='text-shadow: -0.06em 0 red,  0.06em 0 cyan;'>"+str+"</span>";
+	this.threed = function(str,args){
+		args[0] = args[0] || "0.06em";
+		return "<span style='text-shadow: -"+args[0]+" 0 red,  "+args[0]+" 0 cyan;'>"+str+"</span>";
 	};
 	//
 	//DOM Stuff
@@ -959,7 +960,7 @@ function Juliar_main(juliar){
 		return juliar.setobject(args[0],str);
 	};
 	this.get = function(str) {
-		return juliar.getobject(str);
+		return juliar.getobject(str.trim());
 	};
 	this.fetch = function(str) {
 		var xmlhttp = new XMLHttpRequest();
@@ -969,13 +970,13 @@ function Juliar_main(juliar){
 	};
 	this.dynamicset = function(str,args){
 		var temp = args[0] || null;
-		juliar.code("var h2s = document.getElementsByTagName('juliar_dynamic_"+temp+"');"+
-		"for(var h = 0, length = h2s.length; h < length; h++ ) {h2s[h].innerHTML = str; }");
+		var h2s = document.getElementsByTagName('juliar_dynamic_'+temp);
+		for(var h = 0, length = h2s.length; h < length; h++ ) {h2s[h].innerHTML = str; }
 		juliar.setobject(temp,str);
 		return "<juliar_dynamic_"+temp+">"+str+"</juliar_dynamic_"+temp+">";
 	};
 	this.dynamicget = function(str){
-		return "<juliar_dynamic_"+str+">"+juliar.getobject(str)+"</juliar_dynamic_"+str+">";
+		return "<juliar_dynamic_"+str+">"+juliar.getobject(str.trim())+"</juliar_dynamic_"+str+">";
 	};
 	this.dynammicfetch = function(str){
 		var randomj = "juliar_dynamicfetch_"+juliar.index();

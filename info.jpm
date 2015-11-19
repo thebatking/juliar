@@ -1,5 +1,9 @@
-*name juliar *
+*sha 0 *
+
+*future
+*package juliar *
+*version 1 *
+*release alpha 3 *
 *author AndreiM Lord_Ptolemy Rest of Juliar Team *
 *site http://www.juliar.org *
-*release alpha3 *
-*version 1 *
+*
