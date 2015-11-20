@@ -1018,8 +1018,8 @@ function Juliar_main(juliar){
 	this.kinkelin = function(){
 		return '1.2824271291';
 	};
-	this.gravity = function(str){
-		str = str.trim().toLowerCase();
+	this.gravity = function(str,args){
+		str = args[0] || str.trim().toLowerCase(); 
 		switch(str){
 			case "sun":
 			return 274;
@@ -1253,13 +1253,50 @@ function Juliar_graph(juliar){
 		temp += '</g>';
 		temp += '</svg>';
 		return temp;
-	}
+	};
+	function caretReplace(_s) {
+		if (_s.indexOf("^") > -1) {
+			var tab = [];
+			var powfunc="Math.pow";
+			var juliar = "___juliar___";
+			while (_s.indexOf("(") > -1) {
+				_s = _s.replace(/(\([^\(\)]*\))/g, function(m, t) {
+					tab.push(t);
+					return (juliar + (tab.length - 1));
+				});
+			}
+			
+			tab.push(_s);
+			_s = juliar + (tab.length - 1);
+			while (_s.indexOf(juliar) > -1) {
+				_s = _s.replace(new RegExp(juliar + "(\\d+)", "g"), function(m, d) {
+					return tab[d].replace(/(\w*)\^(\w*)/g, powfunc+"($1,$2)");
+				});
+			}
+		}
+		return _s;
+	};
+	this.derivative = function(str,args){
+		var at = Number(args[0]) || 0;
+		str =  caretReplace(str.trim().replace(/\\\*/g,"*"));
+		var stack = [];
+		var output = "";
+		str = str.replace(/sin/g,"Math.sin").replace(/cos/g,"Math.cos").replace(/tan/g,"Math.tan").replace(/log/g,"Math.log").replace(/sqrt/g,"Math.sqrt");
+		for(var i=0;i<str.length;i++){
+			if(str[i] == "x" && ((!isNaN(parseFloat(str[i-1])) && isFinite(str[i-1])) || (str[i-1] >= "A" && str[i-1] <= "Z") || (str[i-1] >= "a" && str[i-1] <="z") || str[i-1] == ")" )){
+				str= str.slice(0,i) + "*"+str.slice(i++);
+			}
+		}
+		f1 = str.replace(/x/g,at+0.00000000001);
+		f2 = str.replace(/x/g,at);
+		return eval("("+f1+"-"+f2+")/0.00000000001");
+	};
 }
 
 function Juliar_interpreter(juliar){
 	var css = ".juliar-console{width:99%;background-color: white;font-size:21px;color:#aaa;position:relative;margin-left:14px;}";
 	css += ".juliar-console input{font-size:21px;width:100%;margin: 0px;padding:0px;box-shadow: none;}";
-	css += ".juliar-console .background{top:2px;color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
+	css += ".juliar-console .background{color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
 	css += ".juliar-console .bar{line-height:23px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
 	css += "ijuliar{display:inline-block;width:100%;}";
@@ -1275,7 +1312,7 @@ function Juliar_interpreter(juliar){
 	
 	this.clearinterpreter = function(){
 		var ijuliars = document.getElementsByTagName("ijuliar"),len = ijuliars.length;
-		if(len != 0){ juliar.history = [];juliar.historyindex = 0;}
+		if(len != 0){ juliar.history = [];juliar.historyindex = 0;juliar.historytemp = "";}
 		while(len--){
 			var jselector = ijuliars[len];
 			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
@@ -1321,6 +1358,7 @@ function Juliar_interpreter(juliar){
 		var target = e.target;
 		var inp = String.fromCharCode(keyCode);
 		if (keyCode === 13 && target.value != "") {
+			juliar.historytemp = "";
 			juliar.clearcode();
 			var str = target.value;
 			juliar.history.unshift(str);
@@ -1345,38 +1383,104 @@ function Juliar_interpreter(juliar){
 			}
 			if (sessionStorage.getItem("juliar_interpreter_history")) {
 				sessionStorage.setItem("juliar_interpreter_history", sessionStorage.getItem("juliar_interpreter_history")+"*!!!!*"+str);
-			}else{
+				}else{
 				sessionStorage.setItem("juliar_interpreter_history",str);
 			}
 			document.dispatchEvent(new Event('juliar_done'));
 		}
 		else if (keyCode === 38) {
 			if (juliar.history.length !== 0) {
-				if (juliar.historyindex === juliar.history.length) {
+				++juliar.historyindex;
+				if(juliar.historyindex > juliar.history.length){
+					target.value = juliar.historytemp;
 					juliar.historyindex = 0;
 				}
-				target.value = juliar.history[juliar.historyindex];
+				else{
+					target.value = juliar.history[juliar.historyindex-1];
+				}
 				target.parentNode.getElementsByClassName("background")[0].value = "";
-				juliar.historyindex += 1;
 			}
 		}
 		else if (keyCode === 40) {
 			if (juliar.history.length !== 0) {
-				if (juliar.historyindex === -1) {
-					juliar.historyindex = juliar.history.length - 1;
+				--juliar.historyindex;
+				if(juliar.historyindex < 0){
+					juliar.historyindex = juliar.history.length;
+					juliar.history[juliar.historyindex-1];
 				}
-				target.value = juliar.history[juliar.historyindex];
+				else if(juliar.historyindex == 0){
+					target.value = juliar.historytemp;
+				}
+				else{
+					target.value = juliar.history[juliar.historyindex-1];
+				}
 				target.parentNode.getElementsByClassName("background")[0].value = "";
-				juliar.historyindex -= 1;
 			}
 		}
 		else if (keyCode == 39){
 			var val = target.value;
-			target.value = val.slice(0,val.lastIndexOf("*")+1) + find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+			juliar.historytemp = target.value;
+			juliar.historyindex = 0;
+			
+			var currentindex=0, positions = [];
+			var temppos = [];
+			while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
+				if(val[currentindex-1] == "\\");
+				else if (!((nextvalue = val.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+					positions.push(currentindex);
+				}
+				else{
+					if ((lastindex = positions.pop()) === undefined) temppos.push(currentindex);;
+				}
+				++currentindex;
+			}
+			if(val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1 && find(val.slice(val.lastIndexOf("*")+1),juliar.commands) != "") target.value = val.slice(0,val.lastIndexOf("*")+1) + find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+			else if(temppos.length > 0){
+				var position;
+				while(position = temppos.pop()){
+					target.value = target.value.slice(0,position) + target.value.slice(position+1);
+				}
+			}
+			else if(positions.length > 0){
+				var countdown = positions.length;
+				while(countdown--){
+					target.value += " *";
+				}
+			}
 		}
 		else if (/[a-zA-Z]/.test(inp) || keyCode == 8){ //Alpha
 			var val = target.value;
-			target.parentNode.getElementsByClassName("background")[0].value = (val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1)?  target.value.slice(0,val.lastIndexOf("*")+1)+find(val.slice(val.lastIndexOf("*")+1),juliar.commands) : "";
+			juliar.historytemp = target.value;
+			juliar.historyindex = 0;
+			if(val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1){
+				target.parentNode.getElementsByClassName("background")[0].value =  target.value.slice(0,val.lastIndexOf("*")+1)+find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+				var currentindex=0, positions = [];
+				var negcount =0;
+				while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
+					if(val[currentindex-1] == "\\");
+					else if (!((nextvalue = val.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+						positions.push(currentindex);
+					}
+					else{
+						if ((lastindex = positions.pop()) === undefined) negcount++;
+					}
+					++currentindex;
+				}
+				if(negcount){
+					target.parentNode.getElementsByClassName("background")[0].value += " <<ERROR: There are "+negcount+" misplaced *";
+					}else if(positions.length > 0){
+					var countdown = positions.length;
+					while(countdown--){
+						target.parentNode.getElementsByClassName("background")[0].value += " *";
+					}
+				}
+			}
+			else{
+				target.parentNode.getElementsByClassName("background")[0].value = "";
+			}
+		}
+		else{
+			juliar.historytemp = target.value;
 		}
 	}
 }																																															
