@@ -1384,6 +1384,7 @@ function Juliar_interpreter(juliar){
 	css += "ijuliar .realblock:hover .juliar_close_btn{display:block;}";
 	css += "ijuliar .juliar_close_btn{float:right;font-size:14px;cursor:pointer;color:#9b9da2;display:none;padding: 0px 20px}";
 	css += "ijuliar .juliar_close_btn:hover{background-color:#40454f;color:white;}";
+	css += "ijuliar .jcontent{transition: opacity 0.5s linear;opacity: 1;height:auto}";
 	juliar.css(css);
 	
 	this.clearinterpreter = function(){
@@ -1443,9 +1444,9 @@ function Juliar_interpreter(juliar){
 			temp.className = "realblock";
 			var now = new Date();
 			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006;</span>"+
-			"<span onclick='(function(element){var el=element.getElementsByClassName(\"jcontent\")[0];el.style.display = (el.style.display==\"none\")? \"block\": \"none\";})(this.parentNode)' class='juliar_close_btn'> &boxminus; </span>"+
+			"<span onclick='(function(element){var el=element.getElementsByClassName(\"jcontent\")[0];if(el.style.opacity == 0){el.style.opacity=1;el.style.height=\"auto\";}else{el.style.opacity=0;el.style.height=0;}})(this.parentNode)' class='juliar_close_btn'> &boxminus; </span>"+
 			"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
-			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr><span class='jcontent'>"+juliar.parser(str)+"</span>";
+			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr><div class='jcontent'>"+juliar.parser(str)+"</div>";
 			target.parentElement.parentNode.insertBefore(temp, target.parentElement);
 			target.value = "";
 			target.parentNode.getElementsByClassName("background")[0].value = "";
