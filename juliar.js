@@ -1510,7 +1510,8 @@ function Juliar_interpreter(juliar){
 				}
 				++currentindex;
 			}
-			if(val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1 && find(val.slice(val.lastIndexOf("*")+1),juliar.commands) != "") target.value = val.slice(0,val.lastIndexOf("*")+1) + find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+			var foundunit = find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+			if(val.length > 1 && val.length > val.lastIndexOf("*")+1 && foundunit != "" && val.slice(val.lastIndexOf("*")).length < 1+foundunit.length) target.value = val.slice(0,val.lastIndexOf("*")+1) + foundunit;
 			else if(temppos.length > 0){
 				var position;
 				while(position = temppos.pop()){
@@ -1523,13 +1524,20 @@ function Juliar_interpreter(juliar){
 					target.value += " *";
 				}
 			}
+			target.parentNode.getElementsByClassName("background")[0].value = "";
 		}
-		else if (/[a-zA-Z]/.test(inp) || keyCode == 8){ //Alpha
+		else{
 			var val = target.value;
 			juliar.historytemp = target.value;
 			juliar.historyindex = 0;
 			if(val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1){
-				target.parentNode.getElementsByClassName("background")[0].value =  target.value.slice(0,val.lastIndexOf("*")+1)+find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+				var foundcomm = find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+				if(foundcomm){
+					target.parentNode.getElementsByClassName("background")[0].value =  target.value.slice(0,val.lastIndexOf("*")+1)+foundcomm;
+				}
+				else{
+					target.parentNode.getElementsByClassName("background")[0].value = target.value;
+				}
 				var currentindex=0, positions = [];
 				var negcount =0;
 				while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
@@ -1544,19 +1552,17 @@ function Juliar_interpreter(juliar){
 				}
 				if(negcount){
 					target.parentNode.getElementsByClassName("background")[0].value += " <<ERROR: There are "+negcount+" misplaced *";
-					}else if(positions.length > 0){
-					var countdown = positions.length;
-					while(countdown--){
-						target.parentNode.getElementsByClassName("background")[0].value += " *";
-					}
+				}
+				else if(positions.length > 0){
+					countdown = positions.length;
+					tempstr = "";
+					while(countdown--)  tempstr += " *";
+					target.parentNode.getElementsByClassName("background")[0].value += tempstr;
 				}
 			}
 			else{
 				target.parentNode.getElementsByClassName("background")[0].value = "";
 			}
-		}
-		else{
-			juliar.historytemp = target.value;
 		}
 	}
 }
