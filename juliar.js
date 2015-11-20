@@ -856,6 +856,54 @@ function Juliar_main(juliar){
 		var d = new Date().getTimezoneOffset()/60;
 		return d > 0 ? "GMT-"+d : 'GMT+'.Math.abs(d); 
 	};
+	this.ip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).query;
+	};
+	this.zipfromip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).zip;
+	};
+	this.zonefromip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).timezone;
+	};
+	this.regionfromip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).regionName;
+	};
+	this.locationfromip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).lat +" "+ JSON.parse(xmlhttp.responseText).lon;
+	};
+	this.countryfromip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).country;
+	};
+	this.cityfromip = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).city;
+	};
+	this.internetserviceprovider = function(str) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+		xmlhttp.send();
+		return JSON.parse(xmlhttp.responseText).isp;
+	};
 	//
 	//News Related
 	this.newsbanner = function(str,args){
