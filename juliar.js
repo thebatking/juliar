@@ -826,8 +826,8 @@ function Juliar_main(juliar){
 		return "<span style='border: "+size+"px "+style+" "+color+"'>"+str+"</span>";
 	};
 	this.outline = function(str,args){
-	var temp = args[0] || 'orange';
-	return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
+		var temp = args[0] || 'orange';
+		return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
 	};
 	this.blink = function(str,args){
 		var sec = args[0] || 2;
@@ -1284,6 +1284,30 @@ function Juliar_main(juliar){
 	this.trash = function(){
 		return juliar.getobject('null') || juliar.getobject('undefined');
 	};
+	//Experimental
+	this.newwindow = function(str){
+		str = str || "http://www.juliar.org"; window.open(str,"newWindow");
+		return "Opened "+str+" in new window!";
+	};
+	this.warnonclose = function(str,args){
+		str = str.trim() || args[0] || true;
+		if(JSON.parse(str) != false){
+			window.onbeforeunload = function (e) {
+				var e = e || window.event;
+				if (e) {
+					e.returnValue = 'Are you sure?';
+				}
+				return 'Are you sure?';
+			};
+			return "Browser will warn on close!";
+		}
+		window.onbeforeunload = "";
+		return "Browser will normally close!";
+	};
+	this.urlparameters = function(){
+		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		return (results && results[1]) || undefined;
+	};
 }
 function Juliar_graph(juliar){
 	this.graph = function(str,args){
@@ -1535,4 +1559,4 @@ function Juliar_interpreter(juliar){
 			juliar.historytemp = target.value;
 		}
 	}
-}																																															
+}
