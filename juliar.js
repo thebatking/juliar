@@ -898,7 +898,7 @@ function Juliar_main(juliar){
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).city;
 	};
-	this.internetserviceprovider = function(str) {
+	this.isp = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
