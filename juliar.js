@@ -815,6 +815,10 @@ function Juliar_main(juliar){
 		var temp = args[0] || "X";
 		return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
 	};
+	this.reverse = function(str){
+		for (var i = str.length, o = ''; i > 0; o += str[--i]);
+		return o;
+	};
 	this.border = function(str,args){
 		var color = args[0] || "black";
 		var size = args[1] || 1;
@@ -822,8 +826,8 @@ function Juliar_main(juliar){
 		return "<span style='border: "+size+"px "+style+" "+color+"'>"+str+"</span>";
 	};
 	this.outline = function(str,args){
-		var temp = args[0] || 'orange';
-		return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
+	var temp = args[0] || 'orange';
+	return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
 	};
 	this.blink = function(str,args){
 		var sec = args[0] || 2;
