@@ -341,11 +341,11 @@ function Juliar_main(juliar){
 					}
 				}
 				reader.readAsText(f);
+				fileref.parentNode.removeChild(fileref);
 			}
 			document.body.appendChild(fileref);
 			fileref.click();
-			fileref.parentNode.removeChild(fileref);
-			return "Let's try to import "+(str || "the file")+" locally...";
+			return "Let's try to import "+("<em>'"+str+"'</em>" || "the file")+" locally...";
 		}
 		else{
 			if(ext == "juliar"){
@@ -1520,9 +1520,9 @@ function Juliar_interpreter(juliar){
 			temp.className = "realblock";
 			var now = new Date();
 			temp.innerHTML = "<span onclick='(function(element){element.parentNode.removeChild(element);})(this.parentNode)' class='juliar_close_btn'> &#10006;</span>"+
-			"<span onclick='(function(element){var el=element.getElementsByClassName(\"jcontent\")[0];if(el.style.opacity == 0){el.style.opacity=1;el.style.height=\"auto\";}else{el.style.opacity=0;el.style.height=0;}})(this.parentNode)' class='juliar_close_btn'> &boxminus; </span>"+
+			"<span onclick='(function(element){var el=element.getElementsByClassName(\"jcontent\")[0];if(el.style.opacity == 1){el.style.opacity=0;el.style.height=0;}else{el.style.opacity=1;el.style.height=\"auto\";}})(this.parentNode)' class='juliar_close_btn'> &boxminus; </span>"+
 			"<span class='time'>"+("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2)+"</span>"+
-			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr><div class='jcontent'>"+juliar.parser(str)+"</div>";
+			"<div class='commandused' onclick='(function(element){var el = element.parentNode.parentNode.getElementsByClassName(\"foreground\")[0];el.value = element.innerHTML;el.focus();})(this)'>"+str+"</div><hr><div class='jcontent' style='opacity:1'>"+juliar.parser(str)+"</div>";
 			target.parentElement.parentNode.insertBefore(temp, target.parentElement);
 			target.value = "";
 			target.parentNode.getElementsByClassName("background")[0].value = "";
