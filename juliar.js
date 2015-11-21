@@ -29,7 +29,7 @@ function Juliar(verbose) {
 	this.deleteobject = function(obj){if(objects[obj]){objects[obj] = undefined;return true;}return false;};
 	//END OF NOT TESTED
 	//MODULES
-	this.modules = {"main": new Juliar_main(this),"graph": new Juliar_graph, "interpreter": new Juliar_interpreter(this)};
+	this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this)};
 	//
 	var juliars = document.getElementsByTagName("juliar");
 	for (var i = 0, juliar_length = juliars.length; i < juliar_length; i++) {
@@ -983,6 +983,12 @@ function Juliar_main(juliar){
 		return "<h1 style='text-align:center'>" + str + "</h1>";
 	};
 	
+	this.decimalcount = function(str){
+		var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+		if (!match) { return 0; }
+		return Math.max(0,(match[1] ? match[1].length : 0)- (match[2] ? +match[2] : 0));
+	};
+	
 	this.author = function(str) {
 		return "<h2 style='text-align:center'>" + str + "</h2>";
 	};
@@ -1045,6 +1051,10 @@ function Juliar_main(juliar){
 	//constants
 	this.e = function(str) {
 		return Math.exp(Number(str) || 1);
+	};
+	this.log = function(str,args){
+		if(!args[0]) return Math.log(Number(str) || 1);
+		return Math.log(Number(str) || 1)/Math.log(Number(args[0]) || 10);
 	};
 	this.pi = function() {
 		return '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089';
@@ -1255,7 +1265,7 @@ function Juliar_main(juliar){
 	this.remainder = function(str){
 		var temp;
 		str.split(" ").forEach(function(element) {
-			Number(element)&&(temp=null==temp?Number(element):temp%Number(element));
+			Number(element)&&(temp=null==temp?Number(element):((temp%(Number(element)))+Number(element))%Number(element));
 		});
 		return temp;
 	};
@@ -1279,6 +1289,32 @@ function Juliar_main(juliar){
 			Number(element)&&(temp=null==temp?Number(element):temp-Number(element));
 		});
 		return temp;
+	};
+	function gcdcalc(a, b)
+	{
+		while (b > 0)
+		{
+			var temp = b;
+			b = a % b; // % is remainder
+			a = temp;
+		}
+		return a;
+	}
+	this.gcd = function(str,args){
+		var input = str.trim().split(" ");
+		var result = input[0];
+		for(var i = 1; i < input.length; i++) result = gcdcalc(result, input[i]);
+		return result;
+	};
+	function lcmcalc(a,b)
+	{
+		return a * (b / gcdcalc(a, b));
+	}
+	this.lcm = function(str,args){
+		var input = str.trim().split(" ");
+		var result = input[0];
+		for(var i = 1; i < input.length; i++) result = lcmcalc(result, input[i]);
+		return result;
 	};
 	////
 	this.trash = function(){
@@ -1309,6 +1345,7 @@ function Juliar_main(juliar){
 		return (results && results[1]) || undefined;
 	};
 }
+
 function Juliar_graph(juliar){
 	this.graph = function(str,args){
 		//Test of generating x^2
@@ -1330,27 +1367,22 @@ function Juliar_graph(juliar){
 		temp += '</svg>';
 		return temp;
 	};
-	function caretReplace(_s) {
-		if (_s.indexOf("^") > -1) {
-			var tab = [];
-			var powfunc="Math.pow";
-			var juliar = "___juliar___";
-			while (_s.indexOf("(") > -1) {
-				_s = _s.replace(/(\([^\(\)]*\))/g, function(m, t) {
-					tab.push(t);
-					return (juliar + (tab.length - 1));
+	function caretReplace(a) {
+		if (-1 < a.indexOf("^")) {
+			for (var c = [];-1 < a.indexOf("(");) {
+				a = a.replace(/(\([^\(\)]*\))/g, function(a, b) {
+					c.push(b);
+					return "___juliar___" + (c.length - 1);
 				});
 			}
-			
-			tab.push(_s);
-			_s = juliar + (tab.length - 1);
-			while (_s.indexOf(juliar) > -1) {
-				_s = _s.replace(new RegExp(juliar + "(\\d+)", "g"), function(m, d) {
-					return tab[d].replace(/(\w*)\^(\w*)/g, powfunc+"($1,$2)");
+			c.push(a);
+			for (a = "___juliar___" + (c.length - 1);-1 < a.indexOf("___juliar___");) {
+				a = a.replace(RegExp("___juliar___(\\d+)", "g"), function(a, b) {
+					return c[b].replace(/(\w*)\^(\w*)/g, "Math.pow($1,$2)");
 				});
 			}
 		}
-		return _s;
+		return a;
 	};
 	this.derivative = function(str,args){
 		var at = Number(args[0]) || 0;
@@ -1367,6 +1399,50 @@ function Juliar_graph(juliar){
 		f2 = str.replace(/x/g,at);
 		return eval("("+f1+"-"+f2+")/0.00000000001");
 	};
+	function dotproduct(n,r){for(var t=0,u=Math.min(n.length,r.length),e=0;u>e;e++)t+=n[e]*r[e];return t}
+	function log(n){return Math.log(n)}function exp(n){return Math.exp(n)}
+	function transpose(n){return n[0].map(function(r,t){return n.map(function(r,u){return n[u][t]})})}
+	function multiplyMatrices(){var n=Array.prototype.slice.call(arguments,0),r=transpose(n.pop()),t=n.length>1?multiplyMatrices(n):n[0];return t.map(function(n){return r.map(function(r){return r.reduce(function(r,t,u){return r+t*n[u]},0)})})}
+	function zeros(n,r){for(var t=[],u=[];r--;)u.push(0);for(;n--;)t.push(u.slice(0));return t}
+	function inv(f){if(f.length===f[0].length){var r=0,n=0,o=0,e=f.length,t=0,i=[],g=[];for(r=0;e>r;r+=1)for(i[i.length]=[],g[g.length]=[],o=0;e>o;o+=1)i[r][o]=r==o?1:0,g[r][o]=f[r][o];for(r=0;e>r;r+=1){if(t=g[r][r],0==t){for(n=r+1;e>n;n+=1)if(0!=g[n][r]){for(o=0;e>o;o++)t=g[r][o],g[r][o]=g[n][o],g[n][o]=t,t=i[r][o],i[r][o]=i[n][o],i[n][o]=t;break}if(t=g[r][r],0==t)return}for(o=0;e>o;o++)g[r][o]=g[r][o]/t,i[r][o]=i[r][o]/t;for(n=0;e>n;n++)if(n!=r)for(t=g[n][r],o=0;e>o;o++)g[n][o]-=t*g[r][o],i[n][o]-=t*i[r][o]}return i}}
+	function sumMatrices(){for(var r,e,n=arguments,t=[],u=n[0].length,a=n.length,f=0;u>f;){for(r=0,e=0;a>e;)r+=Number(n[e++][f]);t[f++]=r}return t}
+	function mean(a){
+		var count=0;
+		var length = a.length;
+		for (var i=a.length; i--;) {
+			if(a[i] == null){
+				length--;
+			}
+			else{
+				count+=Number(a[i]);
+			}
+		}
+		if(length > 0 ) return count/length;
+		return null;
+	}
+	
+	function standardDeviation(a){
+		a = a.filter(Number);
+		n = a.length;
+		var avg = mean(a);
+		var squareDiffs = a.map(function(value){
+			var diff = value - avg;
+			var sqrDiff = diff * diff;
+			return sqrDiff;
+		});
+		var count=0;
+		for (var i=squareDiffs.length; i--;) {
+			count+=squareDiffs[i];
+		}
+		var avgSquareDiff = count/(n-1);
+		if(isNaN(avgSquareDiff)) return null;
+		return Math.sqrt(avgSquareDiff);
+	}
+	function standarderror(a){
+		var x = standardDeviation(a);
+		if(x == null) return null;
+		return x/Math.sqrt(a.length);
+	}
 }
 
 function Juliar_interpreter(juliar){

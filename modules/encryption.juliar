@@ -600,8 +600,7 @@ function Juliar_encryption(juliar){
 			}
 		}
         return hex(md51(str));
-	}
-	
+	};
 	this.l33tencode = function(str){
 		var output = "";
 		var escaper = 0;
@@ -611,29 +610,91 @@ function Juliar_encryption(juliar){
 			else if(escaper === 0 && str[i].match(/[a-z]/i)){
 				var temp = eval("l33t_"+str[i].toLowerCase());
 				output += temp[Math.random() * temp.length|0]
-				}
-				else {output += str[i];}
+			}
+			else {output += str[i];}
 			if(str[i] == '>') escaper = 0;
 		}
 		return output; 
-	}
-	
+	};
 	this.encrypt = function(str,args){
 		var key = args[0] || 'juliarrandomtestkey';
 		var bf = new Blowfish(key);
 		return bf.encrypt(str);
-	}
+	};
 	this.decrypt = function(str,args){
 		var key = args[0] || 'juliarrandomtestkey';
 		var bf = new Blowfish(key);
 		return bf.decrypt(str).replace(new RegExp("[0]+$"),"");
-	}
-	this.password = function(length) {
-		length = length || 16;
+	};
+	this.password = function(str) {
+		str = str || 16;
 		var temp = "";
-		while (length--) {
+		while (str--) {
 			temp += String.fromCharCode(((Math.random() * new Date().getTime()) % 94) + 33);
 		}
 		return temp.replace(/[\*<]/g, '!');
-	}
+	};
+	this.rot = function(str,args) {
+		var rotation = Number(args[0]) || 13;
+		rotation = rotation % 26;
+		return str.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+rotation)?c:c-26);});
+	};
+	this.unrot = function(str,args) {
+		var rotation = Number(args[0]) || 13;
+		rotation = (26 - rotation) % 26;
+		return str.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+rotation)?c:c-26);});
+	};
+	this.affine = function(str,args){
+		var slope = Number(args[0]) || 5;
+		slope = slope%2? slope: slope+1;
+		var adj = Number(args[1]) || 8;
+		return str.replace(/[a-zA-Z]/g,function(c){
+			if(c.charCodeAt(0)<97){
+				return String.fromCharCode(((slope*(c.charCodeAt(0)-65)+adj)%26)+65);
+			}
+			return String.fromCharCode(((slope*(c.charCodeAt(0)-97)+adj)%26)+97);
+		});
+	};
+	this.unaffine = function(str,args){
+		var slope = Number(args[0]) || 5;
+		var adj = Number(args[1]) || 8;
+		return str.replace(/[a-zA-Z]/g,function(c){
+			if(c.charCodeAt(0)<97){
+				return String.fromCharCode((((((26-slope)*(c.charCodeAt(0)-65-adj))%26)+26)%26)+65);
+			}
+			return String.fromCharCode((((((26-slope)*(c.charCodeAt(0)-97-adj))%26)+26)%26)+97);
+		});
+	};
+	this.subcipher = function(str,args){
+		if(args.length % 2) return "<span class='juliar_error'>Uneven number of arguments</span>";
+		return str.replace(/[a-zA-Z]/g,function(c){
+			for(var j=0,length=args.length;j<length;j+=2){
+				if(c==args[j]) return args[j+1];
+				else if(c==args[j+1]) return args[j];
+			}
+			return c;
+		});
+		return str;
+	};
+	this.unsubcipher = function(str,args){
+		if(args.length % 2) return "<span class='juliar_error'>Uneven number of arguments</span>";
+		return str.replace(/[a-zA-Z]/g,function(c){
+			for(var j=1,length=args.length;j<=length+1;j+=2){
+				if(c==args[j]) return args[j-1];
+				else if(c==args[j-1]) return args[j];
+			}
+			return c;
+		});
+		return str;
+	};
+	this.cipherreverse = function(str){
+		var arrays = str.trim().split(" ");
+		var temp = [];
+		for(var i=0,length=arrays.length;i<length;i++){
+			str = arrays[i];
+			for (var j = str.length, o = ''; j > 0; o += str[--j]);
+			temp.push(o);
+		}
+		return temp.join(" ");
+	};
 }
