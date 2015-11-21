@@ -302,7 +302,7 @@ function Juliar_main(juliar){
 		var alias = args[0] || null;
 		if(str.trim() === "") return "<juliar_error>You Did not specify what to import! Cannot Continue to Import</juliar_error>";
 		var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
-		var name = str.split("/").pop();
+		var name = str.trim().split("/").pop();
 		if(ext == "juliar" && eval("typeof Juliar_"+name) == "function"){ //cache
 			delete juliar.modules[name];
 			alias? juliar.modules[alias] = eval("new Juliar_"+name) : juliar.modules[name] = eval("new Juliar_"+name); 
@@ -364,7 +364,7 @@ function Juliar_main(juliar){
 				fileref.type = "text/javascript";
 				fileref.textContent = http.responseText;
 				document.head.appendChild(fileref);
-				alias? juliar.modules[name] = eval("new Juliar_"+name) : juliar.modules[alias] = eval("new Juliar_"+name); 
+				(alias)? juliar.modules[alias] = eval("new Juliar_"+name) : juliar.modules[name] = eval("new Juliar_"+name); 
 				countcommands();
 				return "Successfully imported module '"+name+"'";
 			}
@@ -1559,7 +1559,7 @@ function Juliar_interpreter(juliar){
 				--juliar.historyindex;
 				if(juliar.historyindex < 0){
 					juliar.historyindex = juliar.history.length;
-					juliar.history[juliar.historyindex-1];
+					target.value = juliar.history[juliar.historyindex-1];
 				}
 				else if(juliar.historyindex == 0){
 					target.value = juliar.historytemp;
