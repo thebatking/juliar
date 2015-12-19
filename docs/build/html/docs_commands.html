@@ -24,8 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="JuliarLang 0.0.3 documentation" href="index.html" />
-    <link rel="next" title="&lt;no title&gt;" href="docs_createmodule.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="docs_troubleshooting.html" /> 
+    <link rel="prev" title="Get Started" href="docs_gettingstarted.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -35,10 +34,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="docs_createmodule.html" title="&lt;no title&gt;"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="docs_troubleshooting.html" title="&lt;no title&gt;"
+          <a href="docs_gettingstarted.html" title="Get Started"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">JuliarLang 0.0.3 documentation</a> &raquo;</li> 
       </ul>
@@ -53,26 +49,11 @@
 <h1>Get Started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="about-commands">
 <h2>About Commands<a class="headerlink" href="#about-commands" title="Permalink to this headline">¶</a></h2>
-<p>Usually each command requires an input i.e. <a href="#id1"><span class="problematic" id="id2">*</span></a>+ 2 2 * where 2 2 is the input. Most of the commands also allow &#8220;Optional&#8221; arguments (although some imported libraries
-may make arguments required). The optional arguments are denoted with = after the command i.e. <a href="#id3"><span class="problematic" id="id4">*</span></a>block=500px hello * where 500px is the first command. You can pass in
-as many commands as you desire...NOTE you are not allowed to have spaces in the arguments. In order to have spaces, you must use <a href="#id5"><span class="problematic" id="id6">*</span></a>cw * or <a href="#id7"><span class="problematic" id="id8">*</span></a>convertwhitespace * i.e.
-<a href="#id9"><span class="problematic" id="id10">*</span></a>mail=Andrei M <a class="reference external" href="mailto:andreim&#37;&#52;&#48;123&#46;com">andreim<span>&#64;</span>123<span>&#46;</span>com</a> * will display <cite>Andrei</cite> and will try to mail to <cite>M andreim&#64;123.com</cite> This is not the result that we want. Therefore,
-We can use <a href="#id11"><span class="problematic" id="id12">*</span></a>mail=*cw Andrei M * <a class="reference external" href="mailto:andreim&#37;&#52;&#48;123&#46;com">andreim<span>&#64;</span>123<span>&#46;</span>com</a> * to fix this.</p>
 </div>
 <div class="section" id="list-of-commands">
 <h2>List of Commands<a class="headerlink" href="#list-of-commands" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="block">
-<h3><a href="#id13"><span class="problematic" id="id14">*</span></a>block *<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h3>
-<p>Description:<code class="docutils literal"><span class="pre">Takes</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">content,</span> <span class="pre">and</span> <span class="pre">puts</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">inside</span> <span class="pre">a</span> <span class="pre">block(box)</span> <span class="pre">``</span>
-<span class="pre">Input:``Content</span> <span class="pre">of</span> <span class="pre">what</span> <span class="pre">to</span> <span class="pre">put</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">block</span></code>
-Arguments:<code class="docutils literal"><span class="pre">width</span></code> (optional)</p>
-<p>Example(s):
-<code class="docutils literal"><span class="pre">*block=500px</span> <span class="pre">hello</span> <span class="pre">*</span></code>
-Return:
-<code class="docutils literal"><span class="pre">block</span> <span class="pre">content</span></code></p>
-</div>
-<div class="section" id="id17">
-<h3><a href="#id15"><span class="problematic" id="id16">*</span></a>block *<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">*block</span> <span class="pre">*</span></code><a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h3>
 <p>Description:<code class="docutils literal"><span class="pre">Takes</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">content,</span> <span class="pre">and</span> <span class="pre">puts</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">inside</span> <span class="pre">a</span> <span class="pre">block(box)</span> <span class="pre">``</span>
 <span class="pre">Input:``Content</span> <span class="pre">of</span> <span class="pre">what</span> <span class="pre">to</span> <span class="pre">put</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">block</span></code>
 Arguments:<code class="docutils literal"><span class="pre">width</span></code> (optional)</p>
@@ -95,8 +76,7 @@ Return:
 <li><a class="reference internal" href="#">Get Started</a><ul>
 <li><a class="reference internal" href="#about-commands">About Commands</a></li>
 <li><a class="reference internal" href="#list-of-commands">List of Commands</a><ul>
-<li><a class="reference internal" href="#block">*block *</a></li>
-<li><a class="reference internal" href="#id17">*block *</a></li>
+<li><a class="reference internal" href="#block"><code class="docutils literal"><span class="pre">*block</span> <span class="pre">*</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -104,11 +84,8 @@ Return:
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="docs_troubleshooting.html"
-                        title="previous chapter">&lt;no title&gt;</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="docs_createmodule.html"
-                        title="next chapter">&lt;no title&gt;</a></p>
+  <p class="topless"><a href="docs_gettingstarted.html"
+                        title="previous chapter">Get Started</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -140,10 +117,7 @@ Return:
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="docs_createmodule.html" title="&lt;no title&gt;"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="docs_troubleshooting.html" title="&lt;no title&gt;"
+          <a href="docs_gettingstarted.html" title="Get Started"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">JuliarLang 0.0.3 documentation</a> &raquo;</li> 
       </ul>
