@@ -194,6 +194,10 @@ function Juliar_main(juliar){
 		}
 		return output;
 	};
+	this.factorial = (str,args) => {
+		args[0] = args[0] || 1;
+		return (parseInt(str) <= 1)? parseInt(args[0]) : this.factorial(parseInt(str) - 1, [parseInt(args[0]) * parseInt(str)]);
+	};
 	this.evaluate = str => eval(str);
 	this.condition = (str,args) => {
 		if(args[0] === undefined) return str;
@@ -1365,7 +1369,7 @@ function Juliar_interpreter(juliar){
 		fileref.parentNode.removeChild(fileref);
 		return "Downloading content from interpreter";
 	};
-	function find(key, array) {  //Alpha Find
+	function find(key, array) {
 		for (var i = 0; i < array.length; i++) {
 			if (array[i].name.indexOf(key) == 0) {
 				return array[i].name;
