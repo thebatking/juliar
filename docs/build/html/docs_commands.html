@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>List of Commands &mdash; JuliarLang 0.0.3 documentation</title>
+    <title>All Commands &mdash; JuliarLang 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -45,37 +45,1304 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="list-of-commands">
-<h1>List of Commands<a class="headerlink" href="#list-of-commands" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="all-commands">
+<h1>All Commands<a class="headerlink" href="#all-commands" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="absolute">
 <h2>*absolute *<a class="headerlink" href="#absolute" title="Permalink to this headline">¶</a></h2>
-<p>Description:<code class="docutils literal"><span class="pre">Takes</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">numbers,</span> <span class="pre">and</span> <span class="pre">outputs</span> <span class="pre">the</span> <span class="pre">absolute</span> <span class="pre">numbers</span></code></p>
-<p>Input:<code class="docutils literal"><span class="pre">Numbers</span></code></p>
+<p>Description: Takes in the numbers, and outputs the absolute numbers.</p>
+<p>Input: Numbers</p>
 <p>Arguments: NONE</p>
 <p>Example(s):
 <code class="docutils literal"><span class="pre">*absolute</span> <span class="pre">-1</span> <span class="pre">2</span> <span class="pre">-3</span> <span class="pre">-5</span> <span class="pre">50</span> <span class="pre">*</span></code></p>
-<p>Return:
+<p>Returns:
 <code class="docutils literal"><span class="pre">1</span> <span class="pre">2</span> <span class="pre">3</span> <span class="pre">5</span> <span class="pre">50</span></code></p>
 </div>
 <div class="section" id="acos">
 <h2>*acos *<a class="headerlink" href="#acos" title="Permalink to this headline">¶</a></h2>
-<p>Description:<code class="docutils literal"><span class="pre">Takes</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">a</span> <span class="pre">decimal,</span> <span class="pre">and</span> <span class="pre">finds</span> <span class="pre">the</span> <span class="pre">base</span> <span class="pre">of</span> <span class="pre">arccos</span></code></p>
-<p>Input:<code class="docutils literal"><span class="pre">A</span> <span class="pre">decimal</span></code></p>
+<p>Description: Takes in the a decimal, and finds the inverse of cosine.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*acos</span> <span class="pre">.5</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.0471975511965979</span></code></p>
+</div>
+<div class="section" id="acosh">
+<h2>*acosh *<a class="headerlink" href="#acosh" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in the a decimal, and finds the inverse of hyperbolic cosine function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*acosh</span> <span class="pre">*pi*</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.8115262724608532</span></code></p>
+</div>
+<div class="section" id="acotanh">
+<h2>*acotanh *<a class="headerlink" href="#acotanh" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of hyperbolic cotangent function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*acotanh</span> <span class="pre">*pi*</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.3297653149566992</span></code></p>
+</div>
+<div class="section" id="acsch">
+<h2>*acsch *<a class="headerlink" href="#acsch" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of hyperbolic cosecant function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*acsch</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.8813735870195429</span></code></p>
+</div>
+<div class="section" id="add-or">
+<h2>*add * or *+ *<a class="headerlink" href="#add-or" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in numbers and adds them all together.</p>
+<p>Input: Number or Numbers</p>
 <p>Arguments: NONE</p>
 <p>Example(s):
-<code class="docutils literal"><span class="pre">*acos</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
-<p>Return:
-<code class="docutils literal"><span class="pre">0</span></code></p>
+<code class="docutils literal"><span class="pre">*add</span> <span class="pre">3</span> <span class="pre">2</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*+</span> <span class="pre">5</span> <span class="pre">2</span> <span class="pre">6</span> <span class="pre">8</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">5</span></code>
+<code class="docutils literal"><span class="pre">21</span></code></p>
+</div>
+<div class="section" id="alternatecase">
+<h2>*alternatecase *<a class="headerlink" href="#alternatecase" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in a string, and switches uppercase letters to lowercase letters and vice versa.</p>
+<p>Input: String</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*alternatecase</span> <span class="pre">Hello</span> <span class="pre">22</span> <span class="pre">worlD</span> <span class="pre">HoW</span> <span class="pre">ArE</span> <span class="pre">U</span> <span class="pre">today</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">hELLO</span> <span class="pre">22</span> <span class="pre">WORLd</span> <span class="pre">hOw</span> <span class="pre">aRe</span> <span class="pre">u</span> <span class="pre">TODAY</span></code></p>
+</div>
+<div class="section" id="and">
+<h2>*and *<a class="headerlink" href="#and" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in values, if all values evaluate to true returns true, if one of the values evaluate to false returns false.</p>
+<p>Input: Booleans or Strings or Numbers</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*and</span> <span class="pre">true</span> <span class="pre">1</span> <span class="pre">55</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*and</span> <span class="pre">true</span> <span class="pre">0</span> <span class="pre">55</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*and</span> <span class="pre">true</span> <span class="pre">55</span> <span class="pre">false</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code>
+<code class="docutils literal"><span class="pre">false</span></code>
+<code class="docutils literal"><span class="pre">false</span></code></p>
+</div>
+<div class="section" id="aperys">
+<h2>*aperys *<a class="headerlink" href="#aperys" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns Apery&#8217;s constant.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*aperys</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.2020569</span></code></p>
+</div>
+<div class="section" id="arccos">
+<h2>*arccos *<a class="headerlink" href="#arccos" title="Permalink to this headline">¶</a></h2>
+<p>Alias: acos
+Description: Takes in the a decimal, and finds the inverse of cosine.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arccos</span> <span class="pre">.5</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.0471975511965979</span></code></p>
+</div>
+<div class="section" id="arccosecant">
+<h2>*arccosecant *<a class="headerlink" href="#arccosecant" title="Permalink to this headline">¶</a></h2>
+<p>Alias: arccsc
+Description: Takes in the a decimal, and finds the inverse of cosecant.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arccosecant</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.5707963267948966</span></code></p>
+</div>
+<div class="section" id="arccot">
+<h2>*arccot *<a class="headerlink" href="#arccot" title="Permalink to this headline">¶</a></h2>
+<p>Alias: arccotangent
+Description: Takes in the a decimal, and finds the inverse of cotangent.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arccot</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.7853981633974483</span></code></p>
+</div>
+<div class="section" id="arccotangent">
+<h2>*arccotangent *<a class="headerlink" href="#arccotangent" title="Permalink to this headline">¶</a></h2>
+<p>Alias: arccot
+Description: Takes in the a decimal, and finds the inverse of cotangent.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arccotangent</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.7853981633974483</span></code></p>
+</div>
+<div class="section" id="arccsc">
+<h2>*arccsc *<a class="headerlink" href="#arccsc" title="Permalink to this headline">¶</a></h2>
+<p>Alias: arccosecant
+Description: Takes in the a decimal, and finds the inverse of cosecant.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arccsc</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.5707963267948966</span></code></p>
+</div>
+<div class="section" id="arcsec">
+<h2>*arcsec *<a class="headerlink" href="#arcsec" title="Permalink to this headline">¶</a></h2>
+<p>Alias: arcsecant
+Description: Takes in the a decimal, and finds the inverse of secant.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arcsec</span> <span class="pre">2</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.0471975511965979</span></code></p>
+</div>
+<div class="section" id="arcsecant">
+<h2>*arcsecant *<a class="headerlink" href="#arcsecant" title="Permalink to this headline">¶</a></h2>
+<p>Alias: arcsec
+Description: Takes in the a decimal, and finds the inverse of secant.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arcsecant</span> <span class="pre">2</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.0471975511965979</span></code></p>
+</div>
+<div class="section" id="arcsin">
+<h2>*arcsin *<a class="headerlink" href="#arcsin" title="Permalink to this headline">¶</a></h2>
+<p>Alias: asin
+Description: Takes in the a decimal, and finds the inverse of sine.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arcsin</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.5707963267948966</span></code></p>
+</div>
+<div class="section" id="arctangent">
+<h2>*arctangent *<a class="headerlink" href="#arctangent" title="Permalink to this headline">¶</a></h2>
+<p>Alias: atan
+Description: Takes in the a decimal, and finds the inverse of tangent.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*arctangent</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.7853981633974483</span></code></p>
+</div>
+<div class="section" id="asech">
+<h2>*asech *<a class="headerlink" href="#asech" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of hyperbolic secant function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*asech</span> <span class="pre">.5</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.3169578969248166</span></code></p>
+</div>
+<div class="section" id="asin">
+<h2>*asin *<a class="headerlink" href="#asin" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of sine function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*asin</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.5707963267948966</span></code></p>
+</div>
+<div class="section" id="asinh">
+<h2>*asinh *<a class="headerlink" href="#asinh" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of hyperbolic sine function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*asinh</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.8813735870195429</span></code></p>
+</div>
+<div class="section" id="ask">
+<h2>*ask *<a class="headerlink" href="#ask" title="Permalink to this headline">¶</a></h2>
+<p>Description: Asks user a question, the answer gets returned!</p>
+<p>Input: A question to ask.</p>
+<p>Arguments: String (Optional: Default answer [default: none])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*ask=yes</span> <span class="pre">Do</span> <span class="pre">you</span> <span class="pre">like</span> <span class="pre">Ice</span> <span class="pre">Cream?</span> <span class="pre">*</span></code></p>
+<p>Returns:
+user response to the question.</p>
+</div>
+<div class="section" id="atan">
+<h2>*atan *<a class="headerlink" href="#atan" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of tangent function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*atan</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.7853981633974483</span></code></p>
+</div>
+<div class="section" id="atanh">
+<h2>*atanh *<a class="headerlink" href="#atanh" title="Permalink to this headline">¶</a></h2>
+<p>Description:Takes in the a decimal, and finds the inverse of hyperbolic tangent function.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*atanh</span> <span class="pre">.5*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.5493061443340549</span></code></p>
+</div>
+<div class="section" id="author">
+<h2>*author *<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in a string, and creates an &#8220;author&#8221; heading with it.</p>
+<p>Input: A String to be used to create &#8220;author&#8221; heading.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*author</span> <span class="pre">AndreiM</span> <span class="pre">*</span></code></p>
+<p>Returns:
+A new string with &#8220;author&#8221; heading.</p>
+</div>
+<div class="section" id="backbutton">
+<h2>*backbutton *<a class="headerlink" href="#backbutton" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates a button that allows you to go back in browser.</p>
+<p>Input: String (Optional: Button Name [default: Go Back])</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*backbutton</span> <span class="pre">I</span> <span class="pre">need</span> <span class="pre">to</span> <span class="pre">go</span> <span class="pre">Back</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Creates a button with a &#8220;I need to go Back&#8221; label.</p>
+</div>
+<div class="section" id="background">
+<h2>*background *<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>Description: Sets the background of the input content.</p>
+<p>Input: Content</p>
+<p>Arguments: String[Color Name] or Hex Value or rgb() or URL[for images] (Optional: Background Color/Image[default: red]), String (Optional: sets second color for gradient[default:none])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*background=yellow,blue</span> <span class="pre">I</span> <span class="pre">am</span> <span class="pre">awesome</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Sets background of &#8220;I am awesome&#8221; content to yellow/blue mix.</p>
+</div>
+<div class="section" id="backgroundcolor">
+<h2>*backgroundcolor *<a class="headerlink" href="#backgroundcolor" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes the text and sets the background of the text.</p>
+<p>Input: Text to what the background color will be applied to.</p>
+<p>Arguments: String[Color Name] or Hex Value or rgb() format value  (Optional: Color of Text[default: #428bca (skyblue)])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*backgroundcolor=red</span> <span class="pre">hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+hello with red highlighted color</p>
+</div>
+<div class="section" id="banner">
+<h2>*banner *<a class="headerlink" href="#banner" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates an image banner (usually used to display a logo on site or on a forum) by taking in image and optional width and height arguments.</p>
+<p>Input: Image Source</p>
+<p>Arguments: Size or &#8220;%&#8221; or Number  (Optional: Width of Banner[default: 100%]), Size or &#8220;%&#8221; or Number (Optional: Height of Banner[default: 200px])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*banner</span>&nbsp; <span class="pre">*</span></code></p>
+<p>Returns:
+Returns a banner</p>
+</div>
+<div class="section" id="blink">
+<h2>*blink *<a class="headerlink" href="#blink" title="Permalink to this headline">¶</a></h2>
+<p>Description: Makes the content blink(fade in and out) every so many seconds.</p>
+<p>Input: Text of the content to be blinked</p>
+<p>Arguments: Number (Optional: Every how many seconds to blink[default: 2]), Number (Optional: How many steps to take each blink)</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*blink=2,4</span> <span class="pre">Hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Blinks text Hello every 2 seconds taking 4 steps...</p>
 </div>
 <div class="section" id="block">
 <h2>*block *<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h2>
-<p>Description:<code class="docutils literal"><span class="pre">Takes</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">content,</span> <span class="pre">and</span> <span class="pre">puts</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">inside</span> <span class="pre">a</span> <span class="pre">block(box)</span></code></p>
-<p>Input:<code class="docutils literal"><span class="pre">Content</span> <span class="pre">of</span> <span class="pre">what</span> <span class="pre">to</span> <span class="pre">put</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">block</span></code></p>
-<p>Arguments:<code class="docutils literal"><span class="pre">width</span></code> (optional)</p>
+<p>Description: Takes in the content, and puts the text inside a block(box)</p>
+<p>Input: Content of what to put into the block</p>
+<p>Arguments: number (Optional: width of the block)</p>
 <p>Example(s):
 <code class="docutils literal"><span class="pre">*block=500px</span> <span class="pre">hello</span> <span class="pre">*</span></code></p>
 <p>Return:
-<code class="docutils literal"><span class="pre">block</span> <span class="pre">content</span></code></p>
+Block content</p>
+</div>
+<div class="section" id="blur">
+<h2>*blur *<a class="headerlink" href="#blur" title="Permalink to this headline">¶</a></h2>
+<p>Description: Blurs the content</p>
+<p>Input: Text to be blurred</p>
+<p>Arguments: String[colorname] (Optional: Color to use to blur[default: black])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*blur=red</span> <span class="pre">Hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Blurs hello with the color red.</p>
+</div>
+<div class="section" id="bold">
+<h2>*bold *<a class="headerlink" href="#bold" title="Permalink to this headline">¶</a></h2>
+<p>Description: Makes text bold</p>
+<p>Input: Text to be blurred</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*bold</span> <span class="pre">Hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Makes Hello bold.</p>
+</div>
+<div class="section" id="border">
+<h2>*border *<a class="headerlink" href="#border" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates a border around content</p>
+<p>Input: Content to be bordered</p>
+<p>Arguments: String[colorname] (Optional: Color of border[default: black]), Number(Optional: Thickness of border[default: 1], String[style] (Optional: Style of the line[default:solid])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*border</span> <span class="pre">hellow</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Creates a border/box around &#8220;hellow&#8221;.</p>
+</div>
+<div class="section" id="bullet">
+<h2>*bullet *<a class="headerlink" href="#bullet" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates bulleted content</p>
+<p>Input: Content to be bulleted</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*bullet</span> <span class="pre">hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Creates a bullet with &#8220;hello&#8221;.</p>
+</div>
+<div class="section" id="button">
+<h2>*button *<a class="headerlink" href="#button" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates a button</p>
+<p>Input: The URL the button should redirect (default: #[none])</p>
+<p>Arguments: String (Optional: Name of the button [default:Submit]), String[color] (Optional: Color of button [default:SteelBlue])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*button</span> <span class="pre">http://juliar.org</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Creates a button that redirects to <a class="reference external" href="http://juliar.org">http://juliar.org</a></p>
+</div>
+<div class="section" id="capitalize">
+<h2>*capitalize *<a class="headerlink" href="#capitalize" title="Permalink to this headline">¶</a></h2>
+<p>Description: Capitalizes the first letter of each word</p>
+<p>Input: String in which each word will be capitalized</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*capitalize</span> <span class="pre">There</span> <span class="pre">once</span> <span class="pre">was</span> <span class="pre">a</span> <span class="pre">dragon</span> <span class="pre">That</span> <span class="pre">lived</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">shore</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">There</span> <span class="pre">Once</span> <span class="pre">Was</span> <span class="pre">A</span> <span class="pre">Dragon</span> <span class="pre">That</span> <span class="pre">Lived</span> <span class="pre">On</span> <span class="pre">A</span> <span class="pre">Shore</span></code></p>
+</div>
+<div class="section" id="center">
+<h2>*center *<a class="headerlink" href="#center" title="Permalink to this headline">¶</a></h2>
+<p>Description: Centers the text</p>
+<p>Input: The text to be centered.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*center</span> <span class="pre">I</span> <span class="pre">am</span> <span class="pre">centered</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Centers the text &#8220;I am centered&#8221;</p>
+</div>
+<div class="section" id="chapter">
+<h2>*chapter *<a class="headerlink" href="#chapter" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates a pretty first letter like in books.</p>
+<p>Input: The text in which first letter will be big.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*chapter</span> <span class="pre">There</span> <span class="pre">once</span> <span class="pre">was</span> <span class="pre">a</span> <span class="pre">bug</span> <span class="pre">*</span></code></p>
+<p>Returns:
+The &#8220;T&#8221; will be big and &#8220;here once was a bug&#8221; will be small.</p>
+</div>
+<div class="section" id="checkrepo">
+<h2>*checkrepo *<a class="headerlink" href="#checkrepo" title="Permalink to this headline">¶</a></h2>
+<p>Description: Check if repo is working</p>
+<p>Input: The repo URL</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*repo</span> <span class="pre">http://repo.juliar.org</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Whether or not the repo seems to be working. If working, it will return that repo has a pulse, if not it will return that repo is not active.</p>
+</div>
+<div class="section" id="id1">
+<h2>*checkrepo *<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Description: Check if repo is working</p>
+<p>Input: The repo URL</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*repo</span> <span class="pre">http://repo.juliar.org</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Whether or not the repo seems to be working. If working, it will return that repo has a pulse, if not it will return that repo is not active.</p>
+</div>
+<div class="section" id="cityfromip">
+<h2>*cityfromip *<a class="headerlink" href="#cityfromip" title="Permalink to this headline">¶</a></h2>
+<p>Description: Tries to find the city of where ip is originated</p>
+<p>Input: String[ip]</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cityfromip</span> <span class="pre">8.8.8.8</span> <span class="pre">*</span></code></p>
+<p>Returns:
+This is one of google&#8217;s ips and outputs &#8220;Mountain View&#8221;</p>
+</div>
+<div class="section" id="code">
+<h2>*code *<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<p>Description: Allows use of &lt;, &gt;, &amp; without them being treated as HTML</p>
+<p>Input: content that may contains those values and may be treated as HTML.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*code</span> <span class="pre">&lt;hello&gt;</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">&lt;hello&gt;</span></code></p>
+</div>
+<div class="section" id="color">
+<h2>*color *<a class="headerlink" href="#color" title="Permalink to this headline">¶</a></h2>
+<p>Description: Sets color of text, each word can be set to a different color by passing in more colors as arguments</p>
+<p>Input: String</p>
+<p>Arguments: String(Optional: Colors to color each word. If one color is set, it will color everything in one color, else it will alternate each color) x Infinity</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*color=red,yellow,orange</span> <span class="pre">What</span> <span class="pre">a</span> <span class="pre">beautiful</span> <span class="pre">day</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Sets &#8220;What&#8221; to red. Sets &#8220;a&#8221; to yellow. Sets &#8220;beautiful&#8221; to orange. Sets &#8220;day&#8221; to red.</p>
+</div>
+<div class="section" id="columns">
+<h2>*columns *<a class="headerlink" href="#columns" title="Permalink to this headline">¶</a></h2>
+<p>Description: Divides content into columns. Useful when splitting page into several sections.</p>
+<p>Input: String</p>
+<p>Arguments: Number (Optional: into how many columns to split i.e. 2 makes the column half the size, 3 makes column 1/3 size, etc..[default: 1]),
+Number[1] (Optional: By default columns are equivalent in height, with this argument set to 1. Columns will only be the size of their own content[default: table-cell])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*columns=2</span> <span class="pre">Hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Column with half the size with the content of hello.</p>
+</div>
+<div class="section" id="commands">
+<h2>*commands *<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<p>Description: Lists commands currently available and their level (if imported).</p>
+<p>Input: String (Input the command that starts with) or empty to display all available commands.</p>
+<p>Arguments: Number[level] or String[Name] (Optional: input a number to display only commands in that level or name to display commands from the imported module) x Inifnity</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*commands=2</span> <span class="pre">i*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">*clearinterpreter</span> <span class="pre">*</span> <span class="pre">&gt;&gt;</span> <span class="pre">IMPORTED</span> <span class="pre">from</span> <span class="pre">interpreter</span> <span class="pre">level:</span> <span class="pre">2</span></code>
+<code class="docutils literal"><span class="pre">*deleteinterpreter</span> <span class="pre">*</span> <span class="pre">&gt;&gt;</span> <span class="pre">IMPORTED</span> <span class="pre">from</span> <span class="pre">interpreter</span> <span class="pre">level:</span> <span class="pre">2</span></code>
+<code class="docutils literal"><span class="pre">*downloadcommands</span> <span class="pre">*</span> <span class="pre">&gt;&gt;</span> <span class="pre">IMPORTED</span> <span class="pre">from</span> <span class="pre">interpreter</span> <span class="pre">level:</span> <span class="pre">2</span></code>
+<code class="docutils literal"><span class="pre">*import</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*ip</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*isp</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*italics</span> <span class="pre">*</span></code></p>
+</div>
+<div class="section" id="completedate">
+<h2>*completedate *<a class="headerlink" href="#completedate" title="Permalink to this headline">¶</a></h2>
+<p>Description: Outputs complete date in pretty format.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*completedate</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Friday,</span> <span class="pre">December</span> <span class="pre">18,</span> <span class="pre">2015</span></code></p>
+</div>
+<div class="section" id="condition">
+<h2>*condition *<a class="headerlink" href="#condition" title="Permalink to this headline">¶</a></h2>
+<p>Description: Evaluates the arguments and if they are true, return the Input.</p>
+<p>Input: String (Input that will be returned if condition evaluates to true)</p>
+<p>Arguments: boolean or value (Optional/Required: The condition that satisfy the statement [default: true]) x Infinity</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*condition=5&gt;3</span> <span class="pre">hello</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*condition=5&lt;3</span> <span class="pre">hello</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*condition=5&lt;3,5&gt;3</span> <span class="pre">Yes</span> <span class="pre">*</span></code>
+Returns:
+<code class="docutils literal"><span class="pre">Hello</span></code>
+`` ``
+<code class="docutils literal"><span class="pre">Yes</span></code></p>
+</div>
+<div class="section" id="convertwhitespace">
+<h2>*convertwhitespace *<a class="headerlink" href="#convertwhitespace" title="Permalink to this headline">¶</a></h2>
+<p>Alias: cw</p>
+<p>Description: Replaces spaces with special characters. Useful for using in arguments that require space (since you cannot use spaces in arguments)</p>
+<p>Input: String to have spaces replaced with</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*convertwhitespace</span> <span class="pre">Hello</span> <span class="pre">World</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Hello</span> <span class="pre">World</span></code></p>
+</div>
+<div class="section" id="conways">
+<h2>*conways *<a class="headerlink" href="#conways" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns a Conway&#8217;s constant</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*conways</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.30357</span></code></p>
+</div>
+<div class="section" id="id2">
+<h2>*conways *<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns a Conway&#8217;s constant</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*conways</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.30357</span></code></p>
+</div>
+<div class="section" id="cos">
+<h2>*cos *<a class="headerlink" href="#cos" title="Permalink to this headline">¶</a></h2>
+<p>Alias: cosine</p>
+<p>Description: Takes in the a decimal, and finds the cosine.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cos</span> <span class="pre">0</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1</span></code></p>
+</div>
+<div class="section" id="cosecant">
+<h2>*cosecant *<a class="headerlink" href="#cosecant" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in the a decimal, and finds the cosecant.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cosecant</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.1883951057781212</span></code></p>
+</div>
+<div class="section" id="cosh">
+<h2>*cosh *<a class="headerlink" href="#cosh" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in the a decimal, and finds the hyperbolic cosine.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cosh</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.5430806348152437</span></code></p>
+</div>
+<div class="section" id="cosine">
+<h2>*cosine *<a class="headerlink" href="#cosine" title="Permalink to this headline">¶</a></h2>
+<p>Alias: cos</p>
+<p>Description: Takes in the a decimal, and finds the cosine.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cosine</span> <span class="pre">0</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1</span></code></p>
+</div>
+<div class="section" id="cot">
+<h2>*cot *<a class="headerlink" href="#cot" title="Permalink to this headline">¶</a></h2>
+<p>Alias: cotangent</p>
+<p>Description: Takes in the a decimal, and finds the cotangent.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cot</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.6420926159343306</span></code></p>
+</div>
+<div class="section" id="cotangent">
+<h2>*cotangent *<a class="headerlink" href="#cotangent" title="Permalink to this headline">¶</a></h2>
+<p>Alias: cot</p>
+<p>Description: Takes in the a decimal, and finds the cotangent.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cotangent</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.6420926159343306</span></code></p>
+</div>
+<div class="section" id="coth">
+<h2>*coth *<a class="headerlink" href="#coth" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in the a decimal, and finds the hyperbolic cotangent.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*coth</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.3130352854993315</span></code></p>
+</div>
+<div class="section" id="count">
+<h2>*count *<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>
+<p>Description: Counts the number of elements seperated by either commas or if not available then spaces.</p>
+<p>Input: String x Infinity</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*count</span> <span class="pre">hockey</span> <span class="pre">football</span> <span class="pre">soccer</span> <span class="pre">tennis</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*count</span> <span class="pre">red,</span> <span class="pre">white,</span> <span class="pre">blue</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*count</span> <span class="pre">hello</span> <span class="pre">world,</span> <span class="pre">goodbye</span> <span class="pre">world,</span> <span class="pre">no</span> <span class="pre">man</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">4</span></code>
+<code class="docutils literal"><span class="pre">3</span></code>
+<code class="docutils literal"><span class="pre">3</span></code></p>
+</div>
+<div class="section" id="countryfromip">
+<h2>*countryfromip *<a class="headerlink" href="#countryfromip" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets the country from the ip address.</p>
+<p>Input: String[ip]</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">countryfromip</span> <span class="pre">8.8.8.8</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">United</span> <span class="pre">States</span></code></p>
+</div>
+<div class="section" id="crossout">
+<h2>*crossout *<a class="headerlink" href="#crossout" title="Permalink to this headline">¶</a></h2>
+<p>Description: Crosses out the text</p>
+<p>Input: String</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*crossout</span> <span class="pre">I</span> <span class="pre">made</span> <span class="pre">a</span> <span class="pre">mistake</span> <span class="pre">*</span></code></p>
+<p>Returns:
+This will crossout &#8220;I made a mistake&#8221;</p>
+</div>
+<div class="section" id="csch">
+<h2>*csch *<a class="headerlink" href="#csch" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes in the a decimal, and finds the hyperbolic cosecant.</p>
+<p>Input: A decimal</p>
+<p>Arguments: <code class="docutils literal"><span class="pre">degrees</span></code> or <code class="docutils literal"><span class="pre">360</span></code> or True value (Optional: whether to use degrees [default uses radians])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*csch</span> <span class="pre">1</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">0.8509181282393216</span></code></p>
+</div>
+<div class="section" id="cw">
+<h2>*cw *<a class="headerlink" href="#cw" title="Permalink to this headline">¶</a></h2>
+<p>Alias: convertwhitespace</p>
+<p>Description: Replaces spaces with special characters. Useful for using in arguments that require space (since you cannot use spaces in arguments)</p>
+<p>Input: String to have spaces replaced with</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*cw</span> <span class="pre">Hello</span> <span class="pre">World</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Hello</span> <span class="pre">World</span></code></p>
+</div>
+<div class="section" id="date">
+<h2>*date *<a class="headerlink" href="#date" title="Permalink to this headline">¶</a></h2>
+<p>Description: Outputs date in a standard output.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*date</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">12/19/2015</span></code></p>
+</div>
+<div class="section" id="decimalcount">
+<h2>*decimalcount *<a class="headerlink" href="#decimalcount" title="Permalink to this headline">¶</a></h2>
+<p>Description: Counts the number of decimal points.</p>
+<p>Input: Decimal/Number</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*decimalcount</span> <span class="pre">20.3213231</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">7</span></code></p>
+</div>
+<div class="section" id="deport">
+<h2>*deport *<a class="headerlink" href="#deport" title="Permalink to this headline">¶</a></h2>
+<p>Description: Deports a module and removes its commands.</p>
+<p>Input: String(Module Name)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*deport</span> <span class="pre">graph</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Tries to deport graph. If the module is already deported or was never the command throws an error.</p>
+</div>
+<div class="section" id="divide-or">
+<h2>*divide * or */ *<a class="headerlink" href="#divide-or" title="Permalink to this headline">¶</a></h2>
+<p>Description: Takes the first Number and tries to divide everything after it...</p>
+<p>Input: Number x Infinity</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*divide</span> <span class="pre">100</span> <span class="pre">2</span> <span class="pre">5</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*/</span> <span class="pre">55</span> <span class="pre">2</span> <span class="pre">5</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">10</span></code>
+<code class="docutils literal"><span class="pre">5.5</span></code></p>
+</div>
+<div class="section" id="download">
+<h2>*download *<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
+<p>Description: Downloads the module from URL and saves it to local drive.</p>
+<p>Input: String(URL)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*download</span> <span class="pre">http://repo.juliar.org/encryption.juliar</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Tries to download encryption module from juliar repo.</p>
+</div>
+<div class="section" id="dynamicget">
+<h2>*dynamicget *<a class="headerlink" href="#dynamicget" title="Permalink to this headline">¶</a></h2>
+<p>Description: Dynamically gets the value. If value changes..the content also changes. Useful for displaying content that changes...
+Use it with *dynamicset *</p>
+<p>Input: object[name]</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*dynamicset=x</span> <span class="pre">2</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*dynamicget</span> <span class="pre">x</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*dynamicget=x</span> <span class="pre">5</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">5</span></code>
+<code class="docutils literal"><span class="pre">5</span></code>
+<code class="docutils literal"><span class="pre">5</span></code></p>
+</div>
+<div class="section" id="dynamicinput">
+<h2>*dynamicinput *<a class="headerlink" href="#dynamicinput" title="Permalink to this headline">¶</a></h2>
+<p>Description: When user types in this input field. It changes the input of &#8220;dynamic&#8221; fields.</p>
+<p>Input: String (default value for input field)</p>
+<p>Arguments: Object (which dynamic field to modify)</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*dynamicget</span> <span class="pre">x</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*dynamicset=x</span> <span class="pre">2</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*dynamicinput=x</span> <span class="pre">33</span> <span class="pre">*</span></code>
+User changes the field to Hello.</p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Hello</span></code>
+<code class="docutils literal"><span class="pre">Hello</span></code>
+<code class="docutils literal"><span class="pre">Hello</span></code></p>
+</div>
+<div class="section" id="dynamicset">
+<h2>*dynamicset *<a class="headerlink" href="#dynamicset" title="Permalink to this headline">¶</a></h2>
+<p>Description: Dynamically changes the content of objects. Also returns new dynamic field(same as dynamicget). Use *hide * to not return the object but still modify the value of all other dynamic fields.</p>
+<p>Input: String(Sets the content of dynamic field to this)</p>
+<p>Arguments: Object (with which names should we modify the dynamic fields)</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*dynamicset=x</span> <span class="pre">33*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">33</span></code></p>
+</div>
+<div class="section" id="dynamicfetch">
+<h2>*dynamicfetch *<a class="headerlink" href="#dynamicfetch" title="Permalink to this headline">¶</a></h2>
+<p>Description: Fetches the URL in the background, and once the content is fully received the text changes to that content.</p>
+<p>Input: String(URL)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*dynamicfetch</span> <span class="pre">http://repo.juliar.org/fetchedcotnent</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Content that was fetched gets put here once it&#8217;s received.</p>
+</div>
+<div class="section" id="e">
+<h2>*e *<a class="headerlink" href="#e" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns the value of e. If input is specified e gets raised to that power.</p>
+<p>Input: e to which power</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*e</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*e</span> <span class="pre">2</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">2.718281828459045</span></code>
+<code class="docutils literal"><span class="pre">7.3890560989306495</span></code></p>
+</div>
+<div class="section" id="epsilon">
+<h2>*epsilon *<a class="headerlink" href="#epsilon" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets the epsilon &#8220;medium&#8221; value. Currently available epsilon values: &#8220;Vacuum&#8221;, &#8220;Air&#8221;,&#8221;Ethanol&#8221;, and &#8220;Water&#8221;.</p>
+<p>Input: Medium Type</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*epsilon</span> <span class="pre">Air*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.00058986</span></code></p>
+</div>
+<div class="section" id="equalto">
+<h2>*equalto *<a class="headerlink" href="#equalto" title="Permalink to this headline">¶</a></h2>
+<p>Description: Checks to see if all input (seperated by space) are equal to each other.</p>
+<p>Input: comparable objects seperated by space x Infinite</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*equalto</span> <span class="pre">33</span> <span class="pre">33*</span></code>
+<code class="docutils literal"><span class="pre">*equalto</span> <span class="pre">2</span> <span class="pre">33*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code>
+<code class="docutils literal"><span class="pre">false</span></code></p>
+</div>
+<div class="section" id="error">
+<h2>*error *<a class="headerlink" href="#error" title="Permalink to this headline">¶</a></h2>
+<p>Description: Alerts the user with the input</p>
+<p>Input: String (input that should alert the user)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*alert</span> <span class="pre">Stop</span> <span class="pre">This*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Error</span> <span class="pre">Invoked:</span> <span class="pre">Stop</span> <span class="pre">This</span></code>
+Displays an Alert to the user &#8220;Stop This&#8221;</p>
+</div>
+<div class="section" id="evaluate">
+<h2>*evaluate *<a class="headerlink" href="#evaluate" title="Permalink to this headline">¶</a></h2>
+<p>Description: A low level command that can evaluate almost any script.</p>
+<p>Input: String (to be evaluated)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*evaluate</span> <span class="pre">5&gt;3*</span></code>
+<code class="docutils literal"><span class="pre">*evaluate</span> <span class="pre">5+5*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code>
+<code class="docutils literal"><span class="pre">10</span></code></p>
+</div>
+<div class="section" id="id3">
+<h2>*evaluate *<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Description: A low level command that can evaluate almost any script.</p>
+<p>Input: String (to be evaluated)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*evaluate</span> <span class="pre">5&gt;3*</span></code>
+<code class="docutils literal"><span class="pre">*evaluate</span> <span class="pre">5+5*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code>
+<code class="docutils literal"><span class="pre">10</span></code></p>
+</div>
+<div class="section" id="factorial">
+<h2>*factorial *<a class="headerlink" href="#factorial" title="Permalink to this headline">¶</a></h2>
+<p>Description: This value easily finds factorial of the number using tail-recursion.</p>
+<p>Input: Number (Number of factorial)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*factorial</span> <span class="pre">10*</span></code>
+<code class="docutils literal"><span class="pre">*factorial</span> <span class="pre">5*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">3628800</span></code>
+<code class="docutils literal"><span class="pre">120</span></code></p>
+</div>
+<div class="section" id="favicon">
+<h2>*favicon *<a class="headerlink" href="#favicon" title="Permalink to this headline">¶</a></h2>
+<p>Description: Changes the favicon of the browser(Browser&#8217;s small image located at the tab) to the URL that&#8217;s specified.</p>
+<p>Input: URL (the url of the image to use for browser&#8217;s tab image)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*favicon</span> <span class="pre">juliar-logo.png*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Favicon</span> <span class="pre">changed</span> <span class="pre">to</span> <span class="pre">juliar-logo.png</span></code>
+Changes favicon (image on the tab of the website)</p>
+</div>
+<div class="section" id="fetch">
+<h2>*fetch *<a class="headerlink" href="#fetch" title="Permalink to this headline">¶</a></h2>
+<p>Description: Fetches content from the URL specified.</p>
+<p>Input: URL (the url to fetch content from)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*fetch</span> <span class="pre">http://juliar.org/content*</span></code></p>
+<p>Returns:
+Fetched content from the URL.</p>
+</div>
+<div class="section" id="flash">
+<h2>*flash *<a class="headerlink" href="#flash" title="Permalink to this headline">¶</a></h2>
+<p>Alias: pdf, java</p>
+<p>Description: Creates a flash object in browser video.</p>
+<p>Input: URL (the url of where to get the flash object)</p>
+<p>Arguments: Number (Optional: Width of the Flash Object[default:420]), Number (Optional: Height of the Flash Object[default:315])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*flash</span> <span class="pre">http://somegamewebsite.com/game.swf*</span></code></p>
+<p>Returns:
+Shows the game from the &#8220;<a class="reference external" href="http://somegamewebsite.com/game.swf">http://somegamewebsite.com/game.swf</a>&#8221; url.</p>
+</div>
+<div class="section" id="float">
+<h2>*float *<a class="headerlink" href="#float" title="Permalink to this headline">¶</a></h2>
+<p>Description: Floats(display) the element either left or right side of the screen.</p>
+<p>Input: String (Content to be floated)</p>
+<p>Arguments: &#8220;left&#8221; or &#8220;right&#8221; (Optional: Pass in whether you want the elements to be floated left or right [default: &#8220;right&#8221;])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*float</span> <span class="pre">hello*</span></code></p>
+<p>Returns:
+&#8220;hello&#8221; will be displayed on the right side of the page.</p>
+</div>
+<div class="section" id="font">
+<h2>*font *<a class="headerlink" href="#font" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets a very nice font from google fonts api.</p>
+<p>Input: String (the content that will use the font)</p>
+<p>Arguments: String (Required: URL of Google Font to use for the content )</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*font=SourceSansPro</span> <span class="pre">Hello</span> <span class="pre">World*</span></code></p>
+<p>Returns:
+Displays Hello World in Google Font&#8217;s Source Sans Pro Font.</p>
+</div>
+<div class="section" id="footer">
+<h2>*footer *<a class="headerlink" href="#footer" title="Permalink to this headline">¶</a></h2>
+<p>Description: Adds footer with the Input being as content.</p>
+<p>Input: Content that will use footer.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*footer</span> <span class="pre">copyright</span> <span class="pre">2015*</span></code></p>
+<p>Returns:
+This will display the &#8220;copyright 2015&#8221; message as a footer. The footer is usually placed at the very end of the code.</p>
+</div>
+<div class="section" id="id4">
+<h2>*footer *<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Description: Adds footer with the Input being as content.</p>
+<p>Input: Content that will use footer.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*footer</span> <span class="pre">copyright</span> <span class="pre">2015*</span></code></p>
+<p>Returns:
+This will display the &#8220;copyright 2015&#8221; message as a footer. The footer is usually placed at the very end of the code.</p>
+</div>
+<div class="section" id="gcd">
+<h2>*gcd *<a class="headerlink" href="#gcd" title="Permalink to this headline">¶</a></h2>
+<p>Description: Finds greatest common denominator of the numbers.</p>
+<p>Input: Numbers (Required: at least 2 numbers that you need to find gcd of )</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*gcd</span> <span class="pre">55</span> <span class="pre">22*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">11</span></code></p>
+</div>
+<div class="section" id="get">
+<h2>*get *<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets the content of the object stored with the name of the Input and returns it.</p>
+<p>Input: String (Name of the object to get)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*set=x</span> <span class="pre">2</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*get</span> <span class="pre">x*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">2</span></code></p>
+</div>
+<div class="section" id="gethistory">
+<h2>*gethistory *<a class="headerlink" href="#gethistory" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets and goes to the URL stored in the history object.</p>
+<p>Input: String (Name of the history object that is stored)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*gethistory</span> <span class="pre">x*</span></code></p>
+<p>Returns:
+Opens a URL with the named history object.</p>
+</div>
+<div class="section" id="getsocket">
+<h2>*getsocket *<a class="headerlink" href="#getsocket" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets the content from the socket with Input name.</p>
+<p>Input: String (Name of the socket to get contents from)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*getsocket</span> <span class="pre">x*</span></code></p>
+<p>Returns:
+Gets the content from socket x.</p>
+</div>
+<div class="section" id="globalbackground">
+<h2>*globalbackground *<a class="headerlink" href="#globalbackground" title="Permalink to this headline">¶</a></h2>
+<p>Description: Sets the background of the whole window. Similar to *background * command except this is applied to the whole window.</p>
+<p>Input: Content</p>
+<p>Arguments: String[Color Name] or Hex Value or rgb() or URL[for images] (Optional: Background Color/Image[default: red]), String (Optional: sets second color for gradient[default:none])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*backgroundglobal</span> <span class="pre">yellow</span> <span class="pre">blue</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Sets background of the whole window to a mix of yellow/blue.</p>
+</div>
+<div class="section" id="goldenration">
+<h2>*goldenration *<a class="headerlink" href="#goldenration" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns Golden Ratio.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*goldenratio</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.618033988749895</span></code></p>
+</div>
+<div class="section" id="gravitational">
+<h2>*gravitational *<a class="headerlink" href="#gravitational" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns Gravitational Constant.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*gravitational</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">6.674e-11</span></code></p>
+</div>
+<div class="section" id="gravity">
+<h2>*gravity *<a class="headerlink" href="#gravity" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns the Gravity constant in (m/s2) at the surface of the plants or moon.</p>
+<p>Input: Planet/Moon you want gravity of.</p>
+<p>Arguments: NONE.</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*gravity</span> <span class="pre">earth</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">9.798</span></code></p>
+</div>
+<div class="section" id="greaterthan">
+<h2>*greaterthan *<a class="headerlink" href="#greaterthan" title="Permalink to this headline">¶</a></h2>
+<p>Description: Checks to see if the first number is greater than the rest of the numbers.</p>
+<p>Input: comparable objects seperated by space x Infinite</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*greaterthan</span> <span class="pre">33</span> <span class="pre">22</span> <span class="pre">32*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code></p>
+</div>
+<div class="section" id="greaterthanorequalto">
+<h2>*greaterthanorequalto *<a class="headerlink" href="#greaterthanorequalto" title="Permalink to this headline">¶</a></h2>
+<p>Description: Checks to see if the first number is greater than or equal to the rest of the numbers.</p>
+<p>Input: comparable objects seperated by space x Infinite</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*equalto</span> <span class="pre">33</span> <span class="pre">33</span> <span class="pre">22*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code></p>
+</div>
+<div class="section" id="grow">
+<h2>*grow *<a class="headerlink" href="#grow" title="Permalink to this headline">¶</a></h2>
+<p>Description: This command makes text get larger and larger.</p>
+<p>Input: Text that you want to grow.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*grow</span> <span class="pre">welcome*</span></code></p>
+<p>Returns:
+The &#8220;welcome&#8221; will get bigger and bigger.</p>
+</div>
+<div class="section" id="header">
+<h2>*header *<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h2>
+<p>Description: Adds header with the Input being as content.</p>
+<p>Input: Content that will use header.</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*header</span> <span class="pre">welcome*</span></code></p>
+<p>Returns:
+This will display the &#8220;welcome&#8221; message as a header. The header is usually placed at the very beggining of the code.</p>
+</div>
+<div class="section" id="help">
+<h2>*help *<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h2>
+<p>Description: Help + Command Name to display help of the command. If help is not available it will try to fetch help from Juliar REPO.
+If it&#8217;s not available, it will fail.</p>
+<p>Input: Command that you need help with</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*help</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">Type</span> <span class="pre">*help</span>&nbsp; <span class="pre">'command</span> <span class="pre">name'*</span> <span class="pre">to</span> <span class="pre">see</span> <span class="pre">help</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">command</span></code></p>
+</div>
+<div class="section" id="hide">
+<h2>*hide *<a class="headerlink" href="#hide" title="Permalink to this headline">¶</a></h2>
+<p>Description: This command hides the text and everything. It&#8217;s useful for hiding the output of commands such as *dynamicset * or *alert *.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*hide</span> <span class="pre">Hello</span> <span class="pre">World*</span></code></p>
+<p>Returns:
+`` ``</p>
+</div>
+<div class="section" id="highlight">
+<h2>*highlight *<a class="headerlink" href="#highlight" title="Permalink to this headline">¶</a></h2>
+<p>Description: Highlights  each letter using the color specified. If you want to color whole background, please use backgroundcolor command.</p>
+<p>Input: Text that will be colored</p>
+<p>Arguments: Colors or Color Hex Value (Optional: Color that you want letters to have [defaut:orange]) x Infinity</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*highlight=red,</span> <span class="pre">orange</span> <span class="pre">Hello</span> <span class="pre">World*</span></code></p>
+<p>Returns:
+Each letter will alternate between colors of red and orange.</p>
+</div>
+<div class="section" id="history">
+<h2>*history *<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets the history length and outputs the number of history elements you have.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*history*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">4</span></code></p>
+</div>
+<div class="section" id="import">
+<h2>*import *<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h2>
+<p>Description: Imports Juliar Module (.juliar), juliar style sheet (.jss), or juliar code (.j).
+If extension is not provided, Juliar Module is assumed. This command now works locally and on a server.</p>
+<p>Input: Module, Stylesheet, or Juliar Code Name.</p>
+<p>Arguments: String (Optional: Name you want to call the module[default:null].(Argument is Still IN TESTING. LEAVE IT AS DEFAULT FOR NOW!)</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*import</span> <span class="pre">encryption*</span></code></p>
+<p>Returns:
+This will import encryption module and use its commands.</p>
+</div>
+<div class="section" id="ip">
+<h2>*ip *<a class="headerlink" href="#ip" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets the ip address from URL</p>
+<p>Input: URL (url of address that you want to find the ip of)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*ip</span> <span class="pre">http://google.com*</span></code></p>
+<p>Returns:
+This will display the  &#8220;8.8.8.8&#8221; as one of the IPs.</p>
+</div>
+<div class="section" id="isp">
+<h2>*isp *<a class="headerlink" href="#isp" title="Permalink to this headline">¶</a></h2>
+<p>Description: Input IP, to display the internet service provider.</p>
+<p>Input: String[IP] (you want to use to find ISP)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*isp</span> <span class="pre">8.8.8.8*</span></code></p>
+<p>Returns:
+This will display Google as Google is its own service provider.</p>
+</div>
+<div class="section" id="italics">
+<h2>*italics *<a class="headerlink" href="#italics" title="Permalink to this headline">¶</a></h2>
+<p>Description: Makes the text be in italics</p>
+<p>Input: String (text that will be in italics)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*italics</span> <span class="pre">I</span> <span class="pre">am</span> <span class="pre">skewed*</span></code></p>
+<p>Returns:
+This will display message &#8220;I am skewed&#8221; in italics</p>
+</div>
+<div class="section" id="java">
+<h2>*java *<a class="headerlink" href="#java" title="Permalink to this headline">¶</a></h2>
+<p>Alias: pdf, flash</p>
+<p>Description: Creates a JAVA object in browser video.</p>
+<p>Input: URL (the url of where to get the JAVA object)</p>
+<p>Arguments: Number (Optional: Width of the JAVA Object[default:420]), Number (Optional: Height of the JAVA Object[default:315])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*java</span> <span class="pre">http://somegamewebsite.com/game.java*</span></code></p>
+<p>Returns:
+Shows the game from the &#8220;<a class="reference external" href="http://somegamewebsite.com/game.java">http://somegamewebsite.com/game.java</a>&#8221; url.</p>
+</div>
+<div class="section" id="javascript">
+<h2>*javascript *<a class="headerlink" href="#javascript" title="Permalink to this headline">¶</a></h2>
+<p>Description: Executes pure javascript code.</p>
+<p>Input: String (javascript code to be executed)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*javascript</span> <span class="pre">alert(&quot;hello&quot;);*</span></code></p>
+<p>Returns:
+This will execute the javascript statement alerting the user with &#8220;Hello&#8221;</p>
+</div>
+<div class="section" id="khinchins">
+<h2>*khinchins *<a class="headerlink" href="#khinchins" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns Khinchin&#8217;s constant.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*khinchins</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">2.6854520010</span></code></p>
+</div>
+<div class="section" id="killframes">
+<h2>*killframes *<a class="headerlink" href="#killframes" title="Permalink to this headline">¶</a></h2>
+<p>Description: Some sites may try to use an iframe to load your website. This command prevents people from loading the content of this page from any other website.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*killframes</span> <span class="pre">*</span></code></p>
+<p>Returns:
+Makes sure that the code is ran in the real URL.</p>
+</div>
+<div class="section" id="kinkelin">
+<h2>*kinkelin *<a class="headerlink" href="#kinkelin" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns Glaisher-Kinkelin Constant.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*kinkelin</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.2824271291</span></code></p>
+</div>
+<div class="section" id="largenumber">
+<h2>*largenumber *<a class="headerlink" href="#largenumber" title="Permalink to this headline">¶</a></h2>
+<p>Description: Returns Max-value before the number starts with 0 again.</p>
+<p>Input: NONE</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*largenumber</span> <span class="pre">*</span></code></p>
+<p>Returns:
+OS dependent, but usually <code class="docutils literal"><span class="pre">1.7976931348623157e+308</span></code></p>
+</div>
+<div class="section" id="larger">
+<h2>*larger *<a class="headerlink" href="#larger" title="Permalink to this headline">¶</a></h2>
+<p>Description: Makes text a bit larger.</p>
+<p>Input: Text that you wish to be enlarged</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*rw</span> <span class="pre">H</span> <span class="pre">*larger</span> <span class="pre">e</span> <span class="pre">*</span> <span class="pre">llo</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">H</span></code> e being larger and then <code class="docutils literal"><span class="pre">llo</span></code>.</p>
+</div>
+<div class="section" id="lcm">
+<h2>*lcm *<a class="headerlink" href="#lcm" title="Permalink to this headline">¶</a></h2>
+<p>Description: Finds least common multiple of the numbers.</p>
+<p>Input: Numbers (Required: at least 2 numbers that you need to find gcd of )</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*lcm</span> <span class="pre">5</span> <span class="pre">2*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">10</span></code></p>
+</div>
+<div class="section" id="left">
+<h2>*left *<a class="headerlink" href="#left" title="Permalink to this headline">¶</a></h2>
+<p>Description: Aligns the content to the left.</p>
+<p>Input: String content that should be aligned to the left</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*left</span> <span class="pre">hello</span> <span class="pre">world*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">hello</span> <span class="pre">world</span></code></p>
+</div>
+<div class="section" id="lessthan">
+<h2>*lessthan *<a class="headerlink" href="#lessthan" title="Permalink to this headline">¶</a></h2>
+<p>Description: Checks to see if the first number is less than the rest of the numbers.</p>
+<p>Input: comparable objects seperated by space x Infinite</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*lessthan</span> <span class="pre">11</span> <span class="pre">33</span> <span class="pre">22</span> <span class="pre">32*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code></p>
+</div>
+<div class="section" id="lessthanorequalto">
+<h2>*lessthanorequalto *<a class="headerlink" href="#lessthanorequalto" title="Permalink to this headline">¶</a></h2>
+<p>Description: Checks to see if the first number is less than or equal to the rest of the numbers.</p>
+<p>Input: comparable objects seperated by space x Infinite</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*lessthanorequalto</span> <span class="pre">11</span> <span class="pre">11</span> <span class="pre">33</span> <span class="pre">22</span> <span class="pre">32*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">true</span></code></p>
+</div>
+<div class="section" id="link">
+<h2>*link *<a class="headerlink" href="#link" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates a link that a user can click and it will be redirected to</p>
+<p>Input: comparable objects seperated by space x Infinite</p>
+<p>Arguments: Number (Optional: If a false statement, opens the URL in a new page, otherwise opens the URL in the current page[default:new page])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*link</span> <span class="pre">http://juliar.org*</span></code></p>
+<p>Returns:
+Creates a link that goes to <a class="reference external" href="http://juliar.org">http://juliar.org</a></p>
+</div>
+<div class="section" id="list">
+<h2>*list *<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
+<p>Description: Creates list content. Similar to *bullet * except has a numerical or alphabetical ordering.</p>
+<p>Input: Content to be listed</p>
+<p>Arguments: String or 1 (Optional: Pick the type of list: &#8220;decimal&#8221;,&#8221;lowercase&#8221;,&#8221;uppercase&#8221;,&#8221;roman&#8221;,&#8221;uppercaseroman&#8221; [default:&#8221;decimal&#8221;])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*list</span> <span class="pre">sleep</span> <span class="pre">*</span></code>
+<code class="docutils literal"><span class="pre">*list</span> <span class="pre">eat</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">1.</span> <span class="pre">sleep</span></code>
+<code class="docutils literal"><span class="pre">2.</span> <span class="pre">eat</span></code></p>
+</div>
+<div class="section" id="locationfromip">
+<h2>*locationfromip *<a class="headerlink" href="#locationfromip" title="Permalink to this headline">¶</a></h2>
+<p>Description: Gets latitute and longitude from the ip specified.</p>
+<p>Input: String[ip]</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*locationfromip</span> <span class="pre">8.8.8.8</span> <span class="pre">*</span></code></p>
+<p>Returns:
+This is one of google&#8217;s ips and it outputs latitute and longitude from the ip specified.</p>
+</div>
+<div class="section" id="log">
+<h2>*log *<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h2>
+<p>Description: Take the logarithm of the number.</p>
+<p>Input: String[ip]</p>
+<p>Arguments: Number(Optional: take lagorithm with a different base [default: natural logarithm])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*log=2</span> <span class="pre">8</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">3</span></code></p>
+</div>
+<div class="section" id="loop">
+<h2>*loop *<a class="headerlink" href="#loop" title="Permalink to this headline">¶</a></h2>
+<p>Description: Loops the content X number of times</p>
+<p>Input: String[ip]</p>
+<p>Arguments: Number(Optional: Number of times to loop the content [default: 2])</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*loop=5</span> <span class="pre">hello</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">hello</span> <span class="pre">hello</span> <span class="pre">hello</span> <span class="pre">hello</span> <span class="pre">hello</span></code></p>
+</div>
+<div class="section" id="lowercase">
+<h2>*lowercase *<a class="headerlink" href="#lowercase" title="Permalink to this headline">¶</a></h2>
+<p>Description: Make the content lowercase</p>
+<p>Input: String (content that you wish to be lowercase)</p>
+<p>Arguments: NONE</p>
+<p>Example(s):
+<code class="docutils literal"><span class="pre">*lowercase</span> <span class="pre">HELLO</span> <span class="pre">world</span> <span class="pre">HOW</span> <span class="pre">ARE</span> <span class="pre">YOU</span> <span class="pre">*</span></code></p>
+<p>Returns:
+<code class="docutils literal"><span class="pre">hello</span> <span class="pre">world</span> <span class="pre">how</span> <span class="pre">are</span> <span class="pre">you</span></code></p>
 </div>
 </div>
 
@@ -87,10 +1354,130 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">List of Commands</a><ul>
+<li><a class="reference internal" href="#">All Commands</a><ul>
 <li><a class="reference internal" href="#absolute">*absolute *</a></li>
 <li><a class="reference internal" href="#acos">*acos *</a></li>
+<li><a class="reference internal" href="#acosh">*acosh *</a></li>
+<li><a class="reference internal" href="#acotanh">*acotanh *</a></li>
+<li><a class="reference internal" href="#acsch">*acsch *</a></li>
+<li><a class="reference internal" href="#add-or">*add * or *+ *</a></li>
+<li><a class="reference internal" href="#alternatecase">*alternatecase *</a></li>
+<li><a class="reference internal" href="#and">*and *</a></li>
+<li><a class="reference internal" href="#aperys">*aperys *</a></li>
+<li><a class="reference internal" href="#arccos">*arccos *</a></li>
+<li><a class="reference internal" href="#arccosecant">*arccosecant *</a></li>
+<li><a class="reference internal" href="#arccot">*arccot *</a></li>
+<li><a class="reference internal" href="#arccotangent">*arccotangent *</a></li>
+<li><a class="reference internal" href="#arccsc">*arccsc *</a></li>
+<li><a class="reference internal" href="#arcsec">*arcsec *</a></li>
+<li><a class="reference internal" href="#arcsecant">*arcsecant *</a></li>
+<li><a class="reference internal" href="#arcsin">*arcsin *</a></li>
+<li><a class="reference internal" href="#arctangent">*arctangent *</a></li>
+<li><a class="reference internal" href="#asech">*asech *</a></li>
+<li><a class="reference internal" href="#asin">*asin *</a></li>
+<li><a class="reference internal" href="#asinh">*asinh *</a></li>
+<li><a class="reference internal" href="#ask">*ask *</a></li>
+<li><a class="reference internal" href="#atan">*atan *</a></li>
+<li><a class="reference internal" href="#atanh">*atanh *</a></li>
+<li><a class="reference internal" href="#author">*author *</a></li>
+<li><a class="reference internal" href="#backbutton">*backbutton *</a></li>
+<li><a class="reference internal" href="#background">*background *</a></li>
+<li><a class="reference internal" href="#backgroundcolor">*backgroundcolor *</a></li>
+<li><a class="reference internal" href="#banner">*banner *</a></li>
+<li><a class="reference internal" href="#blink">*blink *</a></li>
 <li><a class="reference internal" href="#block">*block *</a></li>
+<li><a class="reference internal" href="#blur">*blur *</a></li>
+<li><a class="reference internal" href="#bold">*bold *</a></li>
+<li><a class="reference internal" href="#border">*border *</a></li>
+<li><a class="reference internal" href="#bullet">*bullet *</a></li>
+<li><a class="reference internal" href="#button">*button *</a></li>
+<li><a class="reference internal" href="#capitalize">*capitalize *</a></li>
+<li><a class="reference internal" href="#center">*center *</a></li>
+<li><a class="reference internal" href="#chapter">*chapter *</a></li>
+<li><a class="reference internal" href="#checkrepo">*checkrepo *</a></li>
+<li><a class="reference internal" href="#id1">*checkrepo *</a></li>
+<li><a class="reference internal" href="#cityfromip">*cityfromip *</a></li>
+<li><a class="reference internal" href="#code">*code *</a></li>
+<li><a class="reference internal" href="#color">*color *</a></li>
+<li><a class="reference internal" href="#columns">*columns *</a></li>
+<li><a class="reference internal" href="#commands">*commands *</a></li>
+<li><a class="reference internal" href="#completedate">*completedate *</a></li>
+<li><a class="reference internal" href="#condition">*condition *</a></li>
+<li><a class="reference internal" href="#convertwhitespace">*convertwhitespace *</a></li>
+<li><a class="reference internal" href="#conways">*conways *</a></li>
+<li><a class="reference internal" href="#id2">*conways *</a></li>
+<li><a class="reference internal" href="#cos">*cos *</a></li>
+<li><a class="reference internal" href="#cosecant">*cosecant *</a></li>
+<li><a class="reference internal" href="#cosh">*cosh *</a></li>
+<li><a class="reference internal" href="#cosine">*cosine *</a></li>
+<li><a class="reference internal" href="#cot">*cot *</a></li>
+<li><a class="reference internal" href="#cotangent">*cotangent *</a></li>
+<li><a class="reference internal" href="#coth">*coth *</a></li>
+<li><a class="reference internal" href="#count">*count *</a></li>
+<li><a class="reference internal" href="#countryfromip">*countryfromip *</a></li>
+<li><a class="reference internal" href="#crossout">*crossout *</a></li>
+<li><a class="reference internal" href="#csch">*csch *</a></li>
+<li><a class="reference internal" href="#cw">*cw *</a></li>
+<li><a class="reference internal" href="#date">*date *</a></li>
+<li><a class="reference internal" href="#decimalcount">*decimalcount *</a></li>
+<li><a class="reference internal" href="#deport">*deport *</a></li>
+<li><a class="reference internal" href="#divide-or">*divide * or */ *</a></li>
+<li><a class="reference internal" href="#download">*download *</a></li>
+<li><a class="reference internal" href="#dynamicget">*dynamicget *</a></li>
+<li><a class="reference internal" href="#dynamicinput">*dynamicinput *</a></li>
+<li><a class="reference internal" href="#dynamicset">*dynamicset *</a></li>
+<li><a class="reference internal" href="#dynamicfetch">*dynamicfetch *</a></li>
+<li><a class="reference internal" href="#e">*e *</a></li>
+<li><a class="reference internal" href="#epsilon">*epsilon *</a></li>
+<li><a class="reference internal" href="#equalto">*equalto *</a></li>
+<li><a class="reference internal" href="#error">*error *</a></li>
+<li><a class="reference internal" href="#evaluate">*evaluate *</a></li>
+<li><a class="reference internal" href="#id3">*evaluate *</a></li>
+<li><a class="reference internal" href="#factorial">*factorial *</a></li>
+<li><a class="reference internal" href="#favicon">*favicon *</a></li>
+<li><a class="reference internal" href="#fetch">*fetch *</a></li>
+<li><a class="reference internal" href="#flash">*flash *</a></li>
+<li><a class="reference internal" href="#float">*float *</a></li>
+<li><a class="reference internal" href="#font">*font *</a></li>
+<li><a class="reference internal" href="#footer">*footer *</a></li>
+<li><a class="reference internal" href="#id4">*footer *</a></li>
+<li><a class="reference internal" href="#gcd">*gcd *</a></li>
+<li><a class="reference internal" href="#get">*get *</a></li>
+<li><a class="reference internal" href="#gethistory">*gethistory *</a></li>
+<li><a class="reference internal" href="#getsocket">*getsocket *</a></li>
+<li><a class="reference internal" href="#globalbackground">*globalbackground *</a></li>
+<li><a class="reference internal" href="#goldenration">*goldenration *</a></li>
+<li><a class="reference internal" href="#gravitational">*gravitational *</a></li>
+<li><a class="reference internal" href="#gravity">*gravity *</a></li>
+<li><a class="reference internal" href="#greaterthan">*greaterthan *</a></li>
+<li><a class="reference internal" href="#greaterthanorequalto">*greaterthanorequalto *</a></li>
+<li><a class="reference internal" href="#grow">*grow *</a></li>
+<li><a class="reference internal" href="#header">*header *</a></li>
+<li><a class="reference internal" href="#help">*help *</a></li>
+<li><a class="reference internal" href="#hide">*hide *</a></li>
+<li><a class="reference internal" href="#highlight">*highlight *</a></li>
+<li><a class="reference internal" href="#history">*history *</a></li>
+<li><a class="reference internal" href="#import">*import *</a></li>
+<li><a class="reference internal" href="#ip">*ip *</a></li>
+<li><a class="reference internal" href="#isp">*isp *</a></li>
+<li><a class="reference internal" href="#italics">*italics *</a></li>
+<li><a class="reference internal" href="#java">*java *</a></li>
+<li><a class="reference internal" href="#javascript">*javascript *</a></li>
+<li><a class="reference internal" href="#khinchins">*khinchins *</a></li>
+<li><a class="reference internal" href="#killframes">*killframes *</a></li>
+<li><a class="reference internal" href="#kinkelin">*kinkelin *</a></li>
+<li><a class="reference internal" href="#largenumber">*largenumber *</a></li>
+<li><a class="reference internal" href="#larger">*larger *</a></li>
+<li><a class="reference internal" href="#lcm">*lcm *</a></li>
+<li><a class="reference internal" href="#left">*left *</a></li>
+<li><a class="reference internal" href="#lessthan">*lessthan *</a></li>
+<li><a class="reference internal" href="#lessthanorequalto">*lessthanorequalto *</a></li>
+<li><a class="reference internal" href="#link">*link *</a></li>
+<li><a class="reference internal" href="#list">*list *</a></li>
+<li><a class="reference internal" href="#locationfromip">*locationfromip *</a></li>
+<li><a class="reference internal" href="#log">*log *</a></li>
+<li><a class="reference internal" href="#loop">*loop *</a></li>
+<li><a class="reference internal" href="#lowercase">*lowercase *</a></li>
 </ul>
 </li>
 </ul>

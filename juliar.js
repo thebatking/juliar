@@ -213,37 +213,37 @@ function Juliar_main(juliar){
 		}
 		return false;
 	};
-	this.not = (str,args) => {
+	this.not = str => {
 		return str.split(" ").every(function(el){
 			return JSON.parse(el) == false;
 		});
 	};
-	this.and = (str,args) => { //AND conditional to be used with condition
+	this.and = str => { //AND conditional to be used with condition
 		return str.split(" ").every(function(el){
 			return JSON.parse(el) != false;
 		});
 	};
-	this.lessthan = (str,args) => {
+	this.lessthan = str => {
 		var out = str.split(" ");
 		var element = out.shift();
 		return out.every(el => (element < el));
 	};
-	this.lessthanorequalto = (str,args) => {
+	this.lessthanorequalto = str => {
 		var out = str.split(" ");
 		var element = out.shift();
 		return out.every(el => (element <= el));
 	};
-	this.greaterthan = (str,args) => {
+	this.greaterthan = str => {
 		var out = str.split(" ");
 		var element = out.shift();
 		return out.every(el => (element > el));
 	};
-	this.greaterthanorequalto = (str,args) => {
+	this.greaterthanorequalto = str => {
 		var out = str.split(" ");
 		var element = out.shift();
 		return out.every(el => (element >= el));
 	};
-	this.equalto = (str,args) => {
+	this.equalto = str => {
 		var out = str.split(" ");
 		var element = out.shift();
 		return out.every(el => (element == el));
@@ -542,7 +542,7 @@ function Juliar_main(juliar){
 		}
 		return output;
 	};
-	this.backgroundcolor = (str,args) => {args[0] = args[0] || "#428bca";return "<span stlye=\"background-color:"+args[0]+"\">"+str+"</span>";};
+	this.backgroundcolor = (str,args) => {args[0] = args[0] || "#428bca";return "<span style=\"background-color:"+args[0]+"\">"+str+"</span>";};
 	this.menu = (str,args) => {var name = args[0] || null;return "<juliar_menu name="+name+"><ul>"+str+"</ul></juliar_menu>";};
 	this.menuitem = (str,args) => {
 		var str = str || "&nbsp;";
@@ -605,6 +605,7 @@ function Juliar_main(juliar){
 	};
 	this.background = (str,args) => {
 		var style;
+		args[0] = args[0] || "red";
 		if(args[0].indexOf(".") != -1 || args[0].indexOf("/") != -1) style = "background-image: url("+args[0].replace(/\s/g, "")+")";
 		else{ 
 			style = args.length == 2 ? "background: linear-gradient( to left top, "+args[1]+", "+args[0]+") fixed" : "background:"+args[0];
@@ -698,7 +699,7 @@ function Juliar_main(juliar){
 		for(var i=0, length = str.length; i<length;++i){
 			if(str[i] == '<') escaper = 1;
 			else if(escaper === 0){
-				if (a.charCodeAt(i) >= 65 && a.charCodeAt(i) <= 90) {
+				if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) <= 90) {
 					output += str[i].toLowerCase();
 				}
 				else{
@@ -896,9 +897,7 @@ function Juliar_main(juliar){
 		style += "-webkit-column-rule: 1px solid lightblue;-moz-column-rule: 1px solid lightblue;column-rule: 1px solid lightblue;";
 		return "<div style='"+style+"'>"+ str +"</div>";
 	};
-	this.chapter = str => {
-		return "<p class='chapter'>"+ str +"</p>";
-	};
+	this.chapter = str => "<p class='chapter'>"+ str +"</p>";
 	this.picture = (str,args) => { 
 		var width = args[0] || "100%";
 		var height = args[1] || "auto";
@@ -959,13 +958,13 @@ function Juliar_main(juliar){
 	this.footer = str => "<footer>"+str+"</footer>";
 	this.banner = str => {
 		var width = args[0] || "100%";
-		var height = args[1] || "200";
+		var height = args[1] || "200px";
 		return "<img style='max-width: 100%;width:"+width+";height:"+height+";' src='" + str + "'/>";
 	};
 	this.subtitle = str => "<h2 style='color:#557FBB'>"+str+"</h2>";
 	this.title = str => "<h1 style='text-align:center'>" + str + "</h1>";
 	this.decimalcount = str => {
-		var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+		var match = (''+str).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 		if (!match) { return 0; }
 		return Math.max(0,(match[1] ? match[1].length : 0)- (match[2] ? +match[2] : 0));
 	};	
@@ -982,7 +981,7 @@ function Juliar_main(juliar){
 		juliar.getobject("juliar_core_socket_"+temp).send(str);
 		return "Sent "+str;
 	};
-	this.getsocket = (str,args) => {
+	this.getsocket = str => {
 		var rand = juliar.index();
 		juliar.code('juliar_core_globals["juliar_core_socket_'+str+'"].onmessage = function (event) {'+
 		'document.getElementsByTagName("juliar_core_sockets_'+rand+')[0].innerHTML = event.data;'+
@@ -1044,6 +1043,8 @@ function Juliar_main(juliar){
 			case "uranus":
 			case "venus":
 			return 8.87;
+			case moon:
+			return 1.622;
 			case "mars":
 			return 3.71;
 			case "mercury":
@@ -1075,7 +1076,7 @@ function Juliar_main(juliar){
 	this.cosine = this.cos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.cos(str*Math.PI / 180) : Math.cos(str);
 	this.tangent = this.tan = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.tan(str*Math.PI / 180) : Math.tan(str);
 	this.secant = this.sin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.cos(str*Math.PI / 180) : 1/Math.cos(str);
-	this.cosecant = this.cos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.sin(str*Math.PI / 180) : 1/Math.sin(str);
+	this.cosecant = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.sin(str*Math.PI / 180) : 1/Math.sin(str);
 	this.cotangent = this.cot = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.tan(str*Math.PI / 180) : 1/Math.tan(str);
 	this.asin = this.arcsin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.asin(str)*180/Math.PI : Math.asin(str);
 	this.acos = this.arccos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.acos(str)*180/Math.PI : Math.acos(str);
@@ -1172,7 +1173,7 @@ function Juliar_main(juliar){
 		}
 		return a;
 	}
-	this.gcd = (str,args) => {
+	this.gcd = str => {
 		var input = str.trim().split(" ");
 		var result = input[0];
 		for(var i = 1; i < input.length; i++) result = gcdcalc(result, input[i]);
@@ -1182,7 +1183,7 @@ function Juliar_main(juliar){
 	{
 		return a * (b / gcdcalc(a, b));
 	}
-	this.lcm = (str,args) => {
+	this.lcm = str => {
 		var input = str.trim().split(" ");
 		var result = input[0];
 		for(var i = 1; i < input.length; i++) result = lcmcalc(result, input[i]);

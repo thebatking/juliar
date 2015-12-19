@@ -1,46 +1,1871 @@
 =================
-List of Commands
+All Commands
 =================
 
 \*absolute \*
 ----------------
-Description:``Takes in the numbers, and outputs the absolute numbers``
+Description: Takes in the numbers, and outputs the absolute numbers.
 
-Input:``Numbers``
+Input: Numbers
 
 Arguments: NONE
 
 Example(s):
 ``*absolute -1 2 -3 -5 50 *``
 
-Return:
+Returns:
 ``1 2 3 5 50``
 
 \*acos \*
 ----------------
-Description:``Takes in the a decimal, and finds the base of arccos``
+Description: Takes in the a decimal, and finds the inverse of cosine.
 
-Input:``A decimal``
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*acos .5 *``
+
+Returns:
+``1.0471975511965979``
+
+\*acosh \*
+----------------
+Description: Takes in the a decimal, and finds the inverse of hyperbolic cosine function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*acosh *pi* *``
+
+Returns:
+``1.8115262724608532``
+
+\*acotanh \*
+----------------
+Description:Takes in the a decimal, and finds the inverse of hyperbolic cotangent function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*acotanh *pi* *``
+
+Returns:
+``0.3297653149566992``
+
+\*acsch \*
+----------------
+Description:Takes in the a decimal, and finds the inverse of hyperbolic cosecant function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*acsch 1 *``
+
+Returns:
+``0.8813735870195429``
+
+\*add \* or \*+ \*
+---------------------
+Description:Takes in numbers and adds them all together.
+
+Input: Number or Numbers
 
 Arguments: NONE
 
 Example(s):
-``*acos 1 *``
+``*add 3 2 *``
+``*+ 5 2 6 8 *``
 
-Return:
-``0``
+Returns:
+``5``
+``21``
+
+\*alternatecase \*
+--------------------
+Description:Takes in a string, and switches uppercase letters to lowercase letters and vice versa.
+
+Input: String
+
+Arguments: NONE
+
+Example(s):
+``*alternatecase Hello 22 worlD HoW ArE U today *``
+
+Returns:
+``hELLO 22 WORLd hOw aRe u TODAY``
+
+\*and \*
+-------------------
+Description: Takes in values, if all values evaluate to true returns true, if one of the values evaluate to false returns false.
+
+Input: Booleans or Strings or Numbers
+
+Arguments: NONE
+
+Example(s):
+``*and true 1 55 *``
+``*and true 0 55 *``
+``*and true 55 false *``
+
+Returns:
+``true``
+``false``
+``false``
+
+\*aperys \*
+-------------------
+Description: Returns Apery's constant.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*aperys *``
+
+Returns:
+``1.2020569``
+
+\*arccos \*
+----------------
+Alias: acos
+Description: Takes in the a decimal, and finds the inverse of cosine.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arccos .5 *``
+
+Returns:
+``1.0471975511965979``
+
+\*arccosecant \*
+------------------
+Alias: arccsc
+Description: Takes in the a decimal, and finds the inverse of cosecant.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arccosecant 1 *``
+
+Returns:
+``1.5707963267948966``
+
+\*arccot \*
+----------------
+
+Alias: arccotangent
+Description: Takes in the a decimal, and finds the inverse of cotangent.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arccot 1 *``
+
+Returns:
+``0.7853981633974483``
+
+\*arccotangent \*
+-------------------
+Alias: arccot
+Description: Takes in the a decimal, and finds the inverse of cotangent.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arccotangent 1 *``
+
+Returns:
+``0.7853981633974483``
+
+\*arccsc \*
+----------------
+Alias: arccosecant
+Description: Takes in the a decimal, and finds the inverse of cosecant.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arccsc 1 *``
+
+Returns:
+``1.5707963267948966``
+
+\*arcsec \*
+----------------
+Alias: arcsecant
+Description: Takes in the a decimal, and finds the inverse of secant.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arcsec 2 *``
+
+Returns:
+``1.0471975511965979``
+
+\*arcsecant \*
+----------------
+Alias: arcsec
+Description: Takes in the a decimal, and finds the inverse of secant.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arcsecant 2 *``
+
+Returns:
+``1.0471975511965979``
+
+\*arcsin \*
+----------------
+Alias: asin
+Description: Takes in the a decimal, and finds the inverse of sine.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arcsin 1 *``
+
+Returns:
+``1.5707963267948966``
+
+\*arctangent \*
+-----------------
+Alias: atan
+Description: Takes in the a decimal, and finds the inverse of tangent.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*arctangent 1 *``
+
+Returns:
+``0.7853981633974483``
+
+\*asech \*
+-----------------
+Description:Takes in the a decimal, and finds the inverse of hyperbolic secant function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*asech .5 *``
+
+Returns:
+``1.3169578969248166``
+
+\*asin \*
+----------------
+Description:Takes in the a decimal, and finds the inverse of sine function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*asin 1 *``
+
+Returns:
+``1.5707963267948966``
+
+\*asinh \*
+----------------
+Description:Takes in the a decimal, and finds the inverse of hyperbolic sine function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*asinh 1 *``
+
+Returns:
+``0.8813735870195429``
+
+\*ask \*
+----------------
+Description: Asks user a question, the answer gets returned!
+
+Input: A question to ask.
+
+Arguments: String (Optional: Default answer [default: none])
+
+Example(s):
+``*ask=yes Do you like Ice Cream? *``
+
+Returns:
+user response to the question.
+
+\*atan \*
+----------------
+Description:Takes in the a decimal, and finds the inverse of tangent function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*atan 1 *``
+
+Returns:
+``0.7853981633974483``
+
+\*atanh \*
+----------------
+Description:Takes in the a decimal, and finds the inverse of hyperbolic tangent function.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*atanh .5*``
+
+Returns:
+``0.5493061443340549``
+
+\*author \*
+----------------
+Description: Takes in a string, and creates an "author" heading with it.
+
+Input: A String to be used to create "author" heading.
+
+Arguments: NONE
+
+Example(s):
+``*author AndreiM *``
+
+Returns:
+A new string with "author" heading.
+
+\*backbutton \*
+----------------
+Description: Creates a button that allows you to go back in browser.
+
+Input: String (Optional: Button Name [default: Go Back])
+
+Arguments: NONE
+
+Example(s):
+``*backbutton I need to go Back *``
+
+Returns:
+Creates a button with a "I need to go Back" label.
+
+\*background \*
+-----------------
+Description: Sets the background of the input content.
+
+Input: Content
+
+Arguments: String[Color Name] or Hex Value or rgb() or URL[for images] (Optional: Background Color/Image[default: red]), String (Optional: sets second color for gradient[default:none])
+
+Example(s):
+``*background=yellow,blue I am awesome *``
+
+Returns:
+Sets background of "I am awesome" content to yellow/blue mix.
+
+\*backgroundcolor \*
+---------------------
+Description: Takes the text and sets the background of the text.
+
+Input: Text to what the background color will be applied to.
+
+Arguments: String[Color Name] or Hex Value or rgb() format value  (Optional: Color of Text[default: #428bca (skyblue)])
+
+Example(s):
+``*backgroundcolor=red hello *``
+
+Returns:
+hello with red highlighted color
+
+\*banner \*
+----------------
+Description: Creates an image banner (usually used to display a logo on site or on a forum) by taking in image and optional width and height arguments.
+
+Input: Image Source
+
+Arguments: Size or "%" or Number  (Optional: Width of Banner[default: 100%]), Size or "%" or Number (Optional: Height of Banner[default: 200px])
+
+Example(s):
+``*banner  *``
+
+Returns:
+Returns a banner
+
+.. note: width cannot be greater than 100%.
+
+\*blink \*
+----------------
+Description: Makes the content blink(fade in and out) every so many seconds.
+
+Input: Text of the content to be blinked
+
+Arguments: Number (Optional: Every how many seconds to blink[default: 2]), Number (Optional: How many steps to take each blink)
+
+Example(s):
+``*blink=2,4 Hello *``
+
+Returns:
+Blinks text Hello every 2 seconds taking 4 steps...
 
 \*block \*
 ----------------
-Description:``Takes in the content, and puts the text inside a block(box)``
+Description: Takes in the content, and puts the text inside a block(box)
 
-Input:``Content of what to put into the block``
+Input: Content of what to put into the block
 
-Arguments:``width`` (optional)
+Arguments: number (Optional: width of the block)
 
 Example(s):
 ``*block=500px hello *``
 
 Return:
-``block content``
+Block content
 
+\*blur \*
+----------------
+Description: Blurs the content
+
+Input: Text to be blurred
+
+Arguments: String[colorname] (Optional: Color to use to blur[default: black])
+
+Example(s):
+``*blur=red Hello *``
+
+Returns:
+Blurs hello with the color red.
+
+\*bold \*
+----------------
+Description: Makes text bold
+
+Input: Text to be blurred
+
+Arguments: NONE
+
+Example(s):
+``*bold Hello *``
+
+Returns:
+Makes Hello bold.
+
+\*border \*
+----------------
+Description: Creates a border around content
+
+Input: Content to be bordered
+
+Arguments: String[colorname] (Optional: Color of border[default: black]), Number(Optional: Thickness of border[default: 1], String[style] (Optional: Style of the line[default:solid])
+
+Example(s):
+``*border hellow *``
+
+Returns:
+Creates a border/box around "hellow".
+
+\*bullet \*
+----------------
+Description: Creates bulleted content
+
+Input: Content to be bulleted
+
+Arguments: NONE
+
+Example(s):
+``*bullet hello *``
+
+Returns:
+Creates a bullet with "hello". 
+
+.. note: You may use multiple bullets by executing same command.
+
+\*button \*
+----------------
+Description: Creates a button
+
+Input: The URL the button should redirect (default: #[none])
+
+Arguments: String (Optional: Name of the button [default:Submit]), String[color] (Optional: Color of button [default:SteelBlue])
+
+Example(s):
+``*button http://juliar.org *``
+
+Returns:
+Creates a button that redirects to http://juliar.org
+
+\*capitalize \*
+-----------------
+Description: Capitalizes the first letter of each word
+
+Input: String in which each word will be capitalized
+
+Arguments: NONE
+
+Example(s):
+``*capitalize There once was a dragon That lived on a shore *``
+
+Returns:
+``There Once Was A Dragon That Lived On A Shore``
+
+\*center \*
+----------------
+Description: Centers the text
+
+Input: The text to be centered.
+
+Arguments: NONE
+
+Example(s):
+``*center I am centered *``
+
+Returns:
+Centers the text "I am centered"
+
+\*chapter \*
+----------------
+Description: Creates a pretty first letter like in books.
+
+Input: The text in which first letter will be big.
+
+Arguments: NONE
+
+Example(s):
+``*chapter There once was a bug *``
+
+Returns:
+The "T" will be big and "here once was a bug" will be small.
+
+\*checkrepo \*
+----------------
+Description: Check if repo is working
+
+Input: The repo URL
+
+Arguments: NONE
+
+Example(s):
+``*repo http://repo.juliar.org *``
+
+Returns:
+Whether or not the repo seems to be working. If working, it will return that repo has a pulse, if not it will return that repo is not active.
+
+
+\*checkrepo \*
+----------------
+Description: Check if repo is working
+
+Input: The repo URL
+
+Arguments: NONE
+
+Example(s):
+``*repo http://repo.juliar.org *``
+
+Returns:
+Whether or not the repo seems to be working. If working, it will return that repo has a pulse, if not it will return that repo is not active.
+
+\*cityfromip \*
+-----------------
+Description: Tries to find the city of where ip is originated
+
+Input: String[ip]
+
+Arguments: NONE
+
+Example(s):
+``*cityfromip 8.8.8.8 *``
+
+Returns:
+This is one of google's ips and outputs "Mountain View"
+
+\*code \*
+----------------
+Description: Allows use of <, >, & without them being treated as HTML
+
+Input: content that may contains those values and may be treated as HTML.
+
+Arguments: NONE
+
+Example(s):
+``*code <hello> *``
+
+Returns:
+``<hello>``
+
+.. note: without this command <hello> will be treated as HTML tag.
+
+\*color \*
+----------------
+Description: Sets color of text, each word can be set to a different color by passing in more colors as arguments
+
+Input: String
+
+Arguments: String(Optional: Colors to color each word. If one color is set, it will color everything in one color, else it will alternate each color) x Infinity
+
+Example(s):
+``*color=red,yellow,orange What a beautiful day *``
+
+Returns:
+Sets "What" to red. Sets "a" to yellow. Sets "beautiful" to orange. Sets "day" to red.
+
+\*columns \*
+----------------
+Description: Divides content into columns. Useful when splitting page into several sections.
+
+Input: String
+
+Arguments: Number (Optional: into how many columns to split i.e. 2 makes the column half the size, 3 makes column 1/3 size, etc..[default: 1]),
+Number[1] (Optional: By default columns are equivalent in height, with this argument set to 1. Columns will only be the size of their own content[default: table-cell])
+
+Example(s):
+``*columns=2 Hello *``
+
+Returns:
+Column with half the size with the content of hello.
+
+\*commands \*
+----------------
+Description: Lists commands currently available and their level (if imported).
+
+Input: String (Input the command that starts with) or empty to display all available commands.
+
+Arguments: Number[level] or String[Name] (Optional: input a number to display only commands in that level or name to display commands from the imported module) x Inifnity
+
+Example(s):
+``*commands=2 i*``
+
+Returns:
+``*clearinterpreter * >> IMPORTED from interpreter level: 2``
+``*deleteinterpreter * >> IMPORTED from interpreter level: 2``
+``*downloadcommands * >> IMPORTED from interpreter level: 2``
+``*import *``
+``*ip *``
+``*isp *``
+``*italics *``
+
+\*completedate \*
+-------------------
+Description: Outputs complete date in pretty format.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*completedate *``
+
+Returns:
+``Friday, December 18, 2015``
+
+\*condition \*
+----------------
+Description: Evaluates the arguments and if they are true, return the Input.
+
+Input: String (Input that will be returned if condition evaluates to true)
+
+Arguments: boolean or value (Optional/Required: The condition that satisfy the statement [default: true]) x Infinity
+
+.. note: if you use more arguments they act as if you use an or statement.
+
+Example(s):
+``*condition=5>3 hello *``
+``*condition=5<3 hello *``
+``*condition=5<3,5>3 Yes *``
+Returns:
+``Hello``
+`` ``
+``Yes``
+
+\*convertwhitespace \*
+-----------------------
+Alias: cw
+
+Description: Replaces spaces with special characters. Useful for using in arguments that require space (since you cannot use spaces in arguments)
+
+Input: String to have spaces replaced with
+
+Arguments: NONE
+
+Example(s):
+``*convertwhitespace Hello World *``
+
+Returns:
+``Hello World``
+
+.. note: "Hello World" Now contains a special character instead of space which allows you to use it in arguments or when you need to use long sentence.
+
+\*conways \*
+-----------------------
+
+Description: Returns a Conway's constant
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*conways *``
+
+Returns:
+``1.30357``
+
+\*conways \*
+-----------------------
+
+Description: Returns a Conway's constant
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*conways *``
+
+Returns:
+``1.30357``
+
+\*cos \*
+----------------
+Alias: cosine
+
+Description: Takes in the a decimal, and finds the cosine.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*cos 0 *``
+
+Returns:
+``1``
+
+\*cosecant \*
+----------------
+Description: Takes in the a decimal, and finds the cosecant.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*cosecant 1 *``
+
+Returns:
+``1.1883951057781212``
+
+
+\*cosh \*
+----------------
+Description: Takes in the a decimal, and finds the hyperbolic cosine.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*cosh 1 *``
+
+Returns:
+``1.5430806348152437``
+
+\*cosine \*
+----------------
+Alias: cos
+
+Description: Takes in the a decimal, and finds the cosine.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*cosine 0 *``
+
+Returns:
+``1``
+
+\*cot \*
+----------------
+Alias: cotangent
+
+Description: Takes in the a decimal, and finds the cotangent.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*cot 1 *``
+
+Returns:
+``0.6420926159343306``
+
+\*cotangent \*
+----------------
+Alias: cot
+
+Description: Takes in the a decimal, and finds the cotangent.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*cotangent 1 *``
+
+Returns:
+``0.6420926159343306``
+
+\*coth \*
+----------------
+
+Description: Takes in the a decimal, and finds the hyperbolic cotangent.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*coth 1 *``
+
+Returns:
+``1.3130352854993315``
+
+\*count \*
+----------------
+
+Description: Counts the number of elements seperated by either commas or if not available then spaces.
+
+Input: String x Infinity
+
+Arguments: NONE
+
+Example(s):
+``*count hockey football soccer tennis *``
+``*count red, white, blue *``
+``*count hello world, goodbye world, no man *``
+
+Returns:
+``4``
+``3``
+``3``
+
+\*countryfromip \*
+--------------------
+
+Description: Gets the country from the ip address.
+
+Input: String[ip]
+
+Arguments: NONE
+
+Example(s):
+``countryfromip 8.8.8.8``
+
+Returns:
+``United States``
+	
+\*crossout \*
+----------------
+
+Description: Crosses out the text
+
+Input: String
+
+Arguments: NONE
+
+Example(s):
+``*crossout I made a mistake *``
+
+Returns:
+This will crossout "I made a mistake"
+
+
+\*csch \*
+----------------
+
+Description: Takes in the a decimal, and finds the hyperbolic cosecant.
+
+Input: A decimal
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*csch 1 *``
+
+Returns:
+``0.8509181282393216``
+
+\*cw \*
+-----------------------
+Alias: convertwhitespace
+
+Description: Replaces spaces with special characters. Useful for using in arguments that require space (since you cannot use spaces in arguments)
+
+Input: String to have spaces replaced with
+
+Arguments: NONE
+
+Example(s):
+``*cw Hello World *``
+
+Returns:
+``Hello World``
+
+.. note: "Hello World" Now contains a special character instead of space which allows you to use it in arguments or when you need to use long sentence.
+
+
+\*date \*
+----------------
+
+Description: Outputs date in a standard output.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*date *``
+
+Returns:
+``12/19/2015``
+
+\*decimalcount \*
+-------------------
+
+Description: Counts the number of decimal points.
+
+Input: Decimal/Number
+
+Arguments: NONE
+
+Example(s):
+``*decimalcount 20.3213231 *``
+
+Returns:
+``7``
+
+\*deport \*
+----------------
+
+Description: Deports a module and removes its commands.
+
+Input: String(Module Name)
+
+Arguments: NONE
+
+Example(s):
+``*deport graph *``
+
+Returns:
+Tries to deport graph. If the module is already deported or was never the command throws an error.
+
+\*divide \* or \*/ \*
+------------------------
+
+Description: Takes the first Number and tries to divide everything after it...
+
+Input: Number x Infinity
+
+Arguments: NONE
+
+Example(s):
+``*divide 100 2 5 *``
+``*/ 55 2 5 *``
+
+Returns:
+``10``
+``5.5``
+
+\*download \*
+----------------
+
+Description: Downloads the module from URL and saves it to local drive.
+
+Input: String(URL)
+
+Arguments: NONE
+
+Example(s):
+``*download http://repo.juliar.org/encryption.juliar *``
+
+Returns:
+Tries to download encryption module from juliar repo.
+
+\*dynamicget \*
+----------------
+
+Description: Dynamically gets the value. If value changes..the content also changes. Useful for displaying content that changes...
+Use it with \*dynamicset \*
+
+Input: object[name]
+
+Arguments: NONE
+
+Example(s):
+``*dynamicset=x 2 *``
+``*dynamicget x *``
+``*dynamicget=x 5 *``
+
+Returns:
+``5``
+``5``
+``5``
+
+\*dynamicinput \*
+------------------
+
+Description: When user types in this input field. It changes the input of "dynamic" fields.
+
+Input: String (default value for input field)
+
+Arguments: Object (which dynamic field to modify)
+
+Example(s):
+``*dynamicget x *``
+``*dynamicset=x 2 *``
+``*dynamicinput=x 33 *``
+User changes the field to Hello.
+
+Returns:
+``Hello``
+``Hello``
+``Hello``
+
+\*dynamicset \*
+----------------
+
+Description: Dynamically changes the content of objects. Also returns new dynamic field(same as dynamicget). Use \*hide \* to not return the object but still modify the value of all other dynamic fields.
+
+Input: String(Sets the content of dynamic field to this)
+
+Arguments: Object (with which names should we modify the dynamic fields)
+
+Example(s):
+``*dynamicset=x 33*``
+
+Returns:
+``33``
+
+\*dynamicfetch \*
+------------------
+
+Description: Fetches the URL in the background, and once the content is fully received the text changes to that content.
+
+Input: String(URL)
+
+Arguments: NONE
+
+Example(s):
+``*dynamicfetch http://repo.juliar.org/fetchedcotnent *``
+
+Returns:
+Content that was fetched gets put here once it's received.
+
+\*e \*
+----------------
+
+Description: Returns the value of e. If input is specified e gets raised to that power.
+
+Input: e to which power
+
+Arguments: NONE
+
+Example(s):
+``*e *``
+``*e 2 *``
+
+Returns:
+``2.718281828459045``
+``7.3890560989306495``
+
+\*epsilon \*
+----------------
+
+Description: Gets the epsilon "medium" value. Currently available epsilon values: "Vacuum", "Air","Ethanol", and "Water".
+
+Input: Medium Type
+
+Arguments: NONE
+
+Example(s):
+``*epsilon Air*``
+
+Returns:
+``1.00058986``
+
+\*equalto \*
+----------------
+
+Description: Checks to see if all input (seperated by space) are equal to each other.
+
+Input: comparable objects seperated by space x Infinite
+
+Arguments: NONE
+
+Example(s):
+``*equalto 33 33*``
+``*equalto 2 33*``
+
+Returns:
+``true``
+``false``
+
+\*error \*
+----------------
+
+Description: Alerts the user with the input
+
+Input: String (input that should alert the user)
+
+Arguments: NONE
+
+Example(s):
+``*alert Stop This*``
+
+Returns:
+``Error Invoked: Stop This``
+Displays an Alert to the user "Stop This"
+
+\*evaluate \*
+----------------
+
+Description: A low level command that can evaluate almost any script.
+
+Input: String (to be evaluated)
+
+Arguments: NONE
+
+Example(s):
+``*evaluate 5>3*``
+``*evaluate 5+5*``
+
+Returns:
+``true``
+``10``
+
+\*evaluate \*
+----------------
+
+Description: A low level command that can evaluate almost any script.
+
+Input: String (to be evaluated)
+
+Arguments: NONE
+
+Example(s):
+``*evaluate 5>3*``
+``*evaluate 5+5*``
+
+Returns:
+``true``
+``10``
+
+\*factorial \*
+----------------
+
+Description: This value easily finds factorial of the number using tail-recursion.
+
+Input: Number (Number of factorial)
+
+Arguments: NONE
+
+Example(s):
+``*factorial 10*``
+``*factorial 5*``
+
+Returns:
+``3628800``
+``120``
+
+\*favicon \*
+----------------
+
+Description: Changes the favicon of the browser(Browser's small image located at the tab) to the URL that's specified.
+
+Input: URL (the url of the image to use for browser's tab image)
+
+Arguments: NONE
+
+Example(s):
+``*favicon juliar-logo.png*``
+
+Returns:
+``Favicon changed to juliar-logo.png``
+Changes favicon (image on the tab of the website)
+
+\*fetch \*
+----------------
+
+Description: Fetches content from the URL specified.
+
+Input: URL (the url to fetch content from)
+
+Arguments: NONE
+
+Example(s):
+``*fetch http://juliar.org/content*``
+
+Returns:
+Fetched content from the URL.
+
+\*flash \*
+----------------
+Alias: pdf, java
+
+Description: Creates a flash object in browser video.
+
+Input: URL (the url of where to get the flash object)
+
+Arguments: Number (Optional: Width of the Flash Object[default:420]), Number (Optional: Height of the Flash Object[default:315])
+
+Example(s):
+``*flash http://somegamewebsite.com/game.swf*``
+
+Returns:
+Shows the game from the "http://somegamewebsite.com/game.swf" url.
+
+\*float \*
+----------------
+Description: Floats(display) the element either left or right side of the screen.
+
+Input: String (Content to be floated)
+
+Arguments: "left" or "right" (Optional: Pass in whether you want the elements to be floated left or right [default: "right"])
+
+Example(s):
+``*float hello*``
+
+Returns:
+"hello" will be displayed on the right side of the page.
+
+
+\*font \*
+----------------
+
+Description: Gets a very nice font from google fonts api.
+
+Input: String (the content that will use the font)
+
+Arguments: String (Required: URL of Google Font to use for the content )
+
+.. note: If Google Font Family Contains Spaces use Camel cases... i.e. "Source Sans Pro" should be passed in as "SourceSansPro"
+
+Example(s):
+``*font=SourceSansPro Hello World*``
+
+Returns:
+Displays Hello World in Google Font's Source Sans Pro Font.
+
+
+\*footer \*
+----------------
+
+Description: Adds footer with the Input being as content.
+
+Input: Content that will use footer.
+
+Arguments: NONE
+
+Example(s):
+``*footer copyright 2015*``
+
+Returns:
+This will display the "copyright 2015" message as a footer. The footer is usually placed at the very end of the code.
+
+\*footer \*
+----------------
+
+Description: Adds footer with the Input being as content.
+
+Input: Content that will use footer.
+
+Arguments: NONE
+
+Example(s):
+``*footer copyright 2015*``
+
+Returns:
+This will display the "copyright 2015" message as a footer. The footer is usually placed at the very end of the code.
+
+\*gcd \*
+----------------
+
+Description: Finds greatest common denominator of the numbers.
+
+Input: Numbers (Required: at least 2 numbers that you need to find gcd of )
+
+Arguments: NONE
+
+Example(s):
+``*gcd 55 22*``
+
+Returns:
+``11``
+
+\*get \*
+----------------
+
+Description: Gets the content of the object stored with the name of the Input and returns it.
+
+Input: String (Name of the object to get)
+
+Arguments: NONE
+
+Example(s):
+``*set=x 2 *``
+``*get x*``
+
+Returns:
+``2``
+
+\*gethistory \*
+----------------
+
+Description: Gets and goes to the URL stored in the history object.
+
+Input: String (Name of the history object that is stored)
+
+Arguments: NONE
+
+Example(s):
+``*gethistory x*``
+
+Returns:
+Opens a URL with the named history object.
+
+\*getsocket \*
+----------------
+
+Description: Gets the content from the socket with Input name.
+
+Input: String (Name of the socket to get contents from)
+
+Arguments: NONE
+
+Example(s):
+``*getsocket x*``
+
+Returns:
+Gets the content from socket x.
+
+\*globalbackground \*
+----------------------
+
+Description: Sets the background of the whole window. Similar to \*background \* command except this is applied to the whole window.
+
+Input: Content
+
+Arguments: String[Color Name] or Hex Value or rgb() or URL[for images] (Optional: Background Color/Image[default: red]), String (Optional: sets second color for gradient[default:none])
+
+Example(s):
+``*backgroundglobal yellow blue *``
+
+Returns:
+Sets background of the whole window to a mix of yellow/blue.
+
+\*goldenration \*
+---------------------
+Description: Returns Golden Ratio.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*goldenratio *``
+
+Returns:
+``1.618033988749895``
+
+\*gravitational \*
+---------------------
+Description: Returns Gravitational Constant.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*gravitational *``
+
+Returns:
+``6.674e-11``
+
+\*gravity \*
+----------------------
+
+Description: Returns the Gravity constant in (m/s2) at the surface of the plants or moon.
+
+Input: Planet/Moon you want gravity of.
+
+Arguments: NONE.
+
+Example(s):
+``*gravity earth *``
+
+Returns:
+``9.798``
+
+\*greaterthan \*
+------------------
+
+Description: Checks to see if the first number is greater than the rest of the numbers.
+
+Input: comparable objects seperated by space x Infinite
+
+Arguments: NONE
+
+Example(s):
+``*greaterthan 33 22 32*``
+
+Returns:
+``true``
+
+\*greaterthanorequalto \*
+--------------------------
+
+Description: Checks to see if the first number is greater than or equal to the rest of the numbers.
+
+Input: comparable objects seperated by space x Infinite
+
+Arguments: NONE
+
+Example(s):
+``*equalto 33 33 22*``
+
+Returns:
+``true``
+
+\*grow \*
+----------------
+
+Description: This command makes text get larger and larger.
+
+Input: Text that you want to grow.
+
+Arguments: NONE
+
+Example(s):
+``*grow welcome*``
+
+Returns:
+The "welcome" will get bigger and bigger.
+
+
+\*header \*
+----------------
+
+Description: Adds header with the Input being as content.
+
+Input: Content that will use header.
+
+Arguments: NONE
+
+Example(s):
+``*header welcome*``
+
+Returns:
+This will display the "welcome" message as a header. The header is usually placed at the very beggining of the code.
+
+
+\*help \*
+----------------
+
+Description: Help + Command Name to display help of the command. If help is not available it will try to fetch help from Juliar REPO.
+If it's not available, it will fail.
+
+Input: Command that you need help with
+
+Arguments: NONE
+
+Example(s):
+``*help *``
+
+Returns:
+``Type *help  'command name'* to see help for the command``
+
+\*hide \*
+----------------
+
+Description: This command hides the text and everything. It's useful for hiding the output of commands such as \*dynamicset \* or \*alert \*.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*hide Hello World*``
+
+Returns:
+`` ``
+
+\*highlight \*
+----------------
+
+Description: Highlights  each letter using the color specified. If you want to color whole background, please use backgroundcolor command.
+
+Input: Text that will be colored
+
+Arguments: Colors or Color Hex Value (Optional: Color that you want letters to have [defaut:orange]) x Infinity
+
+Example(s):
+``*highlight=red, orange Hello World*``
+
+Returns:
+Each letter will alternate between colors of red and orange.
+
+\*history \*
+----------------
+
+Description: Gets the history length and outputs the number of history elements you have.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*history*``
+
+Returns:
+``4``
+
+\*import \*
+----------------
+
+Description: Imports Juliar Module (.juliar), juliar style sheet (.jss), or juliar code (.j). 
+If extension is not provided, Juliar Module is assumed. This command now works locally and on a server.
+
+Input: Module, Stylesheet, or Juliar Code Name.
+
+Arguments: String (Optional: Name you want to call the module[default:null].(Argument is Still IN TESTING. LEAVE IT AS DEFAULT FOR NOW!)
+
+Example(s):
+``*import encryption*``
+
+Returns:
+This will import encryption module and use its commands.
+
+\*ip \*
+----------------
+
+Description: Gets the ip address from URL
+
+Input: URL (url of address that you want to find the ip of)
+
+Arguments: NONE
+
+Example(s):
+``*ip http://google.com*``
+
+Returns:
+This will display the  "8.8.8.8" as one of the IPs.
+
+\*isp \*
+----------------
+
+Description: Input IP, to display the internet service provider.
+
+Input: String[IP] (you want to use to find ISP)
+
+Arguments: NONE
+
+Example(s):
+``*isp 8.8.8.8*``
+
+Returns:
+This will display Google as Google is its own service provider.
+
+\*italics \*
+----------------
+
+Description: Makes the text be in italics
+
+Input: String (text that will be in italics)
+
+Arguments: NONE
+
+Example(s):
+``*italics I am skewed*``
+
+Returns:
+This will display message "I am skewed" in italics
+
+\*java \*
+----------------
+Alias: pdf, flash
+
+Description: Creates a JAVA object in browser video.
+
+Input: URL (the url of where to get the JAVA object)
+
+Arguments: Number (Optional: Width of the JAVA Object[default:420]), Number (Optional: Height of the JAVA Object[default:315])
+
+Example(s):
+``*java http://somegamewebsite.com/game.java*``
+
+Returns:
+Shows the game from the "http://somegamewebsite.com/game.java" url.
+
+\*javascript \*
+----------------
+
+Description: Executes pure javascript code.
+
+Input: String (javascript code to be executed)
+
+Arguments: NONE
+
+Example(s):
+``*javascript alert("hello");*``
+
+Returns:
+This will execute the javascript statement alerting the user with "Hello"
+
+\*khinchins \*
+---------------------
+Description: Returns Khinchin's constant.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*khinchins *``
+
+Returns:
+``2.6854520010``
+
+\*killframes \*
+---------------------
+Description: Some sites may try to use an iframe to load your website. This command prevents people from loading the content of this page from any other website.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*killframes *``
+
+Returns:
+Makes sure that the code is ran in the real URL.
+
+\*kinkelin \*
+---------------------
+Description: Returns Glaisher-Kinkelin Constant.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*kinkelin *``
+
+Returns:
+``1.2824271291``
+
+\*largenumber \*
+---------------------
+Description: Returns Max-value before the number starts with 0 again.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*largenumber *``
+
+Returns:
+OS dependent, but usually ``1.7976931348623157e+308``
+
+\*larger \*
+---------------------
+Description: Makes text a bit larger.
+
+Input: Text that you wish to be enlarged
+
+Arguments: NONE
+
+Example(s):
+``*rw H *larger e * llo *``
+
+Returns:
+``H`` e being larger and then ``llo``.
+
+\*lcm \*
+---------------------
+Description: Finds least common multiple of the numbers.
+
+Input: Numbers (Required: at least 2 numbers that you need to find gcd of )
+
+Arguments: NONE
+
+Example(s):
+``*lcm 5 2*``
+
+Returns:
+``10``
+
+\*left \*
+---------------------
+Description: Aligns the content to the left.
+
+Input: String content that should be aligned to the left
+
+Arguments: NONE
+
+Example(s):
+``*left hello world*``
+
+Returns:
+``hello world``
+
+\*lessthan \*
+---------------------
+Description: Checks to see if the first number is less than the rest of the numbers.
+
+Input: comparable objects seperated by space x Infinite
+
+Arguments: NONE
+
+Example(s):
+``*lessthan 11 33 22 32*``
+
+Returns:
+``true``
+
+\*lessthanorequalto \*
+-----------------------
+Description: Checks to see if the first number is less than or equal to the rest of the numbers.
+
+Input: comparable objects seperated by space x Infinite
+
+Arguments: NONE
+
+Example(s):
+``*lessthanorequalto 11 11 33 22 32*``
+
+Returns:
+``true``
+
+\*link \*
+---------------------
+Description: Creates a link that a user can click and it will be redirected to
+
+Input: comparable objects seperated by space x Infinite
+
+Arguments: Number (Optional: If a false statement, opens the URL in a new page, otherwise opens the URL in the current page[default:new page])
+
+Example(s):
+``*link http://juliar.org*``
+
+Returns:
+Creates a link that goes to http://juliar.org
+
+\*list \*
+---------------------
+Description: Creates list content. Similar to \*bullet \* except has a numerical or alphabetical ordering.
+
+Input: Content to be listed
+
+Arguments: String or 1 (Optional: Pick the type of list: "decimal","lowercase","uppercase","roman","uppercaseroman" [default:"decimal"])
+
+Example(s):
+``*list sleep *``
+``*list eat *``
+
+Returns:
+``1. sleep``
+``2. eat``
+
+.. note: You can create numbering by using multiple lists via executing same command.
+
+\*locationfromip \*
+--------------------
+Description: Gets latitute and longitude from the ip specified.
+
+Input: String[ip]
+
+Arguments: NONE
+
+Example(s):
+``*locationfromip 8.8.8.8 *``
+
+Returns:
+This is one of google's ips and it outputs latitute and longitude from the ip specified.
+
+\*log \*
+----------------
+Description: Take the logarithm of the number.
+
+Input: String[ip]
+
+Arguments: Number(Optional: take lagorithm with a different base [default: natural logarithm])
+
+Example(s):
+``*log=2 8 *``
+
+Returns:
+``3``
+
+\*loop \*
+----------------
+Description: Loops the content X number of times
+
+Input: String[ip]
+
+Arguments: Number(Optional: Number of times to loop the content [default: 2])
+
+Example(s):
+``*loop=5 hello *``
+
+Returns:
+``hello hello hello hello hello``
+
+\*lowercase \*
+----------------
+Description: Make the content lowercase
+
+Input: String (content that you wish to be lowercase)
+
+Arguments: NONE
+
+Example(s):
+``*lowercase HELLO world HOW ARE YOU *``
+
+Returns:
+``hello world how are you``
