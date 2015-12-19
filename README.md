@@ -1,4 +1,4 @@
-# *Juliar * Alpha 3
+# *Juliar * Alpha 4
 ![logo](https://cloud.githubusercontent.com/assets/11934545/9560198/1641db26-4dd6-11e5-8b7d-8aaf54ca2ea1.png)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/juliarLang/juliar.svg)](http://isitmaintained.com/project/juliarLang/juliar "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/juliarLang/juliar.svg)](http://isitmaintained.com/project/juliarLang/juliar "Percentage of issues still open")

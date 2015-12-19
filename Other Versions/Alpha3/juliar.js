@@ -5,27 +5,28 @@ function Juliar(verbose) {
 	//
 	//CSS Utilizer
 	var csscode = "";
-	this.css = (str) => {csscode+=str};
-	this.getcss = () => csscode;
-	this.clearcss = () => {csscode=""};
+	this.css = function(str){csscode+=str;}
+	this.getcss = function(){return csscode;}
+	this.clearcss = function(){csscode="";}
 	//Create HELP HERE!
-	/*var help = {};
+	var help = {};
 	this.sethelp = function(obj){
 		
 	}
-	this.gethelp = function(name){return help[name];}*/
+	this.gethelp = function(name){return help[name];}
 	
-	var jscode = [];
-	this.index = () => jscode.length;
-	this.code = code => {jscode.push(code);return jscode.length;};
-	this.getcode = id => (Number(id) > -1? jscode[id]:jscode);
-	this.clearcode = () => {jscode = []};
-	
+	/*NOT TESTED */
 	var objects = {};
-	this.setobject = (obj,value) => (objects[obj] = value);
-	this.getobject = obj => objects[obj];
-	this.checkobject = obj => (objects[obj]?  true:false);
-	this.deleteobject = obj => {if(objects[obj]){objects[obj] = undefined;return true;}return false;};
+	jscode = [];
+	this.jscodelength = jscode.length;
+	this.index = function(){return jscode.length;}; //KEEPS IT UNIQUE
+	this.code = function(code){ jscode.push(code);return jscode.length;};
+	this.getcode = function(id){return Number(id) > -1? jscode[id]:jscode;}
+	this.clearcode = function(){jscode = [];return "";}
+	this.setobject = function(obj,value){return objects[obj] = value;};
+	this.getobject = function(obj){return objects[obj];};
+	this.checkobject = function(obj){return objects[obj]?  true:false;};
+	this.deleteobject = function(obj){if(objects[obj]){objects[obj] = undefined;return true;}return false;};
 	//END OF NOT TESTED
 	//MODULES
 	this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this)};
@@ -48,15 +49,10 @@ function Juliar(verbose) {
 		this.clearcss();
 		document.body.appendChild(css);
 	}
-	if(this.index() != 0){
-		for(var i=0,length=this.index();i<length;i++){
-			var js = document.createElement("script");
-			js.type = "text/javascript";
-			js.innerHTML = this.getcode(i);
-			document.body.appendChild(js);
-		}
-		this.clearcode();
-	}
+	//
+	document.dispatchEvent(new Event('juliar_done'));  
+	//Alpha Cache//
+	//CACHE -Alpha Test Only
 	var modules = Object.keys(this.modules);
 	var i = modules.length;
 	var temp = [];
@@ -69,14 +65,12 @@ function Juliar(verbose) {
 	}
 	temp.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
 	this.commands = temp;
-	document.dispatchEvent(new Event('juliar_done'));
-	if(verbose) console.log(this.log);
-};
-Juliar.prototype.parser = function(str) {
+}
+Juliar.prototype.parser = function(str){
 	var currentindex=0, nextvalue,lastindex =0, positions = [];
 	while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
 		if(str[currentindex-1] == "\\");
-		else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+		else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
 			positions.push(currentindex);
 		}
 		else{
@@ -90,6 +84,12 @@ Juliar.prototype.parser = function(str) {
 		++currentindex;
 	}
 	if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
+	for(var i=0,j=this.jscodelength;i<j;i++){
+		var fileref=document.createElement("script");
+		fileref.type = "text/javascript";
+		fileref.textContent = this.getcode(i);
+		document.head.appendChild(fileref);
+	}
 	if(this.getcss() != ""){
 		var css = document.createElement("style");
 		css.type = "text/css";
@@ -98,7 +98,7 @@ Juliar.prototype.parser = function(str) {
 		document.body.appendChild(css);
 	}
 	return str.replace(/\\\*/g, "*");
-};
+}
 Juliar.prototype.picker = function(str){
 	var temp = str.replace(/\s/g, " ").split(' ')[0];
 	var length = temp.length;
@@ -128,13 +128,13 @@ Juliar.prototype.picker = function(str){
 		}
 	}
 	return "<span class='juliar_error'>Unknown command '" +command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: "+str.substr(length).trim()+" </em>";
-};
-var juliar; document.addEventListener("DOMContentLoaded", () => { juliar = new Juliar();});
+	
+}
+var juliar; document.addEventListener("DOMContentLoaded", function(){ juliar = new Juliar();});
 
 
 function Juliar_main(juliar){
 	var css = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
-	css += "li>a{color:#557FBB;text-decoration:none}li>a:visited{color:#557FBB}li>a:link{color:#557FBB}li>a:hover{color:grey}";
 	css += ".center{text-align:center;}.left{text-align:left}.right{text-align:right}.middle{display:block;margin-left:auto;margin-right:auto;}";
 	css += ".smaller{font-size:95%}.larger{font-size:105%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
 	css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
@@ -149,120 +149,110 @@ function Juliar_main(juliar){
 	css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
 	css += "@keyframes blink {0%{opacity: 1;}50%{opacity: 0;}100%{opacity: 1;}}";
-	css += "juliar_menu li,juliar_menu ul{list-style:none;margin:0 0 -2px;padding:0;background-color:#333;}"+
-	"juliar_menu ul{text-align:left;position:relative;z-index:597;text-transform:uppercase}juliar_menu ul li{float:left;min-height:1px;vertical-align:middle}"+
-	"juliar_menu ul li.hover,juliar_menu ul li:hover{position:relative;z-index:599;cursor:default}juliar_menu ul ul{visibility:hidden;position:absolute;"+
-	"top:100%;z-index:598;width:100%;bottom:0;left:0;margin-top:0;border-top:4px solid #1b9bff;text-transform:none;min-width:190px}"+
-	"juliar_menu ul ul li{float:none;font-weight:400;position:relative}juliar_menu,juliar_menu a{background:#333;font-size:14px;font-weight:700}"+
-	"juliar_menu ul ul ul{top:0;left:auto;right:-99.5%;border-top:0 none}juliar_menu ul li:hover>ul{visibility:visible}"+
-	"juliar_menu a{display:block;line-height:1em;text-decoration:none;color:#CBCBCB;padding:0 15px;margin-right:0}"+
-	"juliar_menu{padding:0;margin:0;border:0;border-bottom:4px solid #1b9bff}juliar_menu>ul{display:inline-block}"+
-	"juliar_menu ul:after,juliar_menu:after{content:&#39;&#39;;display:block;clear:both}"+
-	"juliar_menu ul ul a{color:#FFF;border:1px solid #0082e7;border-top:0 none;line-height:150%;padding:16px 20px}"+
-	"juliar_menu>ul>li>a{line-height:48px;color:white}juliar_menu>ul>li>a:visited{color:white}juliar_menu>ul>li>a:link{color:white}juliar_menu ul ul li:first-child>a{border-top:1px solid #0082e7}"+
-	"juliar_menu ul ul li:hover>a{background:#35a6ff}juliar_menu ul ul li:last-child>a{border-radius:0 0 3px 3px;box-shadow:0 1px 0 #1b9bff}"+
-	"juliar_menu ul ul li:last-child:hover>a{border-radius:0 0 0 3px}juliar_menu ul ul li.has-sub>a:after{content:&#39;+&#39;;position:absolute;top:50%;right:15px;margin-top:-8px}"+
-	"juliar_menu ul li.active>a,juliar_menu ul li:hover>a{background:#1b9bff;color:#FFF}juliar_menu ul li.has-sub>a:after{content:&#39;+&#39;;margin-left:5px}"+
-	"juliar_menu ul li.last ul{left:auto;right:0}juliar_menu ul li.last ul ul{left:auto;right:99.5%}";
-	css += "footer{background-color:#333;padding:15px;text-align:center;color:white;}";
-	css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
 	juliar.css(css);
 	
-	this.block = (str,args) => {if(args[0]) return "<span class='juliar_block' style='width:"+args[0]+"'>"+str+"</span>";return "<span class='juliar_block'>"+str+"</span>";};
+	this.block = function(str){
+		return "<span class='juliar_block'>"+str+"</span>";
+	}
 	
-	this.section = (str,args) => {
-		var width = args[0] || "auto";
-		var height = args[1] || "auto";
-		var marginx = args[2] || "0";
-		var marginy = args[3] || "auto";
-		var backcolor = args[4] || "transparent";
-		return "<section style='width:"+width+";height:"+height+";margin: "+marginx+" "+marginy+";background-color:"+backcolor+"'>"+str+"</section>";
-	};
-	
-	this.version = () => "Language \\*Juliar \\* version Alpha 3. Running on " + navigator.userAgent;
-	this.help = str => {
+	this.version = function(){
+		return "Language \\*Juliar \\* version Alpha 3. Running on " + navigator.userAgent;
+	}
+	this.help = function(str){
 		if(str == "") return "<span class='juliar_error'>Type \\*help  'command name' \\* to see help for the command</span>";
 		var found = juliar.gethelp(str.trim());
 		if(found !== undefined) return found;
 		return "<span class='juliar_error'>Help could not be found for '"+str+"' </span>";	
-	};
-	this.loop = this.repeat = (str,args) => {
+	}
+	this.loop = this.repeat = function(str,args) {
 		var temp = args[0] || 2;
 		var output = str;
 		for(var i=1; i<temp; ++i){
 			output += " "+str+" ";
 		}
 		return output;
-	};
-	this.evaluate = str => eval(str);
-	this.condition = (str,args) => {
+	}
+	this.evaluate = function(str){
+		return eval(str);
+	}
+	this.condition = function(str,args) {
 		if(args[0] === undefined) return str;
 		for (var i = 0, length = args.length; i < length; ++i) {
 			if (eval(args[i])) return str;
 		}
 		return "";
-	};
-	this.or = str => {
+	}
+	this.or = function(str){
 		var temp = str.split(" ");
 		for (var i = 0, length = temp.length; i < length; ++i) {
 			if (JSON.parse(temp[i]) != false) return true;
 		}
 		return false;
-	};
-	this.not = (str,args) => {
+	}
+	this.not = function(str,args){
 		return str.split(" ").every(function(el){
 			return JSON.parse(el) == false;
 		});
-	};
-	this.and = (str,args) => { //AND conditional to be used with condition
+	}
+	this.and = function(str,args){ //AND conditional to be used with condition
 		return str.split(" ").every(function(el){
 			return JSON.parse(el) != false;
 		});
-	};
-	this.lessthan = (str,args) => {
+	}
+	this.lessthan = function(str,args){
 		var out = str.split(" ");
 		var element = out.shift();
-		return out.every(el => (element < el));
-	};
-	this.lessthanorequalto = (str,args) => {
+		return out.every(function(el){
+			return element < el;
+		});
+	}
+	this.lessthanorequalto = function(str,args){
 		var out = str.split(" ");
 		var element = out.shift();
-		return out.every(el => (element <= el));
-	};
-	this.greaterthan = (str,args) => {
+		return out.every(function(el){
+			return element <= el;
+		});
+	}
+	this.greaterthan = function(str,args){
 		var out = str.split(" ");
 		var element = out.shift();
-		return out.every(el => (element > el));
-	};
-	this.greaterthanorequalto = (str,args) => {
+		return out.every(function(el){
+			return element > el;
+		});
+	}
+	this.greaterthanorequalto = function(str,args){
 		var out = str.split(" ");
 		var element = out.shift();
-		return out.every(el => (element >= el));
+		return out.every(function(el){
+			return element >= el;
+		});
 	};
-	this.equalto = (str,args) => {
+	this.equalto = function(str,args){
 		var out = str.split(" ");
 		var element = out.shift();
-		return out.every(el => (element == el));
+		return out.every(function(el){
+			return element == el;
+		});
 	};
-	this.code = str => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-	this.hide = () => "";
+	this.code = function(str){return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+	this.hide = function() {return "";};
 	var repolink = "http://juliar.elementfx.com/repo/?juliar=&package=";
-	this.repo = str => {
+	this.repo = function(str){
 		if(str.trim() == "") return repolink;
 		repolink = str;
 		return "The repo has been now set to "+repolink;
 	};
-	this.checkrepo = str => {
+	this.checkrepo = function(str){
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", repolink, !1);
 		return (xmlhttp.status=200)? "The repo <strong>"+repolink+"</strong> has a pulse" : "<juliar_error>repo does not appear to be active! Try changing repo via \\*repo \\*</juliar_error>";
 	};
-	this.update = () => {
+	this.update = function(){
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", repolink+"&versions="+Object.keys(juliar.modules).toString(), !1);
 		return (xmlhttp.status==200)? xmlhttp.responseText : "<juliar_error>Could not get the updates! Make sure that the repo is active by typing \\*checkrepo \\*</juliar_error>";
 	};
-	this.download = str => {
+	this.download = function(str){
 		var name = str.split("/").pop();
 		if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
 		else if(str.indexOf("//") === -1){
@@ -292,11 +282,13 @@ function Juliar_main(juliar){
 				}
 			}
 		}
-		temp.sort((a, b) => ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1)));
+		temp.sort(function(a, b) {return ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1))});
 		juliar.commands = temp;	
 	}
-	this.deport = a => ((juliar.modules[a] === undefined)? '<juliar_error>Module "' + a + '" does not exists</juliar_error>':(delete juliar.modules[a],countcommands(),document.dispatchEvent(new Event('deleted '+a)),'Deported Module "' + a + '"'));
-	this.javascript = str => {
+	this.deport = function(a) {
+		return (juliar.modules[a] === undefined)? '<juliar_error>Module "' + a + '" does not exists</juliar_error>':(delete juliar.modules[a],countcommands(),document.dispatchEvent(new Event('deleted '+a)),'Deported Module "' + a + '"');
+	};
+	this.javascript = function(str) {
 		if(str.split(" ")[0].indexOf(".js") !== -1){ 
 			var fileref=document.createElement("script");
 			fileref.src = str;
@@ -306,7 +298,7 @@ function Juliar_main(juliar){
 		juliar.code(str);
 		return "";
 	};
-	this.import = (str,args) => {
+	this.import = function(str,args){
 		var alias = args[0] || null;
 		if(str.trim() === "") return "<juliar_error>You Did not specify what to import! Cannot Continue to Import</juliar_error>";
 		var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
@@ -399,7 +391,7 @@ function Juliar_main(juliar){
 			}
 		}
 	};
-	this.commands = (str,args) => { //List commands
+	this.commands = function(str,args) { //List commands
 		var command = str.trim() || false;
 		var names = [];
 		var keys = Object.keys(juliar.modules);
@@ -424,21 +416,32 @@ function Juliar_main(juliar){
 		
 		return functions;
 	};
-	this.count = str => ((str.split(",").length > 1)? str.split(",").length : str.split(" ").length);
-	this.modules = () => Object.keys(juliar.modules);
+	this.count = function(str){
+		return (str.split(",").length > 1)? str.split(",").length : str.split(" ").length;
+	};
+	this.modules = function(){
+		return Object.keys(juliar.modules);
+	};
 	//Redirection
-	this.link = (str,args) => {
-		str = str.trim() || args[0];
+	this.link = function(str,args){
 		args[0] = args[0] || str;
 		var temp = !(args[1]) == true ? "_blank" : "_self";
-		return "<a href='"+args[0]+"' target='"+temp+"'>"+str+"</a>";
+		return "<a href='"+str+"' target='"+temp+"'>"+args[0]+"</a>";
 	};
-	this.mail = (str,args) => {args[0] = args[0] || str;return "<a href='mailto:"+str+"'>"+args[0]+"</a>";};
-	this.store = (str,args) => {localStorage.setItem(args[0], str);return str;};
-	this.restore = str => localStorage.getItem(str.trim());
+	this.mail = function(str,args){
+		args[0] = args[0] || str;
+		return "<a href='mailto:"+str+"'>"+args[0]+"</a>";
+	};
+	this.store = function(str,args) {
+		localStorage.setItem(args[0], str);
+		return str;
+	};
+	this.restore = function(str) {
+		return localStorage.getItem(str.trim());
+	};
 	//
 	//Symbol Stuff
-	this.symbol = (str) => {
+	this.symbol = function(str){
 		switch(str){
 			case "sigma": return "&Sigma;";
 			case "delta": return "&Delta;";
@@ -459,7 +462,7 @@ function Juliar_main(juliar){
 	};
 	//
 	//3D Stuff
-	this.threed = (str,args) => {
+	this.threed = function(str,args){
 		args[0] = args[0] || "0.06em";
 		return "<span style='text-shadow: -"+args[0]+" 0 red,  "+args[0]+" 0 cyan;'>"+str+"</span>";
 	};
@@ -480,43 +483,36 @@ function Juliar_main(juliar){
 		form.submit();
 		return "";
 	}*/
-	this.columns = (str,args) => {
-		var temp = 100/(args[0] || 1) | 0;
-		var type = "table-cell";
-		if(args[1] == 1) type = "inline-block";
-		return "<div style='vertical-align:top;display:"+type+";width:"+temp+"%;box-shadow: 1px 0px 1px #888888'>"+str+"</div>";
+	this.columns = function(str,args){
+		var temp = 100/(args[0] || 1);
+		return "<div style='float:left;width:"+temp+"%'>"+str+"</div>";
 	};
-	this.newline = str => {str = JSON.parse(str) || 1;var temp;for(var i=0;i<str;i++){temp+="<br>";};return temp;};
-	this.float = (str,args) => {
+	this.float = function(str,args){
 		args[0] = args[0] || "right";
 		return "<span style='float:"+args[0]+";'>"+str+"</span>";
 	};
-	this.sticky = (str,args) => {
+	this.sticky = function(str,args){
 		args[0] = args[0]  || "initial";
 		args[1] = args[1]  || "initial";
 		var x = args[0] < 0 ? "bottom:" : "top:";
 		var y = args[1] < 0 ? "right:" : "left:";
 		return "<span style='position:fixed;"+x+args[0]+";"+y+args[1]+"'>"+str+"</span>";
 	};
-	this.spoiler = (str,args) => {
+	this.spoiler = function(str,args){
 		var temp = args[0] || "black";
 		var front = args[1] || "black";
 		var back = args[2] || "white";
 		juliar.css('.juliar_spoiler_'+temp+'{ background-color:'+temp+';color:'+temp+'}.juliar_spoiler_'+temp+':hover{background-color:'+front+';color:'+back+'}');
 		return "<span class='juliar_spoiler_"+temp+"'>"+str+"</span>";
 	};
-	this.bullet = str => {
-		var category = juliar.index();
-		var list = "var listcat= document.getElementsByTagName(\"juliar_bullet_"+category+"\")[0];var temp = document.createElement(\"li\");temp.style.marginLeft=\"-20px\";temp.innerHTML = \""+str+"\";if(listcat.previousElementSibling.nodeName != \"UL\"){";
-		list += "temp2 = document.createElement(\"UL\");listcat.parentNode.insertBefore(temp2, listcat);temp2.appendChild(temp);}";
-		list += "else{listcat.previousElementSibling.appendChild(temp);}";
-		list += "listcat.parentNode.removeChild(listcat);"
-		juliar.code(list);
-		return "<juliar_bullet_"+category+"></juliar_bullet_"+category+">";
+	this.bullet = function(str){
+		return "<ul><li>" + str + "</li></ul>";
 	};
-	
-	this.visibility = (str,args) => {var temp = args[0] || 40;return "<div style='opacity: "+temp/100+";filter: alpha(opacity="+temp+");'>"+str+"</div>";};
-	this.color = (str,args) => {
+	this.visibility = function(str,args){
+		var temp = args[0] || 40;
+		return "<span style='opacity: "+temp/100+";filter: alpha(opacity="+temp+");'>"+str+"</span>";
+	};
+	this.color = function(str,args) {
 		var temp = args[0] || 'inherit';
 		if(args.length < 2) return "<span style='color: " + temp + "'> " + str + "</span>";
 		var output = "";
@@ -538,76 +534,59 @@ function Juliar_main(juliar){
 		}
 		return output;
 	};
-	this.backgroundcolor = (str,args) => {args[0] = args[0] || "#428bca";return "<span stlye=\"background-color:"+args[0]+"\">"+str+"</span>";};
-	this.menu = (str,args) => {var name = args[0] || null;return "<juliar_menu name="+name+"><ul>"+str+"</ul></juliar_menu>";};
-	this.menuitem = (str,args) => {
-		var str = str || "&nbsp;";
-		var url = args[0] || "#";
-		var type = args[1] || "0";
-		var picture = args[2] || "";
-		if(picture) picture = "style=\"background: url("+picture+") no-repeat center center;padding-left:40px;background-size:100%;\"";
-		var position = 0;
-		if((position = str.indexOf("<li>")) == -1){
-			switch(type){
-				case "0":
-					return '<li><a href="'+url+'" '+picture+'>'+str+'</a></li>';
-				case "1":
-					return '<li><a target="_blank" href="'+url+' '+picture+' ">'+str+'</a></li>';
-				default:
-					juliar.setobject(args[0],str);
-					return '<li><a href="#" '+picture+'>'+str+'</a></li>';
-			};
-		}
-		return '<li><a href="#">'+str.slice(0,position)+' + </a><ul>'+str.slice(position)+'</ul></li>';		
+	this.backgroundcolor = function(str,args){
+		args[0] = args[0] || "#428bca";
+		return "<span stlye=\"background-color:"+args[0]+"\">"+str+"</span>";
 	};
-	this.padding = (str,args) => {
+	
+	this.padding = function(str,args){
 		var size = args[0] || "5px";
 		var pad = args[1] || "all";
 		switch(pad){
 			case "all":
-			return "<div style='padding:"+size+"'>"+str+"</div>";
+			return "<span style='padding:"+size+"'>"+str+"</span>";
 			case "top":
-			return "<div style='padding-top:"+size+"'>"+str+"</div>";
+			return "<span style='padding-top:"+size+"'>"+str+"</span>";
 			case "bottom":
-			return "<div style='padding-bottom:"+size+"'>"+str+"</div>";
+			return "<span style='padding-bottom:"+size+"'>"+str+"</span>";
 			case "left":
-			return "<div style='padding-left:"+size+"'>"+str+"</div>";
+			return "<span style='padding-left:"+size+"'>"+str+"</span>";
 			case "right":
-			return "<div style='padding-right:"+size+"'>"+str+"</div>";
+			return "<span style='padding-right:"+size+"'>"+str+"</span>";
 			case "sides":
-			return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</div>";
+			return "<span style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</span>";
 			case "vertical":
-			return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</div>";
+			return "<span style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</span>";
 			default:
-			return "<div style='padding:"+size+"'>"+str+"</div>";
+			return "<span style='padding:"+size+"'>"+str+"</span>";
 		}
-	};
-	this.notice = (str,args) => {
+	}
+	
+	this.notice = function(str,args){
 		var bgcolor = args[0] || "#428bca";
 		var color = args[1] || "white";
 		var fontsize = args[2] || "16px";
 		var padding = args[3] || "5px";
 		return "<div style='background-color:"+bgcolor+";color:"+color+";font-size:"+fontsize+";padding:"+padding+";'>"+str+"</div>";
 	};
-	this.ask = (str,args) => {var temp = args[0] || "";return prompt(str, temp);};
-	this.error = str => {alert(str);return "<span class=\"juliar_error\">Error invoked: "+str+"</span>";};
-	this.globalbackground = str => {
-		if(str.indexOf(".") != -1 || str.indexOf("/") != -1) juliar.code("document.body.style.backgroundImage = \"url("+str.replace(/\s/g, "")+")\"");
+	
+	this.ask = function(str,args) {
+		var temp = args[0] || "";
+		return prompt(str, temp);
+	};
+	this.error = function(str) {
+		alert(str);
+		return "<span class=\"juliar_error\">Error invoked: "+str+"</span>";
+	};
+	this.background = function(str) {
+		if(str.indexOf(".") != -1 || str.indexOf("/") != -1) juliar.code(document.body.style.backgroundImage = "url("+str+")");
 		else{ 
 			var temp = str.split(" ");
-			temp.length == 2 ?  juliar.code("document.body.style.background = \"linear-gradient( to left top, "+temp[1]+", "+temp[0]+") fixed\"") : juliar.code("document.body.style.background = "+temp[0]);
+			temp.length == 2 ? juliar.code('document.body.style.background = "linear-gradient( to left top, '+temp[1]+', '+temp[0]+')";') : juliar.code("document.body.style.background = '"+temp[0]+"';");
 		}
 		return "Background Changed using the following attribute <em>'" + str+"'</em>";
 	};
-	this.background = (str,args) => {
-		var style;
-		if(args[0].indexOf(".") != -1 || args[0].indexOf("/") != -1) style = "background-image: url("+args[0].replace(/\s/g, "")+")";
-		else{ 
-			style = args.length == 2 ? "background: linear-gradient( to left top, "+args[1]+", "+args[0]+") fixed" : "background:"+args[0];
-		}
-		return "<div style='"+style+"'>"+str+"</div>";
-	};
-	this.list = (str,args) => {
+	this.list = function(str,args){
 		var temp  = args[0] || "decimal";
 		var category = juliar.index();
 		temp = {"decimal":1,"lowercase":'a',"uppercase":'A',"roman":'i',"uppercaseroman":'I'}[temp] || 1;
@@ -618,7 +597,7 @@ function Juliar_main(juliar){
 		juliar.code(list);
 		return "<juliar_list_"+category+"></juliar_list_"+category+">";
 	};
-	this.button = (str,args) => {
+	this.button = function(str,args){
 		var str = str || "#";
 		var name = args[0] || "Submit";
 		var color = args[1] || 'SteelBlue';
@@ -627,21 +606,30 @@ function Juliar_main(juliar){
 	};
 	//
 	//History Manipulation
-	this.history = () => window.history.length;
-	this.statehistory = () => history.state;
-	this.sethistory = (str,args) => {
+	this.history = function(){
+		return window.history.length;
+	};
+	this.statehistory = function(){
+		return history.state;
+	};
+	this.sethistory = function(str,args){
 		var temp = args[0] || null;
 		history.pushState(temp, null, str);
 	};
-	this.gethistory = str => (IsNumeric(str) ? window.history.go(str) : window.history.go(juliar_core_globals(str)));
-	this.replacehistory = str => {var temp = args[0] || null;history.replaceState(temp, null, str);};
+	this.gethistory = function(str){
+		return IsNumeric(str) ? window.history.go(str) : window.history.go(juliar_core_globals(str));
+	};
+	this.replacehistory = function(str){
+		var temp = args[0] || null;
+		history.replaceState(temp, null, str);
+	};
 	//
 	//Array Manipulation
-	this.pick = (str,args) => {
+	this.pick = function(str,args) {
 		var picktype = args[1] || 1;
 		var pickings = [];
 		var pickstore = "";
-		var temp = str.split(" ").filter(n => (n !== ""));
+		var temp = str.split(" ").filter(function(n) {return n !== "";});
 		var temp2 = args[0];
 		if(temp2 == undefined)  return temp[Math.random() * temp.length |0];
 		if(JSON.parse(picktype) == false && temp.length < temp2) return "<span class=\"juliar_error\">Not enough elements to pick from</span>";
@@ -659,8 +647,10 @@ function Juliar_main(juliar){
 		}
 		return output;
 	};
-	this.randomize = str => {
-		var arr = str.split(" ").filter(n => (n !== ""));
+	this.randomize = function(str) {
+		var arr = str.split(" ").filter(function(n) {
+			return n !== "";
+		});
 		var currentIndex = arr.length,
 		temporaryValue, randomIndex;
 		while (0 !== currentIndex) {
@@ -674,20 +664,46 @@ function Juliar_main(juliar){
 	};
 	//
 	//Text Effects
-	this.left = str => "<div class='left'>" + str + "</div>";
-	this.right = str => "<div class='right'>" + str + "</div>";
-	this.center = str => "<div class='center'>" + str + "</div>";
-	this.middle = str => "<div class='middle'>" + str + "</div>";
-	this.bold = str => "<span class='bold'>" + str + "</span>";
-	this.italics = str => "<span class='italics'>" + str + "</span>";
-	this.crossout = str => "<span class='crossout'>" + str + "</span>";
-	this.overline = str => "<span class='overline'>" + str + "</span>";
-	this.subscript = str => "<span class='subscript'>" + str + "</span>";
-	this.superscript = str => "<span class='superscript'>" + str + "</span>";
-	this.underline = str => "<span class='underline'>" + str + "</span>";
-	this.uppercase = str => "<span style='text-transform: uppercase;'>"+str+"</span>";
-	this.lowercase = str => "<span style='text-transform: lowercase;'>"+str+"</span>";
-	this.alternatecase = str => {
+	this.left = function(str) {
+		return "<div class='left'>" + str + "</div>";
+	};
+	this.right = function(str) {
+		return "<div class='right'>" + str + "</div>";
+	};
+	this.center = function(str) {
+		return "<div class='center'>" + str + "</div>";
+	};
+	this.middle = function(str) {
+		return "<div class='middle'>" + str + "</div>";
+	};
+	this.bold = function(str) {
+		return "<span class='bold'>" + str + "</span>";
+	};
+	this.italics = function(str) {
+		return "<span class='italics'>" + str + "</span>";
+	};
+	this.crossout = function(str) {
+		return "<span class='crossout'>" + str + "</span>";
+	};
+	this.overline = function(str) {
+		return "<span class='overline'>" + str + "</span>";
+	};
+	this.subscript = function(str) {
+		return "<span class='subscript'>" + str + "</span>";
+	};
+	this.superscript = function(str) {
+		return "<span class='superscript'>" + str + "</span>";
+	};
+	this.underline = function(str) {
+		return "<span class='underline'>" + str + "</span>";
+	};
+	this.uppercase = function(str){
+		return "<span style='text-transform: uppercase;'>"+str+"</span>";
+	};
+	this.lowercase = function(str){
+		return "<span style='text-transform: lowercase;'>"+str+"</span>";
+	};
+	this.alternatecase = function(str){
 		var index = 0;
 		var output = "";
 		var escaper = 0;
@@ -706,14 +722,20 @@ function Juliar_main(juliar){
 		}
 		return output;  
 	};
-	this.capitalize = str => "<span style='text-transform: capitalize;'>"+str+"</span>";
-	this.blur = (str,args) => {
+	this.capitalize = function(str){
+		return "<span style='text-transform: capitalize;'>"+str+"</span>";
+	};
+	this.blur = function(str,args){
 		var temp = args[0] || 'black';
 		return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
 	};
-	this.smaller = str => "<span class='smaller'>" + str + "</span>";
-	this.larger = str => "<span class='larger'>" + str + "</span>";
-	this.shrink = str => {
+	this.smaller = function(str) {
+		return "<span class='smaller'>" + str + "</span>";
+	};
+	this.larger = function(str) {
+		return "<span class='larger'>" + str + "</span>";
+	};
+	this.shrink = function(str) {
 		var output = "", escaper = 0, counter = 0;
 		for (var i = 0, length = str.length; i < length; ++i){
 			if(str[i] == '<') escaper = 1;
@@ -724,7 +746,7 @@ function Juliar_main(juliar){
 		for (i = 0; i < counter; i++) output += "</span>";
 		return output;
 	};
-	this.grow = str => {
+	this.grow = function(str) {
 		var output = "", escaper = 0, counter = 0;
 		for (var i = 0, length = str.length; i < length; ++i){
 			if(str[i] == '<') escaper = 1;
@@ -735,7 +757,7 @@ function Juliar_main(juliar){
 		for (i = 0; i < counter; i++) output += "</span>";
 		return output;
 	};
-	this.highlight = (str,args) => {
+	this.highlight = function(str,args) {
 		var index = 0;
 		var output = "";
 		var escaper = 0;
@@ -750,7 +772,7 @@ function Juliar_main(juliar){
 		}
 		return output;  
 	};
-	this.rainbow = (str,args) => { 
+	this.rainbow = function(str,args) { 
 		var index = 0;
 		var output = "";
 		var escaper = 0;
@@ -765,11 +787,11 @@ function Juliar_main(juliar){
 		}
 		return output;  
 	};
-	this.size = (str,args) => { 
+	this.size = function(str,args) { 
 		var temp = args[0] || 'inherit';
 		return "<span style='font-size: " + temp + "'> " + str + "</span>";
 	};
-	this.font = (str,args) => { //May needtomodify to prevent scripts... DEFINITELY NEEDS MODIFYING
+	this.font = function(str,args) { //May needtomodify to prevent scripts... DEFINITELY NEEDS MODIFYING
 		var temp = args[0] || 'inherit';
 		WebFontConfig = {
 			google: { families: [ temp.split(/(?=[A-Z])/).join(" ")+'::latin' ] }
@@ -781,7 +803,7 @@ function Juliar_main(juliar){
 		s.parentNode.insertBefore(wf, s);
 		return "<span style=\"font-family: '" + temp.split(/(?=[A-Z])/).join(" ") + "'\"> " + str + "</span>";
 	};
-	this.rotate = (str,args) => {
+	this.rotate = function(str,args){
 		var temp = args[0] || 350;
 		args[0] = args[0]  || "inherit";
 		args[1] = args[1]  || "inherit";
@@ -789,29 +811,32 @@ function Juliar_main(juliar){
 		var y = args[1] < 0 ? "right:" : "left:";
 		return "<div style='transform: rotate("+temp+"deg);position:relative;"+x+args[0]+";"+y+args[1]+"'>" + str + "</div>";
 	};
-	this.reflect = (str,args) => {
+	this.reflect = function(str,args){
 		var temp = args[0] || "X";
 		return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
 	};
-	this.reverse = str => {for (var i = str.length, o = ''; i > 0; o += str[--i]);return o;};
-	this.border = (str,args) => {
+	this.reverse = function(str){
+		for (var i = str.length, o = ''; i > 0; o += str[--i]);
+		return o;
+	};
+	this.border = function(str,args){
 		var color = args[0] || "black";
 		var size = args[1] || 1;
 		var style = args[2] || "solid";
 		return "<span style='border: "+size+"px "+style+" "+color+"'>"+str+"</span>";
 	};
-	this.outline = (str,args) => {
+	this.outline = function(str,args){
 		var temp = args[0] || 'orange';
 		return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
 	};
-	this.blink = (str,args) => {
+	this.blink = function(str,args){
 		var sec = args[0] || 2;
 		var steps = args[1] || 4;
 		return "<juliar_blink style='animation: blink "+sec+"s steps("+steps+") infinite;'>"+str+"</juliar_blink>";
 	};
 	//
 	//Date & Time
-	this.completedate = () => {
+	this.completedate = function(){
 		var now = new Date();
 		var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 		var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -819,61 +844,61 @@ function Juliar_main(juliar){
 		var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
 		return days[now.getDay()]+", "+months[now.getMonth()]+" "+date+", "+((year < 1000) ? year + 1900 : year);
 	};
-	this.date = () => {
+	this.date = function(){
 		var now = new Date();
 		return ("0"+(now.getMonth()+1)).slice(-2)+"/"+("0"+now.getDate()).slice(-2)+"/"+now.getFullYear();
 	};
-	this.time = str => {
+	this.time = function(str){
 		var now = new Date();
 		return ("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2);
 	};
-	this.timezone = str => {
+	this.timezone = function(str){
 		var d = new Date().getTimezoneOffset()/60;
 		return d > 0 ? "GMT-"+d : 'GMT+'.Math.abs(d); 
 	};
-	this.ip = str => {
+	this.ip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).query;
 	};
-	this.zipfromip = str => {
+	this.zipfromip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).zip;
 	};
-	this.zonefromip = str => {
+	this.zonefromip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).timezone;
 	};
-	this.regionfromip = str => {
+	this.regionfromip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).regionName;
 	};
-	this.locationfromip = str => {
+	this.locationfromip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).lat +" "+ JSON.parse(xmlhttp.responseText).lon;
 	};
-	this.countryfromip = str => {
+	this.countryfromip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).country;
 	};
-	this.cityfromip = str => {
+	this.cityfromip = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
 		return JSON.parse(xmlhttp.responseText).city;
 	};
-	this.isp = str => {
+	this.isp = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
 		xmlhttp.send();
@@ -881,34 +906,34 @@ function Juliar_main(juliar){
 	};
 	//
 	//News Related
-	this.newsbanner = (str,args) => {
+	this.newsbanner = function(str,args){
 		var temp = args[0] || 15;
 		return "<div class='marquee' style='animation: marquee "+temp+"s linear infinite;'>"+str+"</div>";
 	};
-	this.newspaper = (str,args) => {
+	this.newspaper = function(str,args){
 		var st = args[0] || 2;
 		var style = "-webkit-column-count: "+st+";-moz-column-count: "+st+";column-count: "+st+";";
 		style += "-webkit-column-gap: 40px;-moz-column-gap: 40px;column-gap: 40px;";
 		style += "-webkit-column-rule: 1px solid lightblue;-moz-column-rule: 1px solid lightblue;column-rule: 1px solid lightblue;";
 		return "<div style='"+style+"'>"+ str +"</div>";
 	};
-	this.chapter = str => {
+	this.chapter = function(str){
 		return "<p class='chapter'>"+ str +"</p>";
 	};
-	this.picture = (str,args) => { 
+	this.picture = function(str,args) { 
 		var width = args[0] || "100%";
 		var height = args[1] || "auto";
 		return "<img style='max-width: 100%;width:"+width+";height:"+height+";margin:0 auto;' src='" + str + "'/>";
 	};
 	//
 	//Media
-	this.pdf = this.flash = this.java =  (str,args) => {
+	this.pdf = this.flash = this.java = function(str,args){
 		if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
 		var width = args[0] || 420;
 		var height = args[1] || 315;
 		return "<object width='"+width+"' height='"+height+"' data='"+str+"'></object>"
 	};
-	this.video = (str,args) => {
+	this.video = function(str,args) {
 		if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
 		var width = args[0] || 420;
 		var height = args[1] || 315;
@@ -919,10 +944,12 @@ function Juliar_main(juliar){
 		else if(str.indexOf("//www.twitch.tv/") != -1) return '<iframe width='+width+' height='+height+' src="//www.twitch.tv/'+str.split("/").pop()+'/embed" frameborder="0"></iframe>';
 		return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
 	};
-	this.music = str => '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
+	this.music = function(str) { 
+		return '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
+	};
 	//
 	//Max,Min & Absolute
-	this.randomnumber = (str,args) => {
+	this.randomnumber = function(str,args) {
 		var times = args[0] || 1;
 		var temp = (Math.random() * (parseInt(str) || 100)) + 1 |0;
 		while(--times){
@@ -930,55 +957,55 @@ function Juliar_main(juliar){
 		}
 		return temp;
 	};
-	this.removewhitespace = this.rw = str => str.replace(/\s/g, '');
-	this.convertwhitespace = this.cw = str => str.replace(/\s/g,"&nbsp;").trim();
-	this.largenumber = () => Number.MAX_VALUE;
-	this.smallnumber = () => Number.MIN_VALUE;
-	this.maximum = str => Math.max.apply(Math, str.split(" "));
-	this.minimum = str => Math.min.apply(Math, str.split(" "));
-	this.absolute = str => str.split(" ").map(Math.abs).join(" ");
+	this.largenumber = function() {
+		return Number.MAX_VALUE;
+	};
+	this.smallnumber = function() {
+		return Number.MIN_VALUE;
+	};
+	this.maximum = function(str) {
+		return Math.max.apply(Math, str.split(" "));
+	};
+	this.minimum = function(str) {
+		return Math.min.apply(Math, str.split(" "));
+	};
+	this.absolute = function(str) {
+		return str.split(" ").map(Math.abs).join(" ");
+	};
 	//
 	//Header & Title
-	this.killframes = () => {if (top.location != location) top.location.href = document.location.href;};
-	this.favicon = str => {
-		juliar.code("var favicon = document.createElement('link');"+
-		"favicon.rel = 'shortcut icon';"+
-		"favicon.href = '"+str+"';"+
-		"document.getElementsByTagName('head')[0].appendChild(favicon)");    
-		return "Favicon changed to '"+str+"' ";
-	};
-	this.pagetitle = str => {
-		juliar.code("document.title = \""+str+"\"");
-		return "Pagetitle changed to '"+str+"' ";
-	};
-	this.header = str => "<header>"+str+"</header>";
-	this.footer = str => "<footer>"+str+"</footer>";
-	this.banner = str => {
+	this.banner = function(str){
 		var width = args[0] || "100%";
 		var height = args[1] || "200";
 		return "<img style='max-width: 100%;width:"+width+";height:"+height+";' src='" + str + "'/>";
 	};
-	this.subtitle = str => "<h2 style='color:#557FBB'>"+str+"</h2>";
-	this.title = str => "<h1 style='text-align:center'>" + str + "</h1>";
-	this.decimalcount = str => {
+	this.title = function(str) {
+		return "<h1 style='text-align:center'>" + str + "</h1>";
+	};
+	
+	this.decimalcount = function(str){
 		var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 		if (!match) { return 0; }
 		return Math.max(0,(match[1] ? match[1].length : 0)- (match[2] ? +match[2] : 0));
-	};	
-	this.author = str => "<h2 style='text-align:center'>" + str + "</h2>";
+	};
+	
+	this.author = function(str) {
+		return "<h2 style='text-align:center'>" + str + "</h2>";
+	};
+	//
 	//Sockets
-	this.socket = (str,args) => {
+	this.socket = function(str,args){
 		var temp = args[0] || null;
 		var Socket = new WebSocket("wss://"+str);
 		juliar.setobject("juliar_core_socket_"+temp, Socket);
 		return "Socket Created";
 	};
-	this.setsocket = (str,args) => {
+	this.setsocket = function(str,args){
 		var temp = args[0] || null;
 		juliar.getobject("juliar_core_socket_"+temp).send(str);
 		return "Sent "+str;
 	};
-	this.getsocket = (str,args) => {
+	this.getsocket = function(str,args){
 		var rand = juliar.index();
 		juliar.code('juliar_core_globals["juliar_core_socket_'+str+'"].onmessage = function (event) {'+
 		'document.getElementsByTagName("juliar_core_sockets_'+rand+')[0].innerHTML = event.data;'+
@@ -987,46 +1014,73 @@ function Juliar_main(juliar){
 	};
 	//
 	//Variables and Dynamics
-	this.set = (str,args) => juliar.setobject(args[0],str);
-	this.get = str => juliar.getobject(str.trim());
-	this.fetch = str => {
+	this.set = function(str,args) {
+		return juliar.setobject(args[0],str);
+	};
+	this.get = function(str) {
+		return juliar.getobject(str.trim());
+	};
+	this.fetch = function(str) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", str, false);
 		xmlhttp.send();
 		return xmlhttp.responseText;
 	};
-	this.dynamicset = (str,args) => {
+	this.dynamicset = function(str,args){
 		var temp = args[0] || null;
-		juliar.code("var h2s = document.getElementsByTagName('juliar_dynamic_"+temp+"');"+
-		"for(var h = 0, length = h2s.length; h < length; h++ ) {h2s[h].innerHTML = '"+str+"';}");
+		var h2s = document.getElementsByTagName('juliar_dynamic_'+temp);
+		for(var h = 0, length = h2s.length; h < length; h++ ) {h2s[h].innerHTML = str; }
 		juliar.setobject(temp,str);
 		return "<juliar_dynamic_"+temp+">"+str+"</juliar_dynamic_"+temp+">";
 	};
-	this.dynamicget = str => "<juliar_dynamic_"+str+">"+juliar.getobject(str.trim())+"</juliar_dynamic_"+str+">";
-	this.dynammicfetch = str => {
+	this.dynamicget = function(str){
+		return "<juliar_dynamic_"+str+">"+juliar.getobject(str.trim())+"</juliar_dynamic_"+str+">";
+	};
+	this.dynammicfetch = function(str){
 		var randomj = "juliar_dynamicfetch_"+juliar.index();
 		var xmlhttp = new XMLHttpRequest();
 		juliar.code('xmlhttp.onreadystatechange=function(){if (xmlhttp.readyState==4 && xmlhttp.status==200){document.getElementById('+randomj+').innerHTML=xmlhttp.responseText;}};)'+
 		'xmlhttp.open("GET",str,true);xmlhttp.send();');
 		return "<span id='"+randomj+"'></span>";
 	};
-	this.dynamicinput = (str,args) => "<input onblur='juliar_core_dynamicset(this.value,\""+args[0]+"\")' type='text' value='"+str+"' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3)'>";
+	this.dynamicinput = function(str,args){
+		return "<input onblur='juliar_core_dynamicset(this.value,\""+args[0]+"\")' type='text' value='"+str+"' style='width: 600px;border-top: 0;border-right: 0;border-left: 0;background: transparent;border-color:rgba(0,0,0,0.3)'>";
+	};
+	//
 	//Math Functions
 	//constants
-	this.e = str => Math.exp(Number(str) || 1);
-	this.log = (str,args) => {
+	this.e = function(str) {
+		return Math.exp(Number(str) || 1);
+	};
+	this.log = function(str,args){
 		if(!args[0]) return Math.log(Number(str) || 1);
 		return Math.log(Number(str) || 1)/Math.log(Number(args[0]) || 10);
 	};
-	this.pi = () => '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089';
-	this.pythagoras = () => '1.4142135623730951';
-	this.aperys = () => '1.2020569';
-	this.goldenratio = () => '1.618033988749895';
-	this.mascheroni = () => '0.57721';
-	this.conways = () => '1.30357';
-	this.khinchins = () => '2.6854520010';
-	this.kinkelin = () => '1.2824271291';
-	this.gravity = (str,args) => {
+	this.pi = function() {
+		return '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089';
+	};
+	this.pythagoras = function(){
+		return '1.4142135623730951';
+	};
+	this.aperys = function(){
+		return '1.2020569';
+	};
+	this.goldenratio = function(){
+		return '1.618033988749895';
+	};
+	this.mascheroni = function(){
+		return '0.57721';
+	};
+	this.conways = function(){
+		return '1.30357';
+	};
+	this.khinchins = function(){
+		return '2.6854520010';
+	};
+	this.kinkelin = function(){
+		return '1.2824271291';
+	};
+	this.gravity = function(str,args){
 		str = args[0] || str.trim().toLowerCase(); 
 		switch(str){
 			case "sun":
@@ -1051,8 +1105,10 @@ function Juliar_main(juliar){
 			return 9.798;
 		}
 	}
-	this.gravitational = () => 6.674e-11;
-	this.epsilon = str => {
+	this.gravitational = function(){
+		return 6.674e-11;
+	};
+	this.epsilon = function(str){
 		switch(str){
 			case "Vacuum":
 			return 1;
@@ -1067,34 +1123,110 @@ function Juliar_main(juliar){
 		}
 	};
 	//trig
-	this.sine = this.sin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.sin(str*Math.PI / 180) : Math.sin(str);
-	this.cosine = this.cos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.cos(str*Math.PI / 180) : Math.cos(str);
-	this.tangent = this.tan = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.tan(str*Math.PI / 180) : Math.tan(str);
-	this.secant = this.sin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.cos(str*Math.PI / 180) : 1/Math.cos(str);
-	this.cosecant = this.cos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.sin(str*Math.PI / 180) : 1/Math.sin(str);
-	this.cotangent = this.cot = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.tan(str*Math.PI / 180) : 1/Math.tan(str);
-	this.asin = this.arcsin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.asin(str)*180/Math.PI : Math.asin(str);
-	this.acos = this.arccos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.acos(str)*180/Math.PI : Math.acos(str);
-	this.atan = this.arctangent = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.atan(str)*180/Math.PI : Math.atan(str);
-	this.arcsec = this.arcsecant = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.acos(1/str)*180/Math.PI :Math.acos(1/str);
-	this.arccsc = this.arccosecant = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.asin(1/str)*180/Math.PI : Math.asin(1/str);
-	this.arccot = this.arccotangent = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.atan(1/str)*180/Math.PI : Math.atan(1/str);
+	this.sine = this.sin = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.sin(str*Math.PI / 180);
+		return Math.sin(str);
+	};
+	this.cosine = this.cos = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.cos(str*Math.PI / 180);
+		return Math.cos(str);
+	};
+	this.tangent = this.tan = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.tan(str*Math.PI / 180);
+		return Math.tan(str);
+	};
+	this.secant = this.sin = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.cos(str*Math.PI / 180);
+		return 1/Math.cos(str);
+	};
+	this.cosecant = this.cos = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.sin(str*Math.PI / 180);
+		return 1/Math.sin(str);
+	};
+	this.cotangent = this.cot = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.tan(str*Math.PI / 180);
+		return 1/Math.tan(str);
+	};
+	this.asin = this.arcsin = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asin(str)*180/Math.PI;
+		return Math.asin(str);
+	};
+	this.acos = this.arccos = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acos(str)*180/Math.PI;
+		return Math.acos(str);
+	};
+	this.atan = this.arctangent = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atan(str)*180/Math.PI;
+		return Math.atan(str);
+	};
+	this.arcsec = this.arcsecant = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acos(1/str)*180/Math.PI;
+		return Math.acos(1/str);
+	};
+	this.arccsc = this.arccosecant = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asin(1/str)*180/Math.PI;
+		return Math.asin(1/str);
+	};
+	this.arccot = this.arccotangent = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atan(1/str)*180/Math.PI;
+		return Math.atan(1/str);
+	};
 	//Hyperbola Functions
-	this.cosh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.cosh(str*Math.PI / 180) : Math.cosh(str);
-	this.sinh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.sinh(str*Math.PI / 180) : Math.sinh(str);
-	this.tanh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.tanh(str*Math.PI / 180) : Math.tanh(str);
-	this.coth = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.tanh(str*Math.PI / 180) : 1/Math.tanh(str);
-	this.sech = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.cosh(str*Math.PI / 180) : 1/Math.cosh(str);
-	this.csch = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.sinh(str*Math.PI / 180) : 1/Math.sinh(str);
-	this.asinh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.asinh(str)*180/Math.PI : Math.asinh(str);
-	this.acosh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.acosh(str)*180/Math.PI : Math.acosh(str);
-	this.atanh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.atanh(str)*180/Math.PI : Math.atanh(str);
-	this.asech = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.acosh(1/str)*180/Math.PI : Math.acosh(1/str);
-	this.acsch = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.asinh(1/str)*180/Math.PI : Math.asinh(1/str);
-	this.acotanh = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.atanh(1/str)*180/Math.PI : Math.atanh(1/str);
-	this.toDegrees = str => str*180/Math.PI;
-	this.toRadians = str => str*Math.PI/180;
-	this.temperature = (str,args) => {
+	this.cosh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.cosh(str*Math.PI / 180);
+		return Math.cosh(str);
+	};
+	this.sinh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.sinh(str*Math.PI / 180);
+		return Math.sinh(str);
+	};
+	this.tanh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.tanh(str*Math.PI / 180);
+		return Math.tanh(str);
+	};
+	this.coth = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.tanh(str*Math.PI / 180);
+		return 1/Math.tanh(str);
+	};
+	this.sech = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.cosh(str*Math.PI / 180);
+		return 1/Math.cosh(str);
+	};
+	this.csch = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return 1/Math.sinh(str*Math.PI / 180);
+		return 1/Math.sinh(str);
+	};
+	this.asinh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asinh(str)*180/Math.PI;
+		return Math.asinh(str);
+	};
+	this.acosh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acosh(str)*180/Math.PI;
+		return Math.acosh(str);
+	};
+	this.atanh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atanh(str)*180/Math.PI;
+		return Math.atanh(str);
+	};
+	this.asech = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.acosh(1/str)*180/Math.PI;
+		return Math.acosh(1/str);
+	};
+	this.acsch = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.asinh(1/str)*180/Math.PI;
+		return Math.asinh(1/str);
+	};
+	this.acotanh = function(str,args) {
+		if(args[0] == "degrees" || args[0] == "360" || args[0]) return Math.atanh(1/str)*180/Math.PI;
+		return Math.atanh(1/str);
+	};
+	this.toDegrees = function(str){
+		return str*180/Math.PI;
+	};
+	this.toRadians = function(str){
+		return str*Math.PI/180;
+	};
+	this.temperature = function(str,args){
 		var num = Number(str.trim()) || null;
 		var unit = args[0] || 'K';
 		var cto = args[1] || 'C'
@@ -1110,48 +1242,48 @@ function Juliar_main(juliar){
 		}
 	}
 	//
-	this.root = (str,args) => {
+	this.root = function(str,args){
 		var root = args[0] || 2;
 		var y = Math.pow(Math.abs(str), 1/root);
 		if(root%2)return str < 0 ? -y : y;
 		return str < 0 ? y+"i" : y;
 	};
-	this.power = str => {
+	this.power = function(str) {
 		var temp;
 		str.split(" ").forEach(function(element) {
 			Number(element)&&(temp=null==temp?Number(element):Math.pow(temp, element));
 		});
 		return temp;
 	};
-	this.divide = str => {
+	this.divide = function(str) {
 		var temp;
 		str.split(" ").forEach(function(element) {
 			Number(element)&&(temp=null==temp?Number(element):temp/Number(element));
 		});
 		return temp;
 	};
-	this.remainder = str => {
+	this.remainder = function(str){
 		var temp;
 		str.split(" ").forEach(function(element) {
 			Number(element)&&(temp=null==temp?Number(element):((temp%(Number(element)))+Number(element))%Number(element));
 		});
 		return temp;
 	};
-	this.multiply = str => {
+	this.multiply = function(str) {
 		var temp = 1;
 		str.split(" ").forEach(function(element) {
 			Number(element) && (temp *= element);
 		});
 		return temp;
 	};
-	this.add = str => {
+	this.add = function(str) {
 		var temp = 0;
 		str.split(" ").forEach(function(element) {
 			Number(element) && (temp += Number(element));
 		});
 		return temp;
 	};
-	this.subtract = str => {
+	this.subtract = function(str) {
 		var temp;
 		str.split(" ").forEach(function(element) {
 			Number(element)&&(temp=null==temp?Number(element):temp-Number(element));
@@ -1168,7 +1300,7 @@ function Juliar_main(juliar){
 		}
 		return a;
 	}
-	this.gcd = (str,args) => {
+	this.gcd = function(str,args){
 		var input = str.trim().split(" ");
 		var result = input[0];
 		for(var i = 1; i < input.length; i++) result = gcdcalc(result, input[i]);
@@ -1178,20 +1310,22 @@ function Juliar_main(juliar){
 	{
 		return a * (b / gcdcalc(a, b));
 	}
-	this.lcm = (str,args) => {
+	this.lcm = function(str,args){
 		var input = str.trim().split(" ");
 		var result = input[0];
 		for(var i = 1; i < input.length; i++) result = lcmcalc(result, input[i]);
 		return result;
 	};
 	////
-	this.trash = () => juliar.getobject('null') || juliar.getobject('undefined');
+	this.trash = function(){
+		return juliar.getobject('null') || juliar.getobject('undefined');
+	};
 	//Experimental
-	this.newwindow = str => {
+	this.newwindow = function(str){
 		str = str || "http://www.juliar.org"; window.open(str,"newWindow");
 		return "Opened "+str+" in new window!";
 	};
-	this.warnonclose = (str,args) => {
+	this.warnonclose = function(str,args){
 		str = str.trim() || args[0] || true;
 		if(JSON.parse(str) != false){
 			window.onbeforeunload = function (e) {
@@ -1206,15 +1340,14 @@ function Juliar_main(juliar){
 		window.onbeforeunload = "";
 		return "Browser will normally close!";
 	};
-	this.urlparameters = () => {
+	this.urlparameters = function(){
 		var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results && results[1]) || undefined;
 	};
-	this.backbutton = str => '<a href="javascript:history.back(1)">'+(str || 'Go Back')+'</a>';
 }
 
 function Juliar_graph(juliar){
-	this.graph = (str,args) => {
+	this.graph = function(str,args){
 		//Test of generating x^2
 		x_val = [];
 		y_val = [];
@@ -1237,21 +1370,21 @@ function Juliar_graph(juliar){
 	function caretReplace(a) {
 		if (-1 < a.indexOf("^")) {
 			for (var c = [];-1 < a.indexOf("(");) {
-				a = a.replace(/(\([^\(\)]*\))/g, (a,b) => {
+				a = a.replace(/(\([^\(\)]*\))/g, function(a, b) {
 					c.push(b);
 					return "___juliar___" + (c.length - 1);
 				});
 			}
 			c.push(a);
 			for (a = "___juliar___" + (c.length - 1);-1 < a.indexOf("___juliar___");) {
-				a = a.replace(RegExp("___juliar___(\\d+)", "g"), (a,b) => {
+				a = a.replace(RegExp("___juliar___(\\d+)", "g"), function(a, b) {
 					return c[b].replace(/(\w*)\^(\w*)/g, "Math.pow($1,$2)");
 				});
 			}
 		}
 		return a;
 	};
-	this.derivative = (str,args) => {
+	this.derivative = function(str,args){
 		var at = Number(args[0]) || 0;
 		str =  caretReplace(str.trim().replace(/\\\*/g,"*"));
 		var stack = [];
@@ -1317,7 +1450,7 @@ function Juliar_interpreter(juliar){
 	css += ".juliar-console input{font-size:21px;width:100%;margin: 0px;padding:0px;box-shadow: none;}";
 	css += ".juliar-console .background{color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
-	css += ".juliar-console .bar{z-index:-1;line-height:23px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
+	css += ".juliar-console .bar{line-height:23px;left:-14px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
 	css += "ijuliar{display:inline-block;width:100%;}";
 	css += "ijuliar .realblock{box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
@@ -1330,7 +1463,7 @@ function Juliar_interpreter(juliar){
 	css += "ijuliar .jcontent{transition: opacity 0.5s linear;opacity: 1;height:auto}";
 	juliar.css(css);
 	
-	this.clearinterpreter = () => {
+	this.clearinterpreter = function(){
 		var ijuliars = document.getElementsByTagName("ijuliar"),len = ijuliars.length;
 		if(len != 0){ juliar.history = [];juliar.historyindex = 0;juliar.historytemp = "";}
 		while(len--){
@@ -1342,12 +1475,12 @@ function Juliar_interpreter(juliar){
 			juliar.history = sessionStorage.getItem("juliar_interpreter_history").split("*!!!!*");
 		}
 	};
-	this.deleteinterpreter = () => {
+	this.deleteinterpreter = function(){
 		var x = document.activeElement.parentNode.parentNode;
 		x.parentNode.removeChild(x);
 		return "";
 	};
-	this.downloadcommands = (str,args) => {
+	this.downloadcommands = function(str,args){
 		var type = args[0] || 1;
 		type = JSON.parse(type);
 		var name = str.trim() || "output";
@@ -1373,7 +1506,7 @@ function Juliar_interpreter(juliar){
 		}
 		return "";
 	};
-	var keyUp = e => {
+	var keyUp = function(e) {
 		var keyCode = e.keyCode;
 		var target = e.target;
 		var inp = String.fromCharCode(keyCode);
