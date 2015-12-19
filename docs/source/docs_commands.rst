@@ -2,7 +2,7 @@
 List of Commands
 =================
 
-``*absolute *``
+\*absolute \*
 ----------------
 Description:``Takes in the numbers, and outputs the absolute numbers``
 
@@ -16,7 +16,7 @@ Example(s):
 Return:
 ``1 2 3 5 50``
 
-``*acos *``
+\*acos \*
 ----------------
 Description:``Takes in the a decimal, and finds the base of arccos``
 
@@ -30,7 +30,7 @@ Example(s):
 Return:
 ``0``
 
-``*block *``
+\*block \*
 ----------------
 Description:``Takes in the content, and puts the text inside a block(box)``
 
