@@ -1,5 +1,5 @@
 ===========
-Get Started
+Commands
 ===========
 
 About Commands
@@ -16,11 +16,14 @@ List of Commands
 
 ``*block *``
 ~~~~~~~~~~~~~
-Description:``Takes in the content, and puts the text inside a block(box) ``
+Description:``Takes in the content, and puts the text inside a block(box)``
+
 Input:``Content of what to put into the block``
+
 Arguments:``width`` (optional)
 
 Example(s):
 ``*block=500px hello *``
+
 Return:
 ``block content``
