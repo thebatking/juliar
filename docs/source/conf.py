@@ -269,8 +269,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'JuliarLang', 'JuliarLang Documentation',
-   author, 'JuliarLang', 'One line description of project.',
+  (master_doc, 'Juliar Lang', 'Juliar Language Documentation',
+   author, 'Juliar Organization', 'A new programming language for Artistic Mind.',
    'Miscellaneous'),
 ]
 
