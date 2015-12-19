@@ -42,7 +42,6 @@ Contents:
    
    docs_repo
    
-   
 
 
 Indices and tables
