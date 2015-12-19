@@ -17,6 +17,15 @@ Contents:
    :caption: Getting Started
    
    docs_gettingstarted
+   docs_troubleshooting
+   docs_commands
+
+.. _createmodules
+.. toctree::
+   :maxdepth: 2
+   :caption: Creating Modules
+   
+   docs_createmodule   
    
 .. _modules:
    
@@ -26,6 +35,14 @@ Contents:
 
    docs_module_encryption
 
+.. _repo
+.. toctree::
+   :maxdepth: 2
+   :caption: Repository
+   
+   docs_repo
+   
+   
 
 
 Indices and tables

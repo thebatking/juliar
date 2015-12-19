@@ -23,9 +23,9 @@ Getting It Onto Your Webpage
 
 5. Open up "index.html" in your preferred editor (such as notepad.exe) and at the top of the file add ``<script src="juliar.js"></script>`` This will import Juliar language.
 
-3. In the next line under add the tags ``<juliar></juliar>`` (This will create space where juliar code can be ran)
+6. In the next line under add the tags ``<juliar></juliar>`` (This will create space where juliar code can be ran)
 
-4. Start adding your code inside the juliar tags!
+7. Start adding your code inside the juliar tags!
 
 .. note: The ``<ijuliar></ijuliar>`` tags are for the interpretor. If you wish to allow users to try out the language themself you can add that tag to your page.
 
