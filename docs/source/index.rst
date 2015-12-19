@@ -17,6 +17,7 @@ Contents:
    :caption: Getting Started
    
    docs_gettingstarted
+   docs_aboutcommands
    docs_commands
    
 
