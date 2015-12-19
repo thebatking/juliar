@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>About Commands &mdash; JuliarLang 0.0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="JuliarLang 0.0.3 documentation" href="index.html" />
+    <link rel="next" title="List of Commands" href="docs_commands.html" />
+    <link rel="prev" title="Get Started" href="docs_gettingstarted.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="docs_commands.html" title="List of Commands"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="docs_gettingstarted.html" title="Get Started"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">JuliarLang 0.0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="about-commands">
+<h1>About Commands<a class="headerlink" href="#about-commands" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal"><span class="pre">Each</span> <span class="pre">Command</span> <span class="pre">must</span> <span class="pre">begin</span> <span class="pre">with</span> <span class="pre">*nameofcommand</span> <span class="pre">and</span> <span class="pre">must</span> <span class="pre">end</span> <span class="pre">with</span> <span class="pre">*</span> <span class="pre">.</span> <span class="pre">In</span> <span class="pre">order</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">*</span> <span class="pre">without</span> <span class="pre">it</span> <span class="pre">being</span> <span class="pre">an</span> <span class="pre">opening</span> <span class="pre">or</span> <span class="pre">closing</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">use</span> <span class="pre">\</span> <span class="pre">i.e.</span> <span class="pre">\*.</span>
+<span class="pre">Usually</span> <span class="pre">each</span> <span class="pre">command</span> <span class="pre">requires</span> <span class="pre">an</span> <span class="pre">input</span> <span class="pre">i.e.</span> <span class="pre">*+</span> <span class="pre">2</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">where</span> <span class="pre">2</span> <span class="pre">2</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">input.</span> <span class="pre">Most</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">commands</span> <span class="pre">also</span> <span class="pre">allow</span> <span class="pre">&quot;Optional&quot;</span> <span class="pre">arguments</span> <span class="pre">(although</span> <span class="pre">some</span> <span class="pre">imported</span> <span class="pre">libraries</span>
+<span class="pre">may</span> <span class="pre">make</span> <span class="pre">arguments</span> <span class="pre">required).</span> <span class="pre">The</span> <span class="pre">optional</span> <span class="pre">arguments</span> <span class="pre">are</span> <span class="pre">denoted</span> <span class="pre">with</span> <span class="pre">=</span> <span class="pre">after</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">i.e.</span> <span class="pre">*block=500px</span> <span class="pre">hello</span> <span class="pre">*</span> <span class="pre">where</span> <span class="pre">500px</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">first</span> <span class="pre">command.</span> <span class="pre">You</span> <span class="pre">can</span> <span class="pre">pass</span> <span class="pre">in</span>
+<span class="pre">as</span> <span class="pre">many</span> <span class="pre">commands</span> <span class="pre">as</span> <span class="pre">you</span> <span class="pre">desire...NOTE</span> <span class="pre">you</span> <span class="pre">are</span> <span class="pre">not</span> <span class="pre">allowed</span> <span class="pre">to</span> <span class="pre">have</span> <span class="pre">spaces</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">arguments.</span> <span class="pre">In</span> <span class="pre">order</span> <span class="pre">to</span> <span class="pre">have</span> <span class="pre">spaces,</span> <span class="pre">you</span> <span class="pre">must</span> <span class="pre">use</span> <span class="pre">*cw</span> <span class="pre">*</span> <span class="pre">or</span> <span class="pre">*convertwhitespace</span> <span class="pre">*</span> <span class="pre">i.e.</span>
+<span class="pre">*mail=Andrei</span> <span class="pre">M</span> <span class="pre">andreim&#64;123.com</span> <span class="pre">*</span> <span class="pre">will</span> <span class="pre">display</span> <span class="pre">`Andrei`</span> <span class="pre">and</span> <span class="pre">will</span> <span class="pre">try</span> <span class="pre">to</span> <span class="pre">mail</span> <span class="pre">to</span> <span class="pre">`M</span> <span class="pre">andreim&#64;123.com`</span> <span class="pre">This</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">the</span> <span class="pre">result</span> <span class="pre">that</span> <span class="pre">we</span> <span class="pre">want.</span> <span class="pre">Therefore,</span>
+<span class="pre">We</span> <span class="pre">can</span> <span class="pre">use</span> <span class="pre">*mail=*cw</span> <span class="pre">Andrei</span> <span class="pre">M</span> <span class="pre">*</span> <span class="pre">andreim&#64;123.com</span> <span class="pre">*</span> <span class="pre">to</span> <span class="pre">fix</span> <span class="pre">this.</span></code></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="docs_gettingstarted.html"
+                        title="previous chapter">Get Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="docs_commands.html"
+                        title="next chapter">List of Commands</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/docs_aboutcommands.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="docs_commands.html" title="List of Commands"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="docs_gettingstarted.html" title="Get Started"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">JuliarLang 0.0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Andrei Makhanov.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

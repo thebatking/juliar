@@ -16,6 +16,20 @@ Example(s):
 Return:
 ``1 2 3 5 50``
 
+``*acos *``
+----------------
+Description:``Takes in the a decimal, and finds the base of arccos``
+
+Input:``A decimal``
+
+Arguments: NONE
+
+Example(s):
+``*acos 1 *``
+
+Return:
+``0``
+
 ``*block *``
 ----------------
 Description:``Takes in the content, and puts the text inside a block(box)``
