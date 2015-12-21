@@ -179,7 +179,7 @@ function Juliar_main(juliar){
 		return "<section style='width:"+width+";height:"+height+";margin: "+marginx+" "+marginy+";background-color:"+backcolor+"'>"+str+"</section>";
 	};
 	
-	this.version = () => "Language \\*Juliar \\* version Alpha 3. Running on " + navigator.userAgent;
+	this.version = () => "Language \\*Juliar \\* version Alpha 4. Running on " + navigator.userAgent;
 	this.help = str => {
 		if(str == "") return "<span class='juliar_error'>Type \\*help  'command name' \\* to see help for the command</span>";
 		var found = juliar.gethelp(str.trim());
@@ -437,7 +437,7 @@ function Juliar_main(juliar){
 		var temp = !(args[1]) == true ? "_blank" : "_self";
 		return "<a href='"+args[0]+"' target='"+temp+"'>"+str+"</a>";
 	};
-	this.mail = (str,args) => {args[0] = args[0] || str;return "<a href='mailto:"+str+"'>"+args[0]+"</a>";};
+	this.mail = (str,args) => {str = str || args[0];args[0] = args[0] || str;return "<a href='mailto:"+args[0]+"'>"+str+"</a>";};
 	this.store = (str,args) => {localStorage.setItem(args[0], str);return str;};
 	this.restore = str => localStorage.getItem(str.trim());
 	//
@@ -828,11 +828,11 @@ function Juliar_main(juliar){
 		var now = new Date();
 		return ("0"+(now.getMonth()+1)).slice(-2)+"/"+("0"+now.getDate()).slice(-2)+"/"+now.getFullYear();
 	};
-	this.time = str => {
+	this.time = () => {
 		var now = new Date();
 		return ("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2);
 	};
-	this.timezone = str => {
+	this.timezone = () => {
 		var d = new Date().getTimezoneOffset()/60;
 		return d > 0 ? "GMT-"+d : 'GMT+'.Math.abs(d); 
 	};
@@ -1075,7 +1075,7 @@ function Juliar_main(juliar){
 	this.sine = this.sin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.sin(str*Math.PI / 180) : Math.sin(str);
 	this.cosine = this.cos = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.cos(str*Math.PI / 180) : Math.cos(str);
 	this.tangent = this.tan = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.tan(str*Math.PI / 180) : Math.tan(str);
-	this.secant = this.sin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.cos(str*Math.PI / 180) : 1/Math.cos(str);
+	this.secant = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.cos(str*Math.PI / 180) : 1/Math.cos(str);
 	this.cosecant = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.sin(str*Math.PI / 180) : 1/Math.sin(str);
 	this.cotangent = this.cot = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? 1/Math.tan(str*Math.PI / 180) : 1/Math.tan(str);
 	this.asin = this.arcsin = (str,args) => (args[0] == "degrees" || args[0] == "360" || args[0])? Math.asin(str)*180/Math.PI : Math.asin(str);

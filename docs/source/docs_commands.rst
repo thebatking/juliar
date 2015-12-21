@@ -413,6 +413,7 @@ hello with red highlighted color
 \*banner \*
 ----------------
 Description: Creates an image banner (usually used to display a logo on site or on a forum) by taking in image and optional width and height arguments.
+Compare with \*picture \*
 
 Input: Image Source
 
@@ -1844,6 +1845,8 @@ Returns:
 
 \*loop \*
 ----------------
+Alias: repeat
+
 Description: Loops the content X number of times
 
 Input: String[ip]
@@ -1869,3 +1872,1285 @@ Example(s):
 
 Returns:
 ``hello world how are you``
+
+\*mail \*
+----------------
+Description: Creates a link that can be clicked to send an email to person.
+
+Input: The NAME you want the link to be called.
+
+Arguments: String (Optional: The email that will be used i.e. 1234@example.com  [default:Input will be used])
+
+Example(s):
+``*mail=johnsmith@example.com HELLO world HOW ARE YOU *``
+
+Returns:
+``John Smith`` when clicked it will send email to johnsmith@example.com
+
+\*mascheroni \*
+---------------------
+Description: Returns Euler–Mascheroni constant (also called Euler's constant)
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*mascheroni *``
+
+Returns:
+``0.57721``
+
+\*maximum \*
+----------------
+Description: Finds the maximum number
+
+Input: Number (Required: At least one number, seperated by spaces) X Infinity
+
+Arguments: NONE
+
+Example(s):
+``*maximum 0 5 2 10 3 7 *``
+
+Returns:
+``10``
+
+\*menu \*
+----------------
+Description: Creates a start and stop of the menu. Inside, you may use \*menuitem \*
+
+Input: \*menuitem \* objects
+
+Arguments: String (Optional: Name of the menu, useful for creating dynamic content)
+
+Example(s):
+``*menu *menuitem=http://juliar.org Home **``
+
+Returns:
+Creates a menu with a HOME button that goes to http://juliar.org
+
+\*menuitem \*
+----------------
+Description: Requires \*menu \* wrapping it. Creates menuitems to be used in menu.
+
+Input: Name of the link.
+
+Arguments: URL (Optional/Required: URL to what you want the content to be redirected to[default:#/NONE]),  Number(Optional: Type of Redirection, 0=Current Window,1=New Window,2=Save the content and apply to dynamic content [default:0/Current Window]), URL (Optional: URL to picture to use in the background [default:none])
+
+Example(s):
+``*menu *menuitem=http://juliar.org Home **``
+
+Returns:
+Creates a menu with a HOME button that goes to http://juliar.org
+
+\*middle \*
+----------------
+Description: Puts element in the middle. Compare with \*center \* which mostly sets only text in the middle.
+
+Input: Content of Element or Text to be put in the middle
+
+Arguments: NONE
+
+Example(s):
+``*middle *section=2 box **``
+
+Returns:
+``box`` with section being in the middle of the content.
+
+
+
+\*minimum \*
+----------------
+Description: Finds the minimum number
+
+Input: Number (Required: At least one number, seperated by spaces) X Infinity
+
+Arguments: NONE
+
+Example(s):
+``*minimum 0 5 2 10 3 7 *``
+
+Returns:
+``0``
+
+\*modules \*
+----------------
+Description: Returns all currently imported modules.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*modules *``
+
+Returns:
+``main,graph,interpreter,encryption``
+
+\*multiply \* or \*x \*
+---------------------
+Description:Takes in numbers and multiplies them all together.
+
+Input: Number or Numbers (Required: at least 1, Seperated by spaces) x Infinity
+
+Arguments: NONE
+
+Example(s):
+``*multiply 3 2 *``
+``*x 5 2 6 *``
+
+Returns:
+``6``
+``60``
+
+\*music \*
+----------------
+Description: Takes in URL of the music file (.mp3 or .ogg) and plays it.
+
+Input: Number (Required: At least one number, seperated by spaces) X Infinity
+
+Arguments: NONE
+
+Example(s):
+``*music stairwaytoheaven.mp3 *``
+
+Returns:
+Plays Stairway to Heaven by Led Zeppelin.
+
+\*newline \*
+----------------
+Description: Creates a new line. Useful for putting content on new line
+
+Input: Number of new lines to create
+
+Arguments: NONE
+
+Example(s):
+``*newline 5 *``
+
+Returns:
+Creates 5 newlines.
+
+\*newsbanner \*
+----------------
+Description: Creates a news banner that scrolls from right to left (Like a banner in news channel)
+
+Input: String (The content of newsbanner)
+
+Arguments: Number (Optional: How fast do you want the banner to scroll in seconds [default:5])
+
+Example(s):
+``*newsbanner 10 people survived *``
+
+Returns:
+``10 people survived`` being scrolled from right to left at 5 seconds.
+
+\*newspaper \*
+----------------
+Description: Seperates content into columns. Compare with \*columns \* where you have to create element for each column.
+
+Input: String (Content of object)
+
+Arguments: Number (Optional: Number of columns [default:2])
+
+Example(s):
+``*newspaper=2 Hello World *``
+
+Returns:
+Creates Hello World in two seperate columns.
+
+\*newwindow \*
+----------------
+Description: Opens up a new window.
+
+Input: The url of the window you wish to open [default: http://juliar.org]
+
+Arguments: NONE
+
+Example(s):
+``*newwindow http://juliar.org *``
+
+Returns:
+Opens http://juliar.org in a new window.
+
+\*not \*
+-------------------
+Description: Takes in values, and checks if all values are false, if one of the values is true, it returns false.
+
+Input: Booleans or Strings or Numbers
+
+Arguments: NONE
+
+Example(s):
+``*not 0 0 false *``
+``*not 0 1 false *``
+
+Returns:
+``true``
+``false``
+
+\*notice \*
+----------------
+Description: Creates a notice banner.
+
+Input: Text what you want the user to be notified of.
+
+Arguments: Color or Hex Value (Optional: Background color of the content[default:#428bca/steelblue]), Color or Hex Value (Optional: Text color of the content[default:white]),
+Number w/ type (Optional: Font Size[default:16px]), Number (Optional: padding of the content [default:5px])
+
+Example(s):
+``*notice please login *``
+
+Returns:
+Creates a notice with text please login.
+
+\*or \*
+-------------------
+Description: Takes in values, if one of the values evaluate to true returns true, if one of the values evaluate to false returns false.
+
+Input: Booleans or Strings or Numbers
+
+Arguments: NONE
+
+Example(s):
+``*or true 1 55 *``
+``*or 0 0 55 *``
+``*or false 0 *``
+
+Returns:
+``true``
+``true``
+``false``
+
+\*outline \*
+----------------
+Description: Creates content with an outline of the text.
+
+Input: Text what you want to have the outline
+
+Arguments: Color or Hex Value (Optional: Color of the outline[default:orange])
+
+Example(s):
+``*outline cool *``
+
+Returns:
+Creates text cool with an outline.
+
+\*overline \*
+----------------
+Description: Creates a line over the text.
+
+Input: Text what you want the line to be over.
+
+Arguments: NONE
+
+Example(s):
+``*overline cool *``
+
+Returns:
+Creates text cool with a line over it.
+
+\*padding \*
+----------------
+Description: Creates padding/space between the content
+
+Input: Content of what you want the padding to be applied to.
+
+Arguments: Number (Optional: How much space should we add between objects[default:5px]), Pad Type (Optional: What type of space should we apply: "all"=apply padding to all sides
+"top"=apply padding to top only, "bottom"=apply padding to bottom only, "left"=apply padding to left only,"right"=apply padding to right only, "sides"=apply padding to left and right
+only,"vertical"=apply padding to top and bototm only[defualt:all])
+
+Example(s):
+``*padding=30px,left cool *``
+
+Returns:
+Creates text cool with a 30px of spacing between last element.
+
+\*pagetitle \*
+----------------
+Description: Changes the title of the page/webpage.
+
+Input: Text what you want the page to be called.
+
+Arguments: NONE
+
+Example(s):
+``*pagetitle Red*``
+
+Returns:
+``Pagetitle Changed to Red`` and Changes the Page Title to Red.
+
+\*pdf \*
+----------------
+Alias: flash, java
+
+Description: Creates a PDF object in browser.
+
+Input: URL (the url of where to get the PDF object)
+
+Arguments: Number (Optional: Width of the PDF Object[default:420]), Number (Optional: Height of the PDF Object[default:315])
+
+Example(s):
+``*pdf http://somegamewebsite.com/some.pdf*``
+
+Returns:
+Opens up pdf from the "http://somegamewebsite.com/some.pdf" url.
+
+\*pi \*
+---------------------
+Description: Returns PI constant
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*pi *``
+
+Returns:
+``3.1415926535897932384626433832795028841971693993751058209749445923078164062862089``
+
+\*pick \*
+----------------
+
+Description: Creates a PDF object in browser.
+
+Input: String (Optional: elements to pick from seperated by space) x Infinity
+
+Arguments: Number (Optional: Number of elements to pick from[default:1]), Boolean(Optional: 1=Elements can be picked again from already picked elements, 0=elements can only be picked once [default:1/Elements can be picked again])
+
+Example(s):
+``*pick Hello Tree World*``
+``*pick=2,0 Hello Tree World*``
+``*pick=4,0 Hello Tree World*``
+Returns:
+``Tree``
+``Hello World``
+Error: `Not enough elements to pick from`
+
+\*picture \*
+----------------
+
+Description: Creates a picture by taking in image and optional width and height arguments and centers it.
+Compare with \*picture \*
+
+Input: Image Source
+
+Arguments: Size or "%" or Number  (Optional: Width of Picture[default: 100%]), Size or "%" or Number (Optional: Height of Picture[default: auto])
+
+Example(s):
+``*picture *``
+
+Returns:
+Returns a picture
+
+.. note: width cannot be greater than 100%.
+
+\*power \* or \*^ \*
+---------------------
+
+Description: Takes the first Number and powers everything after it...
+
+Input: Number x Infinity (each number seperated by space)
+
+Arguments: NONE
+
+Example(s):
+``*power 100 2 5 *``
+``*^ 5 2 *``
+
+Returns:
+``100000000000000000000``
+``25``
+
+\*pythagoras \*
+---------------------
+Description: Returns Pythagora's constant
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*pythagoras *``
+
+Returns:
+``1.4142135623730951``
+
+\*rainbow \*
+---------------------
+Description: Colors each letter using the color specified. If you want to color whole background, please use backgroundcolor command. Compare with \*highlight \*
+
+Input: Text that will be colored
+
+Arguments: Colors or Color Hex Value (Optional: Color that you want letters to have [defaut:orange]) x Infinity
+
+Example(s):
+``*rainbow=red, orange Hello World*``
+
+Returns:
+Each letter will alternate between colors of red and orange.
+
+\*randomize \*
+---------------------
+Description: Randomizes elements seperated by space and outputs them.
+
+Input: String (Required: Elements to be randomized) x Infinity 
+
+Arguments: NONE
+
+Example(s):
+``*randomize hello world how are you today *``
+
+Returns:
+``are today how world you hello``
+
+\*randomnumber \*
+---------------------
+Description: Returns Pythagora's constant
+
+Input: NONE
+
+Arguments: Number (Optional: Number of numbers you want to have[default:1]), Number(Optional: Highest value of the random number[default:100])
+
+Example(s):
+``*randomnumber *``
+
+Returns:
+``11``
+
+\*reflect \*
+---------------------
+Description: Reflects the content over X or Y axis.
+
+Input: NONE
+
+Arguments: "X" or "Y" (Optional: Reflect over which axis, "X" or "Y"[default:"X"])
+
+Example(s):
+``*reflect hello *``
+
+Returns:
+Reflected hello over x axis.
+
+\*regionfromip \*
+---------------------
+Description: Gets region from the ip specified.
+
+Input: String[ip]
+
+Arguments: NONE
+
+Example(s):
+``*regionfromip 8.8.8.8 *``
+
+Returns:
+This is one of google's ips and it outputs region from the ip specified.
+
+\*remainder \* or \*% \*
+-------------------------
+Description:  Takes the first Number and tries to divide everything after it and outputs remainder.
+
+Input: Numbers (Required: 2[default:N/A])
+
+Arguments: NONE
+
+Example(s):
+``*% 32 3 *``
+
+Returns:
+``2``
+
+\*removewhitespace \*
+---------------------
+Alias: rw
+
+Description:  Removes whitespace.
+
+Input: String (Required: from what content do you want whitespace to be removed)
+
+Arguments: NONE
+
+Example(s):
+``*removewhitespace Hello World U *``
+
+Returns:
+``HelloWorldU``
+
+\*repeat \*
+----------------
+Alias: loop
+
+Description: Loops the content X number of times
+
+Input: String[ip]
+
+Arguments: Number(Optional: Number of times to loop the content [default: 2])
+
+Example(s):
+``*repeat=5 hello *``
+
+Returns:
+``hello hello hello hello hello``
+
+\*replacehistory \*
+--------------------
+
+Description: Replaces history
+
+Input: URL (of what you want history to be)
+
+Arguments: Object (Optional: History of the object name[default: null])
+
+Example(s):
+``*replacehistory=5 http://juliar.org *``
+
+Returns:
+Replaces #5 history and sets it to http://juliar.org
+
+\*repo \*
+----------------
+
+Description: Sets the repo to new url (default: http://repo.juliar.org)
+
+Input: URL (of what you want repo to be)
+
+Arguments: NONE
+
+Example(s):
+``*repo http://repo.someothersite.org *``
+
+Returns:
+Sets repo to http://repo.someothersite.org
+
+\*restore \*
+----------------
+
+Description: Restores content that you used to store with \*store \*. 
+
+Input: URL (of what you want history to be)
+
+Arguments: NONE
+
+Example(s):
+``*restore x *``
+
+Returns:
+``I was restored ``
+
+.. note: using store and restore commands make it so that even if you leave the page the content will remain.
+
+\*reverse \*
+----------------
+
+Description: Reverses the whole string
+
+Input: String that you want to have reversed
+
+Arguments: NONE
+
+Example(s):
+``*reverse Hello *``
+
+Returns:
+``olleH ``
+
+\*right \*
+---------------------
+Description: Aligns the content to the left.
+
+Input: String content that should be aligned to the left
+
+Arguments: NONE
+
+Example(s):
+``*right hello world*``
+
+Returns:
+``                 hello world``
+
+\*root \*
+---------------------
+Description: Aligns the content to the left.
+
+Input: Number (from what number to take the root from)
+
+Arguments: Number (Optional: What type of root to take [default:2])
+
+Example(s):
+``*root=3 -27*``
+
+Returns:
+``-3``
+
+\*rotate \*
+---------------------
+Description: Rotates the content by some number of degrees.
+
+Input: Number (Optional: By how many degrees to rotate [default:350]), Number (Optional: Positon of where the content will be located in terms of Y axis 
+(negative means relative to bottom, positive means relative to top) [default:inherited]),
+Number (Optional: Positon of where the content will be located in terms of X axis 
+(negative means relative to left, positive means relative to right) [default:inherited])
+
+Arguments: NONE
+
+Example(s):
+``*rotate hello world*``
+
+Returns:
+rotated hello world
+
+\*rw \*
+---------------------
+Alias: removewhitespace
+
+Description:  Removes whitespace.
+
+Input: String (Required: from what content do you want whitespace to be removed)
+
+Arguments: NONE
+
+Example(s):
+``*rw Hello World U *``
+
+Returns:
+``HelloWorldU``
+
+\*secant \*
+----------------
+Description: Takes in the a decimal, and finds the secant function.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*secant 0*``
+
+Returns:
+``1``
+
+\*sech \*
+----------------
+Description: Takes in the a decimal, and finds the hyperbolic secant function.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*sech .5*``
+
+Returns:
+``0.886818883970074``
+
+\*section \*
+----------------
+Description: Creates a section for the content.
+
+Input: String (content of the section)
+
+Arguments: pixels or size (Optional: Width of the section[default:auto]), pixels or size (Optional: Height of the section[default:auto]), size (Optional: Margin in X[default:0]),
+size (Optional: Margin in Y[default:auto]), color (Optional: Background Color of the content[default:transparent])
+
+Example(s):
+``*section 5 2 *``
+
+Returns:
+``5 2`` with section formatting.
+
+\*set \*
+----------------
+Description: Used with *get *. Used to set parameter that you don't want to be dynamically changed.
+
+Input: Number
+
+Arguments: Object (Optional/Required: variable to store the content in)
+
+Example(s):
+``*set=x 5*``
+``*get x *
+
+Returns:
+``5``
+
+\*sethistory \*
+----------------
+
+Description: Replaces history
+
+Input: URL (of what you want history to be)
+
+Arguments: Object (Optional: what to call the new history[default: null])
+
+Example(s):
+``*sethistory=5 http://juliar.org *``
+
+Returns:
+Sets history to http://juliar.org
+
+\*setsocket \*
+----------------
+Description: Sends content to the socket.
+
+Input: Content to send through the socket.
+
+Arguments: ``Object [Required/Optional: Socket to use[default:null])
+
+Example(s):
+``*setsocket=x I am sending using a socket*``
+
+Returns:
+``Sends content through socket.``
+
+\*shrink \*
+----------------
+
+Description: This command makes text get smaller and smaller.
+
+Input: Text that you want to shrink.
+
+Arguments: NONE
+
+Example(s):
+``*shrink welcome*``
+
+Returns:
+The "welcome" will get smaller and smaller.
+
+\*sin \*
+----------------
+Alias: sine
+
+Description: Takes in the a decimal, and finds the sine.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*sin 0*``
+
+Returns:
+``0``
+
+\*sine \*
+----------------
+Alias: sin
+
+Description: Takes in the a decimal, and finds the sine.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*sine 0*``
+
+Returns:
+``0``
+
+\*sinh \*
+----------------
+
+Description: Takes in the a decimal, and finds the hyperbolic sine function.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*sinh *pi**``
+
+Returns:
+``11.548739357257748``
+
+\*size \*
+----------------
+
+Description: Sets font size of the content.
+
+Input: Content that you want to change size of.
+
+Arguments: px, em, or sizes (Optional: Font size of the content [default:inherit])
+
+Example(s):
+``*size=14px Hello``
+
+Returns:
+``Hello`` with font size  of 14px.
+
+\*smaller \*
+---------------------
+Description: Makes text a bit smaller.
+
+Input: Text that you wish to be shrinked.
+
+Arguments: NONE
+
+Example(s):
+``*rw H *larger e * llo *``
+
+Returns:
+``H`` e being smaller and then ``llo``.
+
+\*smallnumber \*
+---------------------
+Description: Returns Smallest-value before the number starts with 0 again.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*smallnumber *``
+
+\*socket \*
+---------------------
+Description: Establishes a socket between you and the server
+
+Input: URL (of the server that you want to connect with)
+
+Arguments: Object (Optional: where to store the socket [default:null])
+
+Example(s):
+``*socket=x juliar.socket *``
+
+\*spoiler \*
+---------------------
+Description: Creates content as a spoiler. As a user hovers over the text, the text becomes visible.
+
+Input: Content that you want to act as a spoiler.
+
+Arguments: Color (Optional: color of hidden lines [default:black],Color (Optional: background color when user hovers over [default:black]), Color (Optional: color of text when user hovers[default:white])
+
+Example(s):
+``*spoiler this is a game spoiler *``
+
+Returns:
+``this is a game spoiler``
+
+\*statehistory \*
+----------------
+
+Description: States the current history
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*statehistory *``
+
+Returns:
+states the history
+
+\*sticky \*
+----------------
+
+Description: The content sticks to the page. It does not change!
+
+Input: Content that you want to be sticky.
+
+Arguments: Size(position of the sticky in Y coordinate; if negative its relative to the bottom, if positive it's relative to the top[default:initial]), 
+Size (position of the sticky in X coordinate; if negative its relative to the left, if positive it's relative to the right[default: initial])
+
+Example(s):
+``*sticky note*``
+
+Returns:
+``note`` that sticks to the screen as user scrolls
+
+\*store \*
+----------------
+
+Description: stores content that you can later use to restore with \*restore \*. The content stored remains even if user leaves the page.
+
+Input: Content what you want to store.
+
+Arguments: Object (Optional/Required: To which object do you want content to be stored [default:null])
+
+Example(s):
+``*store=x I was stored in x*``
+
+Returns:
+``I was stored in x``
+
+\*subscript \*
+----------------
+
+Description: Makes the content act like subscript
+
+Input: Content what you want to subscript
+
+Arguments: NONE
+
+Example(s):
+`` x*subscript 2*``
+
+Returns:
+``x2``
+
+\*subtitle \*
+---------------------
+Description: Creates a subtitle.
+
+Input: String (The subtitle)
+
+Arguments: NONE
+
+Example(s):
+``*subtitle Right *``
+
+Returns:
+``Right`` in subtitle format.
+
+\*subtract \* or \*- \*
+------------------------
+
+Description: Takes the first Number and tries to subtract everything after it...
+
+Input: Number x Infinity
+
+Arguments: NONE
+
+Example(s):
+``*subtract 100 2 5 *``
+``*- 55 2 5 *``
+
+Returns:
+``93``
+``48``
+
+\*superscript \*
+----------------
+
+Description: Makes the content act like superscript
+
+Input: Content what you want to superscript
+
+Arguments: NONE
+
+Example(s):
+`` x*superscript 2*``
+
+Returns:
+``x2``
+
+\*symbol \*
+----------------
+
+Description: Outputs a symbol that's commonly used
+
+Input: Currently Available Symbols: (sigma,delta,integral,plusminus,leftright,up,down,left,right,doubleleftright,doubleup,doubledown,doubleleft,doubleright)
+
+Arguments: NONE
+
+Example(s):
+``*symbol right *``
+
+Returns:
+``->``
+
+\*tan \*
+----------------
+Alias: tangent
+
+Description: Takes in the a decimal, and finds the tangent function.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*tan .5*``
+
+Returns:
+``0.5463024898437905``
+
+\*tangent \*
+----------------
+Alias: tan
+
+Description: Takes in the a decimal, and finds the tangent function.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*tangent .5*``
+
+Returns:
+``0.5463024898437905``
+
+\*tanh \*
+----------------
+Description: Takes in the a decimal, and finds the hyperbolic tangent function.
+
+Input: Number
+
+Arguments: ``degrees`` or ``360`` or True value (Optional: whether to use degrees [default uses radians])
+
+Example(s):
+``*tanh .5*``
+
+Returns:
+``0.46211715726000974``
+
+\*temperature \*
+---------------------
+Description: Converts temperature in Kelvin, Farenheit, and Celcius.
+
+Input: NONE
+
+Arguments: Unit (Required: Temperature to convert from (C,K, or F) [default: K]), Unit (Required: Temperature to convert to (C,K, or F) [default:C])
+
+Example(s):
+``*temperature=C,K 32 *``
+
+Returns:
+``305.15``
+
+\*threed \*
+---------------------
+Description: Makes the content 3D that can be used with red and cyan glasses.
+
+Input: Content that should be made 3D.
+
+Arguments: Size (Optional: 3D Seperation [default:0.06em])
+
+Example(s):
+``*threed hello *``
+
+Returns:
+Creates text that can be viewed in 3D with red and cyan glasses.
+
+\*time \*
+---------------------
+Description: Displays current time.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*time *``
+
+Returns:
+``11:40:49``
+
+\*timezone \*
+---------------------
+Description: Displays the timezone that you are in GMT format.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*timezone *``
+
+Returns:
+``GMT-5``
+
+\*title \*
+---------------------
+Description: Creates a title.
+
+Input: String (The title name)
+
+Arguments: NONE
+
+Example(s):
+``*title Oliver Twist *``
+
+Returns:
+``Oliver Twist`` in title format.
+
+
+\*toDegrees \*
+---------------------
+Description: Converts Radians to Degrees
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*toDegrees *pi **``
+
+Returns:
+``180``
+
+\*toRadians \*
+---------------------
+Description: Converts Degrees to Radians
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*toRadians 90 *``
+
+Returns:
+``1.5707963267948966``
+
+\*trash \*
+---------------------
+Description: Outputs whatever is in trash. If last object that required a name didn't have a name, it goes here.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*trash *``
+
+Returns:
+``cookie``
+
+\*underline \*
+----------------
+Description: Creates a line under the text.
+
+Input: Text what you want the line to be under.
+
+Arguments: NONE
+
+Example(s):
+``*underline cool *``
+
+Returns:
+Creates text cool with a line under it.
+
+\*update \*
+----------------
+Description: Shows the modules that need updating.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*update *``
+
+Returns:
+``Modules *encryption * need updating. Click here to update.``
+
+\*uppercase \*
+----------------
+Description: Make the content uppercase
+
+Input: String (content that you wish to be lowercase)
+
+Arguments: NONE
+
+Example(s):
+``*uppercase HELLO world HOW ARE YOU *``
+
+Returns:
+``HELLO world HOW ARE YOU``
+
+\*urlparameters \*
+--------------------
+Description: Outputs url parameters that are used in get command.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*urlparameters http://juliar.org?getvars=32, *``
+
+Returns:
+``getvars=32``
+
+
+\*version \*
+--------------------
+Description: Displays version of the program along with additional information.
+
+Input: NONE
+
+Arguments: NONE
+
+Example(s):
+``*version *``
+
+Returns:
+``Language *Juliar * version Alpha 4. Running on Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36``
+
+\*video \*
+--------------------
+Description: Adds video to the page.
+
+Input: URL of video (Youtube.com, Youtu.be, Twitch, and Vimeo videos get automatically parsed)
+
+Arguments: Number (Optional: Width of the video[default: 420]), Number (Optional: Height of the video[default: 315]), Boolean(Optional: Autolay the video: true=autoplay, false=not autoplay)
+
+Example(s):
+``*video https://www.youtube.com/watch?v=irlW_65xkFo *``
+
+Returns:
+Video that can be played by the user.
+
+\*visibility \*
+--------------------
+Description: Sets Visiblity/Opacity/Opaqueness of the element.
+
+Input: NUMBER (in %) (Optional: Set the visibility of the element 0 being invisible, 100 being fully visible[default:40])
+
+Arguments: NONE
+
+Example(s):
+``*visiblity hello *``
+
+Returns:
+``hello`` with visibility of being 40%.
+
+
+\*warnonclose \*
+--------------------
+Description: Adds or removes the option of warning the user before closing the page.
+
+Input: Boolean (If true, warns the user whether they want to continue closing the page, if false, removes that feature)
+
+Arguments: NONE
+
+Example(s):
+``*warnonclose *``
+
+Returns:
+Whenever user tries to close the page, a popup will be displayed asking whether they want to continue doing so.
+
+\*zipfromip \*
+--------------------
+Description: Gets zip from the ip specified.
+
+Input: String[ip]
+
+Arguments: NONE
+
+Example(s):
+``*zipfromip 8.8.8.8 *``
+
+Returns:
+This is one of google's ips and it outputs zip from the ip specified.
+
+\*zonefromip \*
+--------------------
+Description: Gets zone from the ip specified.
+
+Input: String[ip]
+
+Arguments: NONE
+
+Example(s):
+``*zonefromip 8.8.8.8 *``
+
+Returns:
+This is one of google's ips and it outputs zone from the ip specified.
+
+
