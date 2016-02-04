@@ -1,11 +1,11 @@
 "use strict"
 class Juliar{
 	set css(code){
-		this.csscode += code;
+		this.csscontent += code;
 	}
 	get css(){
-		var code = this.csscode;
-		this.csscode = "";
+		var code = this.csscontent;
+		this.csscontent = "";
 		return code;
 	}
 	constructor(verbose = 0){
@@ -40,7 +40,7 @@ class Juliar{
 		viewPortTag.name = "viewport";
 		viewPortTag.content = "initial-scale=1.0, maximum-scale=1.0, user-scalable=0";
 		document.getElementsByTagName('head')[0].appendChild(viewPortTag);
-		if(this.csscode != ""){
+		if(this.csscontent != ""){
 			var css = document.createElement("style");
 			css.type = "text/css";
 			css.innerHTML = this.css;
@@ -88,7 +88,7 @@ class Juliar{
 			++currentindex;
 		}
 		if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
-		if(this.csscode != ""){
+		if(this.csscontent != ""){
 			var css = document.createElement("style");
 			css.type = "text/css";
 			css.innerHTML = this.css;

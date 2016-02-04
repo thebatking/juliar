@@ -15,9 +15,9 @@
 ##Welcome to *JULIAR *
 _Incepted On: 4/12/2015_
 #####*JULIAR * was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
-__The Project is now split into two versions: C compiled Shell Edition which is called Juliar CORE and this universal version__
+_The Project now has 2 versions. Juliar CORE which is "desktop" version and Juliar which is universal web based. Both run modules_
 
-####Starting from Alpha 5, we use babel to transpile. Our code is cleaner now
+_Starting from Alpha 5, we use babel to transpile. Our code is much cleaner and easier to modify_
 
 ####Why use *JULIAR * ?
 
