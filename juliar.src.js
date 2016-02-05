@@ -38,13 +38,13 @@ class Juliar{
 		switch(logType){
 			case "warn":
 			if(this.verbose) console.warn(content);
-			return "<juliar_warn>${content}</juliar_warn>";
+			return `<juliar_warn>${content}</juliar_warn>`;
 			case "info":
 			if(this.verbose) console.info(content);
-			return "<juliar_info>${content}</juliar_info>";
+			return `<juliar_info>${content}</juliar_info>`;
 			case "error":
 			if(this.verbose) console.error(content);
-			return "<juliar_error>${content}</juliar_error>";
+			return `<juliar_error>${content}</juliar_error>`;
 			default:
 			console.log(content);
 		}
@@ -134,7 +134,7 @@ class Juliar{
 		var modifier;
 		if("#" === command || "hide" === command) return "";
 		else if("`" === command || "ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");
-		else if("loop" === command) return "*${str} *".repeat(args[0] || 2);
+		else if("loop" === command) return `*${str} *`.repeat(args[0] || 2);
 		else if(first === '<') (second === "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
 		else if(first === '>') (second === "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
 		else if(first === "x" && second === undefined) command = "multiply" + command.slice(1);
@@ -163,6 +163,40 @@ class Juliar{
 
 class Juliar_main{
 	constructor(juliar){
+		var css = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
+		css += "li>a{color:#557FBB;text-decoration:none}li>a:visited{color:#557FBB}li>a:link{color:#557FBB}li>a:hover{color:grey}";
+		css += ".center{text-align:center;}.left{text-align:left}.right{text-align:right}.middle{display:block;margin-left:auto;margin-right:auto;}";
+		css += ".smaller{font-size:95%}.larger{font-size:105%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
+		css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
+		css += ".chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
+		css += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
+		css += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 100% }100%{ text-indent: -25% }}";
+		css += ".progress-bar{background-color: #1a1a1a;height: 25px;padding: 5px;width: 350px;margin: 50px 0;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}";
+		css += ".progress-bar span{display: inline-block;height: 100%;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}";
+		css += "text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset";
+		css += "transition: all 0.7s ease 0s;}input[type='text'].searchable:focus{width: 200px;}";
+		css += ".juliar_error{color:red}";
+		css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
+		css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
+		css += "@keyframes blink {0%{opacity: 1;}50%{opacity: 0;}100%{opacity: 1;}}";
+		css += "juliar_menu li,juliar_menu ul{list-style:none;margin:0 0 -2px;padding:0;background-color:#333;}"+
+		"juliar_menu ul{text-align:left;position:relative;z-index:597;text-transform:uppercase}juliar_menu ul li{float:left;min-height:1px;vertical-align:middle}"+
+		"juliar_menu ul li.hover,juliar_menu ul li:hover{position:relative;z-index:599;cursor:default}juliar_menu ul ul{visibility:hidden;position:absolute;"+
+		"top:100%;z-index:598;width:100%;bottom:0;left:0;margin-top:0;border-top:4px solid #1b9bff;text-transform:none;min-width:190px}"+
+		"juliar_menu ul ul li{float:none;font-weight:400;position:relative}juliar_menu,juliar_menu a{background:#333;font-size:14px;font-weight:700}"+
+		"juliar_menu ul ul ul{top:0;left:auto;right:-99.5%;border-top:0 none}juliar_menu ul li:hover>ul{visibility:visible}"+
+		"juliar_menu a{display:block;line-height:1em;text-decoration:none;color:#CBCBCB;padding:0 15px;margin-right:0}"+
+		"juliar_menu{padding:0;margin:0;border:0;border-bottom:4px solid #1b9bff}juliar_menu>ul{display:inline-block}"+
+		"juliar_menu ul:after,juliar_menu:after{content:&#39;&#39;;display:block;clear:both}"+
+		"juliar_menu ul ul a{color:#FFF;border:1px solid #0082e7;border-top:0 none;line-height:150%;padding:16px 20px}"+
+		"juliar_menu>ul>li>a{line-height:48px;color:white}juliar_menu>ul>li>a:visited{color:white}juliar_menu>ul>li>a:link{color:white}juliar_menu ul ul li:first-child>a{border-top:1px solid #0082e7}"+
+		"juliar_menu ul ul li:hover>a{background:#35a6ff}juliar_menu ul ul li:last-child>a{border-radius:0 0 3px 3px;box-shadow:0 1px 0 #1b9bff}"+
+		"juliar_menu ul ul li:last-child:hover>a{border-radius:0 0 0 3px}juliar_menu ul ul li.has-sub>a:after{content:&#39;+&#39;;position:absolute;top:50%;right:15px;margin-top:-8px}"+
+		"juliar_menu ul li.active>a,juliar_menu ul li:hover>a{background:#1b9bff;color:#FFF}juliar_menu ul li.has-sub>a:after{content:&#39;+&#39;;margin-left:5px}"+
+		"juliar_menu ul li.last ul{left:auto;right:0}juliar_menu ul li.last ul ul{left:auto;right:99.5%}";
+		css += "footer{background-color:#333;padding:15px;text-align:center;color:white;}";
+		css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
+		juliar.css = css;
 		this.version = () => "Language \\*Juliar \\* version Alpha 5. Running on " + navigator.userAgent;
 		this.repeat = (whatToRepeat,numberOfRepeats = 2) => str.repeat(numberOfRepeats);
 		this.evaluate = operation => eval(operation);
@@ -290,7 +324,7 @@ class Juliar_main{
 			temp.sort((a, b) => ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1)));
 			juliar.commands = temp;	
 		}
-		this.deport = moduleName => ((juliar.modules[moduleName] === undefined)? '<juliar_error>Module ${moduleName} does not exists</juliar_error>':(delete juliar.modules[moduleName],countcommands(),document.dispatchEvent(new Event('deleted ${moduleName}')),'Deported Module "${moduleName}"'));
+		this.deport = moduleName => ((juliar.modules[moduleName] === undefined)? `<juliar_error>Module ${moduleName} does not exists</juliar_error>':(delete juliar.modules[moduleName],countcommands(),document.dispatchEvent(new Event('deleted ${moduleName}')),'Deported Module "${moduleName}"`));
 		this.javascript = script => {
 			if(script.split(" ")[0].indexOf(".js") !== -1){ 
 				var fileref=document.createElement("script");
@@ -443,12 +477,12 @@ class Juliar_main{
 		this.restore = itemToRestore => localStorage.getItem(itemToRestore.trim());
 		//3D Stuff
 		this.threed = (output,spread = "0.06em") => {
-			return "<span style='text-shadow: -${spread} 0 red,  ${spread} 0 cyan;'>${output}</span>";
+			return `<span style='text-shadow: -${spread} 0 red,  ${spread} 0 cyan;'>${output}</span>`;
 		};
 		////
 		this.newline = (howManyTimes=1) => window? "<br>".repeat(howManyTimes) : "\r\n".repeat(howManyTimes);
-		this.visibility = (output,visibilityLevel = 40) => "<div style='opacity: ${visibilityLevel/100}'>${output}</div>";
-		this.backgroundcolor = (output,color = "#428bca") => "<span style=\"background-color:${color}\">${output}</span>";
+		this.visibility = (output,visibilityLevel = 40) => `<div style='opacity: ${visibilityLevel/100}'>${output}</div>`;
+		this.backgroundcolor = (output,color = "#428bca") => `<span style=\"background-color:${color}\">${output}</span>`;
 		//History Manipulation
 		this.history = () => window.history.length;
 		this.statehistory = () => history.state;
@@ -459,13 +493,13 @@ class Juliar_main{
 		this.replacehistory = (contentOfHistory,historyToBeReplacedWith = null) => history.replaceState(historyToBeReplacedWith, null, contentOfHistory);
 		//
 		this.notice = (content, bgcolor = "#428bca", color = "white", fontsize = "16px",padding = "5px") =>
-		"<div style='background-color:${bgcolor};color:${color};font-size:${fontsize};padding:${padding};'>$content</div>";
+		`<div style='background-color:${bgcolor};color:${color};font-size:${fontsize};padding:${padding};'>$content</div>`;
 		this.ask = (questionToAsk,defaultAnswer = "") => prompt(questionToAsk, defaultAnswer);
-		this.error = alertContent => {alert(alertContent);return "<span class=\"juliar_error\">Error invoked: ${alertContent}</span>";};
+		this.error = alertContent => {alert(alertContent);return `<span class=\"juliar_error\">Error invoked: ${alertContent}</span>`;};
 		////
 		this.trash = () => juliar.getobject('null') || juliar.getobject('undefined');
 		//Experimental
-		this.newwindow = (url = "http://www.juliar.org")  => {window.open(url,"newWindow");return "Opened ${url} in new window!";};
+		this.newwindow = (url = "http://www.juliar.org")  => {window.open(url,"newWindow");return `Opened ${url} in new window!`;};
 		this.warnonclose = (WarnOnClose = true,warn = WarnOnClose) => {
 			if(JSON.parse(warn) != false){
 				window.onbeforeunload = function (e) {
@@ -479,41 +513,41 @@ class Juliar_main{
 			return "Browser will normally close!";
 		};
 		this.urlparameters = nameOfUrlParameter => new RegExp('[\\?&]' + nameOfUrlParameter + '=([^&#]*)').exec(window.location.href)[1];
-		this.backbutton = (message = "Go Back") => '<a href="javascript:history.back(1)">${message}</a>';
+		this.backbutton = (message = "Go Back") => `<a href="javascript:history.back(1)">${message}</a>`;
 		
 		this.block = (blockContent,width = "inherit") => "<juliar_block>"+str+"</juliar_block>";
 		
 		this.section = (content,width = "auto", height = "auto", marginx = "0", marginy = "auto", backcolor = "transparent") => 
-		"<section style='width:${width};height:${height};margin: ${marginx} $marginy};background-color:${backcolor}'>${content}</section>";
+		`<section style='width:${width};height:${height};margin: ${marginx} $marginy};background-color:${backcolor}'>${content}</section>`;
 		this.columns = (content,numberOfColumns = 1, blockStyle = "table-cell") => {
 			if(blockStyle == 1) blockStyle = "inline-block";
-			return "<div style='vertical-align:top;display:${blockStyle};width:${~~100/numberOfColumns}%;box-shadow: 1px 0px 1px #888888'>${content}</div>";
+			return `<div style='vertical-align:top;display:${blockStyle};width:${~~100/numberOfColumns}%;box-shadow: 1px 0px 1px #888888'>${content}</div>`;
 		};
 		this.float = (content,alignment = "right") => "<span style='float:${alignment};'>${content}</span>";
 		this.sticky = (content,yPosition = "initial", xPosition = "initial") => {
 			const x = args[0] < 0 ? "bottom:" : "top:";
 			const y = args[1] < 0 ? "right:" : "left:";
-			return "<span style='position:fixed;${x+xPosition};${y+yPosition}'>${content}</span>";
+			return `<span style='position:fixed;${x+xPosition};${y+yPosition}'>${content}</span>`;
 		};
 		
 		this.padding = (content,size = "5px", paddingType = "all") => {
 			switch(paddingType){
 				case "all":
-				return "<div style='padding:"+size+"'>"+content+"</div>";
+				return `<div style='padding:${size}'>${content}</div>`;
 				case "top":
-				return "<div style='padding-top:"+size+"'>"+content+"</div>";
+				return `<div style='padding-top:${size}'>${content}</div>`;
 				case "bottom":
-				return "<div style='padding-bottom:"+size+"'>"+content+"</div>";
+				return `<div style='padding-bottom:${size}'>${content}</div>`;
 				case "left":
-				return "<div style='padding-left:"+size+"'>"+content+"</div>";
+				return `<div style='padding-left:${size}'>${content}</div>`;
 				case "right":
-				return "<div style='padding-right:"+size+"'>"+content+"</div>";
+				return `<div style='padding-right:${size}'>${content}</div>`;
 				case "sides":
-				return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+content+"</div>";
+				return `<div style='padding-left:${size};padding-right:${size}'>${content}</div>`;
 				case "vertical":
-				return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+content+"</div>";
+				return `<div style='padding-left:${size}";padding-right:${size}'>${content}</div>`;
 				default:
-				return "<div style='padding:"+size+"'>"+content+"</div>";
+				return `<div style='padding:${size}'>${content}</div>`;
 			}
 		};
 		
@@ -653,124 +687,106 @@ class Juliar_main{
 		};
 		
 		//Text Effects
-		this.left = content => "<div class='left'>${content}</div>";
-		this.right = content => "<div class='right'>${content}</div>";
-		this.center = content => "<div class='center'>${content}</div>";
-		this.middle = content => "<div class='middle'>${content}</div>";
-		this.bold = content => "<span class='bold'>${content}</span>";
-		this.italics = content => "<span class='italics'>${content}</span>";
-		this.crossout = content => "<span class='crossout'>${content}</span>";
-		this.overline = content => "<span class='overline'>${content}</span>";
-		this.subscript = content => "<span class='subscript'>${content}</span>";
-		this.superscript = content => "<span class='superscript'>${content}</span>";
-		this.underline = content => "<span class='underline'>${content}</span>";
-		this.uppercase = content => "<span style='text-transform: uppercase;'>${content}</span>";
-		this.lowercase = content => "<span style='text-transform: lowercase;'>${content}</span>";
-		this.alternatecase = str => {
+		this.left = content => `<div class='left'>${content}</div>`;
+		this.right = content => `<div class='right'>${content}</div>`;
+		this.center = content => `<div class='center'>${content}</div>`;
+		this.middle = content => `<div class='middle'>${content}</div>`;
+		this.bold = content => `<span class='bold'>${content}</span>`;
+		this.italics = content => `<span class='italics'>${content}</span>`;
+		this.crossout = content => `<span class='crossout'>${content}</span>`;
+		this.overline = content => `<span class='overline'>${content}</span>`;
+		this.subscript = content => `<span class='subscript'>${content}</span>`;
+		this.superscript = content => `<span class='superscript'>${content}</span>`;
+		this.underline = content => `<span class='underline'>${content}</span>`;
+		this.uppercase = content => `<span style='text-transform: uppercase;'>${content}</span>`;
+		this.lowercase = content => `<span style='text-transform: lowercase;'>${content}</span>`;
+		this.alternatecase = content => {
 			var index = 0;
 			var output = "";
 			var escaper = 0;
-			for(var i=0, length = str.length; i<length;++i){
-				if(str[i] == '<') escaper = 1;
+			for(var i=0, length = content.length; i<length;++i){
+				if(content[i] == '<') escaper = 1;
 				else if(escaper === 0){
-					if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) <= 90) {
-						output += str[i].toLowerCase();
+					if (content.charCodeAt(i) >= 65 && content.charCodeAt(i) <= 90) {
+						output += content[i].toLowerCase();
 					}
 					else{
-						output += str[i].toUpperCase();
+						output += content[i].toUpperCase();
 					}
 				}
-				else {output += str[i];}
-				if(str[i] == '>') escaper = 0;
+				else {output += content[i];}
+				if(content[i] == '>') escaper = 0;
 			}
 			return output;  
 		};
 		
-		this.capitalize = str => "<span style='text-transform: capitalize;'>"+str+"</span>";
-		this.blur = (str,args) => {
-			var temp = args[0] || 'black';
-			return "<span style='text-shadow: 0 0 3px "+temp+";color: transparent;'>"+str+"</span>";
+		this.capitalize = content => `<span style='text-transform: capitalize;'>${content}</span>`;
+		this.blur = (content,color = "black") => {
+			return `<span style='text-shadow: 0 0 3px ${color};color: transparent;'>${content}</span>`;
 		};
-		this.smaller = str => "<span class='smaller'>" + str + "</span>";
-		this.larger = str => "<span class='larger'>" + str + "</span>";
-		this.shrink = str => {
+		this.smaller = content => `<span class='smaller'>${content}</span>`;
+		this.larger = content => `<span class='larger'>${content}</span>`;
+		this.shrink = content => {
 			var output = "", escaper = 0, counter = 0;
-			for (var i = 0, length = str.length; i < length; ++i){
-				if(str[i] == '<') escaper = 1;
-				if(escaper === 0){ output += "<span class='smaller'>" + str[i]; counter++;}
-				else{ output += str[i];}
-				if(str[i] == '>') escaper = 0;
+			for (var i = 0, length = content.length; i < length; ++i){
+				if(content[i] == '<') escaper = 1;
+				if(escaper === 0){ output += "<span class='smaller'>" + content[i]; counter++;}
+				else{ output += content[i];}
+				if(content[i] == '>') escaper = 0;
 			}
 			for (i = 0; i < counter; i++) output += "</span>";
 			return output;
 		};
-		this.grow = str => {
+		this.grow = content => {
 			var output = "", escaper = 0, counter = 0;
-			for (var i = 0, length = str.length; i < length; ++i){
-				if(str[i] == '<') escaper = 1;
-				if(escaper === 0){ output += "<span class='larger'>" + str[i]; counter++;}
-				else{ output += str[i];}
-				if(str[i] == '>') escaper = 0;
+			for (var i = 0, length = content.length; i < length; ++i){
+				if(content[i] == '<') escaper = 1;
+				if(escaper === 0){ output += "<span class='larger'>" + content[i]; counter++;}
+				else{ output += content[i];}
+				if(content[i] == '>') escaper = 0;
 			}
 			for (i = 0; i < counter; i++) output += "</span>";
 			return output;
 		};
-		
-		this.highlight = (str,args) => {
+		this.highlight = (content,...args = "orange") => {
 			var index = 0;
 			var output = "";
 			var escaper = 0;
-			args[0] = args[0] || "orange";
+			for(var i=0, length = content.length; i<length;++i){
+				if(index == args.length) index = 0;
+				if(content[i] == '<') escaper = 1;
+				if(content[i] == "\\" && content[i+1] == "*"){ output += `<span style='background-color:${args[index++]}'>\\*</span>`;++i;}
+				else if(escaper === 0) output += `<span style='background-color: ${args[index++]}'>${content[i]}</span>`;
+				else {output += content[i];}
+				if(content[i] == '>') escaper = 0;
+			}
+			return output;  
+		};
+		this.rainbow = (content,...args = "orange") => { 
+			var index = 0;
+			var output = "";
+			var escaper = 0;
 			for(var i=0, length = str.length; i<length;++i){
 				if(index == args.length) index = 0;
 				if(str[i] == '<') escaper = 1;
-				if(str[i] == "\\" && str[i+1] == "*"){ output +="<span style='background-color:" + args[index++] + "'>\\*</span>";++i;}
-				else if(escaper === 0) output += "<span style='background-color:" + args[index++] + "'>" + str[i] + "</span>";
+				if(str[i] == "\\" && str[i+1] == "*"){ output += `<span style='color:${args[index++]}'>\\*</span>`;++i;}
+				else if(escaper === 0) output += `<span style='color: ${args[index++]}'>${str[i]}</span>`;
 				else {output += str[i];}
 				if(str[i] == '>') escaper = 0;
 			}
 			return output;  
 		};
-		this.rainbow = (str,args) => { 
-			var index = 0;
-			var output = "";
-			var escaper = 0;
-			args[0] = args[0] || "orange";
-			for(var i=0, length = str.length; i<length;++i){
-				if(index == args.length) index = 0;
-				if(str[i] == '<') escaper = 1;
-				if(str[i] == "\\" && str[i+1] == "*"){ output +="<span style='color:" + args[index++] + "'>\\*</span>";++i;}
-				else if(escaper === 0) output += "<span style='color:" + args[index++] + "'>" + str[i] + "</span>";
-				else {output += str[i];}
-				if(str[i] == '>') escaper = 0;
-			}
-			return output;  
+		this.size = (content,size = "inherit") => { 
+			return "<span style='font-size: ${size}'> ${content}</span>";
 		};
-		this.size = (str,args) => { 
-			var temp = args[0] || 'inherit';
-			return "<span style='font-size: " + temp + "'> " + str + "</span>";
-		};
-		
-		this.reflect = (str,args) => {
-			var temp = args[0] || "X";
-			return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
-		};
+		this.reflect = (content,scale = "X") => return `<div style='transform: scale ${scale} (-1);'>${content}</div>`;
 		this.reverse = str => {for (var i = str.length, o = ''; i > 0; o += str[--i]);return o;};
-		this.border = (str,args) => {
-			var color = args[0] || "black";
-			var size = args[1] || 1;
-			var style = args[2] || "solid";
-			return "<span style='border: "+size+"px "+style+" "+color+"'>"+str+"</span>";
-		};
+		this.border = (content,color = "black", size = 1, style = "solid") => `<span style='border: ${size}px ${style} ${color}'>${content}</span>`;
 		this.outline = (str,args) => {
 			var temp = args[0] || 'orange';
 			return "<span style='text-shadow:-1px -1px 0 "+temp+",1px -1px 0 "+temp+",-1px 1px 0 "+temp+",1px 1px 0 "+temp+"'>"+str+"</span>";
 		};
-		this.blink = (str,args) => {
-			var sec = args[0] || 2;
-			var steps = args[1] || 4;
-			return "<juliar_blink style='animation: blink "+sec+"s steps("+steps+") infinite;'>"+str+"</juliar_blink>";
-		};
+		this.blink = (content,sec = 2, steps = 4) => `<juliar_blink style='animation: blink ${sec}s steps(${steps}) infinite;'>${content}</juliar_blink>`;
 		this.font = (str,args) => { //May needtomodify to prevent scripts... DEFINITELY NEEDS MODIFYING
 			var temp = args[0] || 'inherit';
 			WebFontConfig = {
@@ -783,13 +799,10 @@ class Juliar_main{
 			s.parentNode.insertBefore(wf, s);
 			return "<span style=\"font-family: '" + temp.split(/(?=[A-Z])/).join(" ") + "'\"> " + str + "</span>";
 		};
-		this.rotate = (str,args) => {
-			var temp = args[0] || 350;
-			args[0] = args[0]  || "inherit";
-			args[1] = args[1]  || "inherit";
-			var x = args[0] < 0 ? "bottom:" : "top:";
-			var y = args[1] < 0 ? "right:" : "left:";
-			return "<div style='transform: rotate("+temp+"deg);position:relative;"+x+args[0]+";"+y+args[1]+"'>" + str + "</div>";
+		this.rotate = (content,degress = 350,xPosition = "inherit",yPosition = "inherit") => {
+			var y = yPosition < 0 ? "bottom:" : "top:";
+			var x = xPosition < 0 ? "right:" : "left:";
+			return "<div style='transform: rotate("+degrees+"deg);position:relative;"+x+xPosition+";"+y+yPosition+"'>${content}</div>";
 		};
 		
 		//Date & Time
@@ -816,50 +829,35 @@ class Juliar_main{
 		
 		//
 		//News Related
-		this.newsbanner = (str,args) => {
-			var temp = args[0] || 15;
-			return "<div class='marquee' style='animation: marquee "+temp+"s linear infinite;'>"+str+"</div>";
+		this.newsbanner = (str,speed = 15 ) => "<div class='marquee' style='animation: marquee "+temp+"s linear infinite;'>"+str+"</div>";
+		
+		this.newspaper = (content,style = 2) => {
+			var st = "-webkit-column-count: "+st+";-moz-column-count: "+st+";column-count: "+st+";";
+			st += "-webkit-column-gap: 40px;-moz-column-gap: 40px;column-gap: 40px;";
+			st += "-webkit-column-rule: 1px solid lightblue;-moz-column-rule: 1px solid lightblue;column-rule: 1px solid lightblue;";
+			return `<div style='${st}'>${content}</div>`;
 		};
-		this.newspaper = (str,args) => {
-			var st = args[0] || 2;
-			var style = "-webkit-column-count: "+st+";-moz-column-count: "+st+";column-count: "+st+";";
-			style += "-webkit-column-gap: 40px;-moz-column-gap: 40px;column-gap: 40px;";
-			style += "-webkit-column-rule: 1px solid lightblue;-moz-column-rule: 1px solid lightblue;column-rule: 1px solid lightblue;";
-			return "<div style='"+style+"'>"+ str +"</div>";
-		};
-		this.chapter = str => "<p class='chapter'>"+ str +"</p>";
-		this.picture = (str,args) => { 
-			var width = args[0] || "100%";
-			var height = args[1] || "auto";
-			return "<img style='max-width: 100%;width:"+width+";height:"+height+";margin:0 auto;' src='" + str + "'/>";
-		};
+		this.chapter = name => `<p class='chapter'>${name}</p>`;
+		this.picture = (content,width = "100%", height = "auto") => `<img style='max-width: 100%;width:${width};height:${height};margin:0 auto;' src='${content}'/>`;
 		//
 		//Media
-		this.pdf = this.flash = this.java =  (str,args) => {
-			if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
-			var width = args[0] || 420;
-			var height = args[1] || 315;
-			return "<object width='"+width+"' height='"+height+"' data='"+str+"'></object>"
+		this.pdf = this.flash = this.java =  (content, width = 420, height = 315) => (juliar.environment == "local")? 
+		`This command cannot run in a local environment` : `<object width='${width}' height='${height}' data='${content}'></object>`;
+		this.video = (content,width = 420, height = 315, autoplay = 0) => {
+			if(juliar.environment === "local") return "This command cannot run in a local environment";
+			else if(content.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width='+width+' height='+height+' src="//www.youtube.com/embed/'+content.split('?v=')[1]+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'&t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
+			else if(content.indexOf("//youtu.be/") != -1) return '<iframe width='+width+' height='+height+' src="//www.youtube.com/embed/'+content.split('youtu.be/')[1]+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'&t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
+			else if(content.indexOf("//vimeo.com/") != -1) return '<iframe width='+width+' height='+height+' src="//player.vimeo.com/video/'+content.split("/").pop()+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'#t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
+			else if(content.indexOf("//www.twitch.tv/") != -1) return '<iframe width='+width+' height='+height+' src="//www.twitch.tv/'+content.split("/").pop()+'/embed" frameborder="0"></iframe>';
+			return '<video src="' + content + '" controls="controls">Your browser does not support HTML Video</video>';
 		};
-		this.video = (str,args) => {
-			if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
-			var width = args[0] || 420;
-			var height = args[1] || 315;
-			var autoplay = args[2] || 0;
-			if(str.indexOf("//www.youtube.com/watch?v=") != -1) return '<iframe width='+width+' height='+height+' src="//www.youtube.com/embed/'+str.split('?v=')[1]+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'&t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
-			else if(str.indexOf("//youtu.be/") != -1) return '<iframe width='+width+' height='+height+' src="//www.youtube.com/embed/'+str.split('youtu.be/')[1]+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'&t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
-			else if(str.indexOf("//vimeo.com/") != -1) return '<iframe width='+width+' height='+height+' src="//player.vimeo.com/video/'+str.split("/").pop()+'?autoplay='+{true:1,false:0}[!!JSON.parse(autoplay)]+'#t='+(args[3] || 0)+'" frameborder="0" allowfullscreen></iframe>';
-			else if(str.indexOf("//www.twitch.tv/") != -1) return '<iframe width='+width+' height='+height+' src="//www.twitch.tv/'+str.split("/").pop()+'/embed" frameborder="0"></iframe>';
-			return '<video src="' + str + '" controls="controls">Your browser does not support HTML Video</video>';
-		};
-		this.music = str => '<audio src="' + str + '" controls="controls">Your browser does not support HTML Audio</audio>';
+		this.music = str => `<audio src="${str}" controls="controls">Your browser does not support HTML Audio</audio>`;
 		//
 		//Max,Min & Absolute
-		this.randomnumber = (str,args) => {
-			var times = args[0] || 1;
-			var temp = (Math.random() * (parseInt(str) || 100)) + 1 |0;
-			while(--times){
-				temp += "	 "+Math.floor((Math.random() * (parseInt(str) || 100)) + 1);
+		this.randomnumber = (content = 100,numbersToGet) => {
+			var temp = (Math.random() * (parseInt(content) || 100)) + 1 |0;
+			while(--numbersToGet){
+				temp += "	 "+~~((Math.random() * (parseInt(content) || 100)) + 1);
 			}
 			return temp;
 		};
@@ -1119,47 +1117,6 @@ class Juliar_main{
 			for(var i = 1; i < input.length; i++) result = lcmcalc(result, input[i]);
 			return result;
 		};
-	}
-}
-
-//NOT CONVERTED YET
-class Juliar_oldmain{
-	constructor(juliar){
-		var css = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
-		css += "li>a{color:#557FBB;text-decoration:none}li>a:visited{color:#557FBB}li>a:link{color:#557FBB}li>a:hover{color:grey}";
-		css += ".center{text-align:center;}.left{text-align:left}.right{text-align:right}.middle{display:block;margin-left:auto;margin-right:auto;}";
-		css += ".smaller{font-size:95%}.larger{font-size:105%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
-		css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
-		css += ".chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
-		css += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
-		css += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 100% }100%{ text-indent: -25% }}";
-		css += ".progress-bar{background-color: #1a1a1a;height: 25px;padding: 5px;width: 350px;margin: 50px 0;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}";
-		css += ".progress-bar span{display: inline-block;height: 100%;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}";
-		css += "text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset";
-		css += "transition: all 0.7s ease 0s;}input[type='text'].searchable:focus{width: 200px;}";
-		css += ".juliar_error{color:red}";
-		css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
-		css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
-		css += "@keyframes blink {0%{opacity: 1;}50%{opacity: 0;}100%{opacity: 1;}}";
-		css += "juliar_menu li,juliar_menu ul{list-style:none;margin:0 0 -2px;padding:0;background-color:#333;}"+
-		"juliar_menu ul{text-align:left;position:relative;z-index:597;text-transform:uppercase}juliar_menu ul li{float:left;min-height:1px;vertical-align:middle}"+
-		"juliar_menu ul li.hover,juliar_menu ul li:hover{position:relative;z-index:599;cursor:default}juliar_menu ul ul{visibility:hidden;position:absolute;"+
-		"top:100%;z-index:598;width:100%;bottom:0;left:0;margin-top:0;border-top:4px solid #1b9bff;text-transform:none;min-width:190px}"+
-		"juliar_menu ul ul li{float:none;font-weight:400;position:relative}juliar_menu,juliar_menu a{background:#333;font-size:14px;font-weight:700}"+
-		"juliar_menu ul ul ul{top:0;left:auto;right:-99.5%;border-top:0 none}juliar_menu ul li:hover>ul{visibility:visible}"+
-		"juliar_menu a{display:block;line-height:1em;text-decoration:none;color:#CBCBCB;padding:0 15px;margin-right:0}"+
-		"juliar_menu{padding:0;margin:0;border:0;border-bottom:4px solid #1b9bff}juliar_menu>ul{display:inline-block}"+
-		"juliar_menu ul:after,juliar_menu:after{content:&#39;&#39;;display:block;clear:both}"+
-		"juliar_menu ul ul a{color:#FFF;border:1px solid #0082e7;border-top:0 none;line-height:150%;padding:16px 20px}"+
-		"juliar_menu>ul>li>a{line-height:48px;color:white}juliar_menu>ul>li>a:visited{color:white}juliar_menu>ul>li>a:link{color:white}juliar_menu ul ul li:first-child>a{border-top:1px solid #0082e7}"+
-		"juliar_menu ul ul li:hover>a{background:#35a6ff}juliar_menu ul ul li:last-child>a{border-radius:0 0 3px 3px;box-shadow:0 1px 0 #1b9bff}"+
-		"juliar_menu ul ul li:last-child:hover>a{border-radius:0 0 0 3px}juliar_menu ul ul li.has-sub>a:after{content:&#39;+&#39;;position:absolute;top:50%;right:15px;margin-top:-8px}"+
-		"juliar_menu ul li.active>a,juliar_menu ul li:hover>a{background:#1b9bff;color:#FFF}juliar_menu ul li.has-sub>a:after{content:&#39;+&#39;;margin-left:5px}"+
-		"juliar_menu ul li.last ul{left:auto;right:0}juliar_menu ul li.last ul ul{left:auto;right:99.5%}";
-		css += "footer{background-color:#333;padding:15px;text-align:center;color:white;}";
-		css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
-		juliar.css = css;
-		
 		this.link = (str,...args = str) => {
 			str = str.trim() || args[0];
 			args[0] = args[0] || str;
@@ -1185,9 +1142,6 @@ class Juliar_oldmain{
 		}*/
 		
 		//
-		
-		
-		
 	}
 }
 
