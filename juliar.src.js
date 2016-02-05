@@ -8,9 +8,58 @@ class Juliar{
 		this.csscontent = "";
 		return code;
 	}
+	parser(str = ""){
+		let currentindex=0, nextvalue,lastindex =0, positions = [];
+		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
+			if(str[currentindex-1] == "\\");
+			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+				positions.push(currentindex);
+			}
+			else{
+				if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";
+				else {
+					let oldstring = str.slice(lastindex, ++currentindex);
+					str = str.substr(0, lastindex) + this.picker(oldstring.slice(1, -1)) + str.substr(currentindex);
+					currentindex = lastindex-1;
+				}
+			}
+			++currentindex;
+		}
+		if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
+		if(this.csscontent != ""){
+			var css = document.createElement("style");
+			css.type = "text/css";
+			css.innerHTML = this.css;
+			document.body.appendChild(css);
+		}
+		return str.replace(/\\\*/g, "*");	
+	}
+	log(content, logType){
+		switch(logType){
+			case "warn":
+			if(this.verbose) console.warn(content);
+			return "<juliar_warn>${content}</juliar_warn>";
+			case "info":
+			if(this.verbose) console.info(content);
+			return "<juliar_info>${content}</juliar_info>";
+			case "error":
+			if(this.verbose) console.error(content);
+			return "<juliar_error>${content}</juliar_error>";
+			default:
+			console.log(content);
+		}
+	}
 	constructor(verbose = 0){
+		console.log("%c Welcome %cto %cJ%cu%cl%ci%ca%cr", "color: black; font-style: italic; font-size: 40px",
+		"color: blue; font-style: italic; font-size: 40px",
+		"color: rgb(0,147,221); font-style: italic; font-size: 40px",
+		"color: rgb(231,120,23); font-style: italic; font-size: 40px",
+		"color: rgb(218,37,29); font-style: italic; font-size: 40px",
+		"color: rgb(0,146,63); font-style: italic; font-size: 40px",
+		"color: rgb(40,22,111); font-style: italic; font-size: 40px",
+		"color: rgb(221,19,123); font-style: italic; font-size: 40px");
 		this.verbose = verbose;
-		
+		this.environment = window? ((window.location.protocol == 'file:')? "local": "web") : "server";
 		///This Code Needs to be updated to new engine
 		//START
 		var jscode = [];
@@ -29,11 +78,8 @@ class Juliar{
 		//Initialize Modules
 		this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this)};
 		
-		var juliars = document.getElementsByTagName("juliar");
-		for (var i = 0, juliar_length = juliars.length; i < juliar_length; i++) {
-			var jselector = juliars[i];
-			jselector.innerHTML = this.parser(jselector.innerHTML);
-		}
+		this.selector("juliar");
+		
 		this.modules.interpreter.clearinterpreter();
 		//Initialize CORE CSS
 		var viewPortTag=document.createElement('meta');
@@ -70,59 +116,45 @@ class Juliar{
 		document.dispatchEvent(new Event('juliar_done'));
 		if(verbose) console.log(this.log);
 	}
-	parser(str){
-		var currentindex=0, nextvalue,lastindex =0, positions = [];
-		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
-			if(str[currentindex-1] == "\\");
-			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
-				positions.push(currentindex);
-			}
-			else{
-				if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";
-				else {
-					var oldstring = str.slice(lastindex, ++currentindex);
-					str = str.substr(0, lastindex) + this.picker(oldstring.slice(1, -1)) + str.substr(currentindex);
-					currentindex = lastindex-1;
-				}
-			}
-			++currentindex;
+	selector(type = "juliar"){
+		let juliars = document.getElementsByTagName(type);
+		for (let i = 0, juliar_length = juliars.length; i < juliar_length; i++) {
+			let jselector = juliars[i];
+			jselector.innerHTML = this.parser(jselector.innerHTML);
 		}
-		if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : "+positions.length+"</em>";
-		if(this.csscontent != ""){
-			var css = document.createElement("style");
-			css.type = "text/css";
-			css.innerHTML = this.css;
-			document.body.appendChild(css);
-		}
-		return str.replace(/\\\*/g, "*");	
 	}
 	picker(str){
-		var temp = str.replace(/\s/g, " ").split(' ')[0];
-		var length = temp.length;
+		let temp = str.replace(/\s/g, " ").split(" ")[0];
+		let length = temp.length;
 		temp = temp.split("=");
-		var command = temp[0];
-		var args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
-		var first = command[0];
-		if (first == '+'){ command = "add" + command.slice(1);}
-		else if(first == '-'){ command = "subtract" + command.slice(1);}
-		else if(first == 'x' && command[1] === undefined) command = "multiply" + command.slice(1);
-		else if(first == '/') command = "divide" + command.slice(1);
-		else if(first == '^') command = "power" + command.slice(1);
-		else if(first == '!') command = "not" + command.slice(1);
-		else if(first == '&') command = "and" + command.slice(1);
-		else if(first == '|') command = "or" + command.slice(1);
-		else if(first == '$') command = "root" + command.slice(1);
-		else if(first == '%') command = "remainder" + command.slice(1);
-		else if(first == '#') command = "comment" + command.slice(1);
-		else if(first == '<') (command[1] == "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
-		else if(first == '>') (command[1] == "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
-		else if(first == '=') command = "equalto" + command.slice(1);
-		else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][command[0]] + command.slice(1);
-		
+		let command = temp[0];
+		let args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
+		const first = command[0];
+		const second = command[1];
+		var modifier;
+		if("#" === command || "hide" === command) return "";
+		else if("`" === command || "ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");
+		else if("loop" === command) return "*${str} *".repeat(args[0] || 2);
+		else if(first === '<') (second === "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
+		else if(first === '>') (second === "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
+		else if(first === "x" && second === undefined) command = "multiply" + command.slice(1);
+		else if((modifier = {
+			"+":"add",
+			"-":"subract",
+			"/":"divide",
+			"^":"power",
+			"!":"not",
+			"&":"and",
+			"|":"or",
+			"$":"root",
+			"%":"remainder",
+			"=":"equalto"
+		}[first]) != undefined) command = modifier + command.slice(1);
+		else if(parseInt(first)) command =  ["zero","one","two","three","four","five","six","seven","eight","nine"][first] + command.slice(1);
 		var mods = Object.keys(this.modules);
-		for(var i = 0, len = mods.length; i < len;i++) {
+		for(let i = 0, len = mods.length; i < len;i++) {
 			if (typeof this.modules[mods[i]][command] === "function") {
-				return this.modules[mods[i]][command](str.substr(length).trim(),args);
+				return this.modules[mods[i]][command](str.substr(length),...args);
 			}
 		}
 		return "<span class='juliar_error'>Unknown command '" +command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: "+str.substr(length).trim()+" </em>";		
@@ -131,130 +163,91 @@ class Juliar{
 
 class Juliar_main{
 	constructor(juliar){
-		var css = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
-		css += "li>a{color:#557FBB;text-decoration:none}li>a:visited{color:#557FBB}li>a:link{color:#557FBB}li>a:hover{color:grey}";
-		css += ".center{text-align:center;}.left{text-align:left}.right{text-align:right}.middle{display:block;margin-left:auto;margin-right:auto;}";
-		css += ".smaller{font-size:95%}.larger{font-size:105%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
-		css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
-		css += ".chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
-		css += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
-		css += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 100% }100%{ text-indent: -25% }}";
-		css += ".progress-bar{background-color: #1a1a1a;height: 25px;padding: 5px;width: 350px;margin: 50px 0;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}";
-		css += ".progress-bar span{display: inline-block;height: 100%;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}";
-		css += "text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset";
-		css += "transition: all 0.7s ease 0s;}input[type='text'].searchable:focus{width: 200px;}";
-		css += ".juliar_error{color:red}";
-		css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
-		css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
-		css += "@keyframes blink {0%{opacity: 1;}50%{opacity: 0;}100%{opacity: 1;}}";
-		css += "juliar_menu li,juliar_menu ul{list-style:none;margin:0 0 -2px;padding:0;background-color:#333;}"+
-		"juliar_menu ul{text-align:left;position:relative;z-index:597;text-transform:uppercase}juliar_menu ul li{float:left;min-height:1px;vertical-align:middle}"+
-		"juliar_menu ul li.hover,juliar_menu ul li:hover{position:relative;z-index:599;cursor:default}juliar_menu ul ul{visibility:hidden;position:absolute;"+
-		"top:100%;z-index:598;width:100%;bottom:0;left:0;margin-top:0;border-top:4px solid #1b9bff;text-transform:none;min-width:190px}"+
-		"juliar_menu ul ul li{float:none;font-weight:400;position:relative}juliar_menu,juliar_menu a{background:#333;font-size:14px;font-weight:700}"+
-		"juliar_menu ul ul ul{top:0;left:auto;right:-99.5%;border-top:0 none}juliar_menu ul li:hover>ul{visibility:visible}"+
-		"juliar_menu a{display:block;line-height:1em;text-decoration:none;color:#CBCBCB;padding:0 15px;margin-right:0}"+
-		"juliar_menu{padding:0;margin:0;border:0;border-bottom:4px solid #1b9bff}juliar_menu>ul{display:inline-block}"+
-		"juliar_menu ul:after,juliar_menu:after{content:&#39;&#39;;display:block;clear:both}"+
-		"juliar_menu ul ul a{color:#FFF;border:1px solid #0082e7;border-top:0 none;line-height:150%;padding:16px 20px}"+
-		"juliar_menu>ul>li>a{line-height:48px;color:white}juliar_menu>ul>li>a:visited{color:white}juliar_menu>ul>li>a:link{color:white}juliar_menu ul ul li:first-child>a{border-top:1px solid #0082e7}"+
-		"juliar_menu ul ul li:hover>a{background:#35a6ff}juliar_menu ul ul li:last-child>a{border-radius:0 0 3px 3px;box-shadow:0 1px 0 #1b9bff}"+
-		"juliar_menu ul ul li:last-child:hover>a{border-radius:0 0 0 3px}juliar_menu ul ul li.has-sub>a:after{content:&#39;+&#39;;position:absolute;top:50%;right:15px;margin-top:-8px}"+
-		"juliar_menu ul li.active>a,juliar_menu ul li:hover>a{background:#1b9bff;color:#FFF}juliar_menu ul li.has-sub>a:after{content:&#39;+&#39;;margin-left:5px}"+
-		"juliar_menu ul li.last ul{left:auto;right:0}juliar_menu ul li.last ul ul{left:auto;right:99.5%}";
-		css += "footer{background-color:#333;padding:15px;text-align:center;color:white;}";
-		css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
-		juliar.css = css;
-		
-		this.block = (str,args) => {if(args[0]) return "<span class='juliar_block' style='width:"+args[0]+"'>"+str+"</span>";return "<span class='juliar_block'>"+str+"</span>";};
-		
-		this.section = (str,args) => {
-			var width = args[0] || "auto";
-			var height = args[1] || "auto";
-			var marginx = args[2] || "0";
-			var marginy = args[3] || "auto";
-			var backcolor = args[4] || "transparent";
-			return "<section style='width:"+width+";height:"+height+";margin: "+marginx+" "+marginy+";background-color:"+backcolor+"'>"+str+"</section>";
-		};
-		
-		this.version = () => "Language \\*Juliar \\* version Alpha 4. Running on " + navigator.userAgent;
-		this.help = str => {
-			if(str == "") return "<span class='juliar_error'>Type \\*help  'command name' \\* to see help for the command</span>";
-			var found = juliar.gethelp(str.trim());
-			if(found !== undefined) return found;
-			return "<span class='juliar_error'>Help could not be found for '"+str+"' </span>";	
-		};
-		this.loop = this.repeat = (str,args) => {
-			var temp = args[0] || 2;
-			var output = str;
-			for(var i=1; i<temp; ++i){
-				output += " "+str+" ";
+		this.version = () => "Language \\*Juliar \\* version Alpha 5. Running on " + navigator.userAgent;
+		this.repeat = (whatToRepeat,numberOfRepeats = 2) => str.repeat(numberOfRepeats);
+		this.evaluate = operation => eval(operation);
+		this.isPrime = (...numbersToCheck) => {
+			for(let value of numbersToCheck){
+				if(value < 2 || !Array.apply(0, Array(1 + ~~Math.sqrt(value))).every(function (x, y) { return (y < 2) || (value % y !== 0) })) return false;
 			}
-			return output;
+			return true;
 		};
-		this.factorial = (str,args) => {
-			args[0] = args[0] || 1;
-			return (parseInt(str) <= 1)? parseInt(args[0]) : this.factorial(parseInt(str) - 1, [parseInt(args[0]) * parseInt(str)]);
+		this.primeList(...highestNumber) => {
+			const highnumber = Math.max(...highestNumber);
+			return [for (i of Array.apply(0, Array(highnumber)).map((x, y) => y))
+				if ((i > 1) && Array.apply(0, Array(1 + ~~Math.sqrt(i))).
+				every((x, y) => (y < 2) || (i % y !== 0) ))
+			i];
 		};
-		this.evaluate = str => eval(str);
-		this.condition = (str,args) => {
-			if(args[0] === undefined) return str;
-			for (var i = 0, length = args.length; i < length; ++i) {
-				if (eval(args[i])) return str;
+		this.factorial(...numbers) => {
+			var list = "";
+			for(let value of numbers){
+				list += [...Array.apply(0, Array(value)).reduce((x, y, z) => x + x * z, 1)];
+			}
+			return list;
+		};
+		this.fibonacci(...highestNumber) => {
+			const highnumber = Math.max(...highestNumber);
+			return Array.apply(0, Array(highnumber)).reduce((x, y, z) => x.concat((z < 2) ? z : x[z-1] + x[z-2]), []);
+		};
+		this.condition = (output,condition) => {
+			if(condition === undefined) return output;
+			for (var i = 0, length = condition.length; i < length; ++i) {
+				if (eval(condition[i])) return output;
 			}
 			return "";
 		};
-		this.or = str => {
-			var temp = str.split(" ");
+		this.or = condition => {
+			var temp = condition.split(" ");
 			for (var i = 0, length = temp.length; i < length; ++i) {
 				if (JSON.parse(temp[i]) != false) return true;
 			}
 			return false;
 		};
-		this.not = str => {
-			return str.split(" ").every(function(el){
+		this.not = condition => {
+			return condition.split(" ").every(function(el){
 				return JSON.parse(el) == false;
 			});
 		};
-		this.and = str => { //AND conditional to be used with condition
-			return str.split(" ").every(function(el){
+		this.and = condition => { //AND conditional to be used with condition
+			return condition.split(" ").every(function(el){
 				return JSON.parse(el) != false;
 			});
 		};
-		this.lessthan = str => {
-			var out = str.split(" ");
+		this.lessthan = condition => {
+			var out = condition.split(" ");
 			var element = out.shift();
 			return out.every(el => (element < el));
 		};
-		this.lessthanorequalto = str => {
-			var out = str.split(" ");
+		this.lessthanorequalto = condition => {
+			var out = condition.split(" ");
 			var element = out.shift();
 			return out.every(el => (element <= el));
 		};
-		this.greaterthan = str => {
-			var out = str.split(" ");
+		this.greaterthan = condition => {
+			var out = condition.split(" ");
 			var element = out.shift();
 			return out.every(el => (element > el));
 		};
-		this.greaterthanorequalto = str => {
-			var out = str.split(" ");
+		this.greaterthanorequalto = condition => {
+			var out = condition.split(" ");
 			var element = out.shift();
 			return out.every(el => (element >= el));
 		};
-		this.equalto = str => {
-			var out = str.split(" ");
+		this.equalto = condition => {
+			var out = condition.split(" ");
 			var element = out.shift();
 			return out.every(el => (element == el));
 		};
 		this.code = str => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-		this.hide = () => "";
+		//REPO IS STILL NOT FUNCTIONING NEEDS LOTS OF WORK!!!
 		var repolink = "http://juliar.elementfx.com/repo/?juliar=&package=";
-		this.repo = str => {
-			if(str.trim() == "") return repolink;
-			repolink = str;
+		this.repo = optionalRepo => {
+			if(optionalRepo.trim() == "") return repolink;
+			repolink = optionalRepo;
 			return "The repo has been now set to "+repolink;
 		};
-		this.checkrepo = str => {
+		this.checkrepo = () => {
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.open("GET", repolink, !1);
 			return (xmlhttp.status=200)? "The repo <strong>"+repolink+"</strong> has a pulse" : "<juliar_error>repo does not appear to be active! Try changing repo via \\*repo \\*</juliar_error>";
@@ -264,15 +257,15 @@ class Juliar_main{
 			xmlhttp.open("GET", repolink+"&versions="+Object.keys(juliar.modules).toString(), !1);
 			return (xmlhttp.status==200)? xmlhttp.responseText : "<juliar_error>Could not get the updates! Make sure that the repo is active by typing \\*checkrepo \\*</juliar_error>";
 		};
-		this.download = str => {
-			var name = str.split("/").pop();
+		this.download = moduleName => {
+			var name = moduleName.split("/").pop();
 			if(window.location.protocol == 'file:') return "This command cannot run in a local environment";
-			else if(str.indexOf("//") === -1){
-				var temp = str.split("/");
-				str = repolink+name;
+			else if(moduleName.indexOf("//") === -1){
+				var temp = moduleName.split("/");
+				moduleName = repolink+name;
 			}
 			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", str, !1);
+			xmlhttp.open("GET", moduleName, !1);
 			xmlhttp.send();
 			if(xmlhttp.status!=200) return "<juliar_error>Cannot download the module. Make sure that you spell the package name correctly.</juliar_error>";
 			var fileref=document.createElement("a");
@@ -281,7 +274,7 @@ class Juliar_main{
 			document.body.appendChild(fileref);
 			fileref.click();
 			fileref.parentNode.removeChild(fileref);
-			return "Downloading '"+name+"' from <a href='"+str+"'>"+str+"</a>";
+			return "Downloading '"+name+"' from <a href='"+moduleName+"'>"+moduleName+"</a>";
 		};
 		function countcommands(){
 			var modules = Object.keys(juliar.modules);
@@ -297,19 +290,18 @@ class Juliar_main{
 			temp.sort((a, b) => ((a.name < b.name) ? -1 : ((a.name == b.name) ? 0 : 1)));
 			juliar.commands = temp;	
 		}
-		this.deport = a => ((juliar.modules[a] === undefined)? '<juliar_error>Module "' + a + '" does not exists</juliar_error>':(delete juliar.modules[a],countcommands(),document.dispatchEvent(new Event('deleted '+a)),'Deported Module "' + a + '"'));
-		this.javascript = str => {
-			if(str.split(" ")[0].indexOf(".js") !== -1){ 
+		this.deport = moduleName => ((juliar.modules[moduleName] === undefined)? '<juliar_error>Module ${moduleName} does not exists</juliar_error>':(delete juliar.modules[moduleName],countcommands(),document.dispatchEvent(new Event('deleted ${moduleName}')),'Deported Module "${moduleName}"'));
+		this.javascript = script => {
+			if(script.split(" ")[0].indexOf(".js") !== -1){ 
 				var fileref=document.createElement("script");
-				fileref.src = str;
+				fileref.src = script;
 				document.head.appendChild(fileref);
 				return "";
 			}
-			juliar.code(str);
+			juliar.code(script);
 			return "";
 		};
-		this.import = (str,args) => {
-			var alias = args[0] || null;
+		this.import = (str,alias = null) => {
 			if(str.trim() === "") return "<juliar_error>You Did not specify what to import! Cannot Continue to Import</juliar_error>";
 			var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
 			var name = str.trim().split("/").pop();
@@ -401,16 +393,15 @@ class Juliar_main{
 				}
 			}
 		};
-		this.commands = (str,args) => { //List commands
-			var command = str.trim() || false;
+		this.commands = (command = false,...filters) => { //List commands
 			var names = [];
 			var keys = Object.keys(juliar.modules);
-			for(var i=0;i<args.length;i++){
-				if(Number(args[i])){
-					names.push(keys[args[i]]);
+			for(var i=0;i<filters.length;i++){
+				if(Number(filters[i])){
+					names.push(keys[filters[i]]);
 				}
-				else if(keys.indexOf(args[i]) != -1){
-					names.push(args[i]);
+				else if(keys.indexOf(filters[i]) != -1){
+					names.push(filters[i]);
 				}
 			}
 			var list = juliar.commands;
@@ -426,22 +417,8 @@ class Juliar_main{
 			
 			return functions;
 		};
-		this.count = str => ((str.split(",").length > 1)? str.split(",").length : str.split(" ").length);
-		this.modules = () => Object.keys(juliar.modules);
-		//Redirection
-		this.link = (str,args) => {
-			str = str.trim() || args[0];
-			args[0] = args[0] || str;
-			var temp = !(args[1]) == true ? "_blank" : "_self";
-			return "<a href='"+args[0]+"' target='"+temp+"'>"+str+"</a>";
-		};
-		this.mail = (str,args) => {str = str || args[0];args[0] = args[0] || str;return "<a href='mailto:"+args[0]+"'>"+str+"</a>";};
-		this.store = (str,args) => {localStorage.setItem(args[0], str);return str;};
-		this.restore = str => localStorage.getItem(str.trim());
-		//
-		//Symbol Stuff
-		this.symbol = (str) => {
-			switch(str){
+		this.symbol = (nameOfSymbol) => {
+			switch(nameOfSymbol){
 				case "sigma": return "&Sigma;";
 				case "delta": return "&Delta;";
 				case "integral": return "";
@@ -459,53 +436,162 @@ class Juliar_main{
 				default: return "unknown";
 			}
 		};
-		//
+		this.count = items => ((items.split(",").length > 1)? items.split(",").length : items.split(" ").length);
+		this.modules = () => Object.keys(juliar.modules);
+		//Redirection
+		this.store = (itemToStore,...nameOfItems) => {for(let storageName of nameOfItems){localStorage.setItem(storageName.trim(), itemToStore);}return itemToStore;};
+		this.restore = itemToRestore => localStorage.getItem(itemToRestore.trim());
 		//3D Stuff
-		this.threed = (str,args) => {
-			args[0] = args[0] || "0.06em";
-			return "<span style='text-shadow: -"+args[0]+" 0 red,  "+args[0]+" 0 cyan;'>"+str+"</span>";
+		this.threed = (output,spread = "0.06em") => {
+			return "<span style='text-shadow: -${spread} 0 red,  ${spread} 0 cyan;'>${output}</span>";
+		};
+		////
+		this.newline = (howManyTimes=1) => window? "<br>".repeat(howManyTimes) : "\r\n".repeat(howManyTimes);
+		this.visibility = (output,visibilityLevel = 40) => "<div style='opacity: ${visibilityLevel/100}'>${output}</div>";
+		this.backgroundcolor = (output,color = "#428bca") => "<span style=\"background-color:${color}\">${output}</span>";
+		//History Manipulation
+		this.history = () => window.history.length;
+		this.statehistory = () => history.state;
+		this.sethistory = (content,state = null) => {
+			history.pushState(state, null, content);
+		};
+		this.gethistory = historyToGet => (IsNumeric(historyToGet) ? window.history.go(historyToGet) : window.history.go(juliar_core_globals(historyToGet)));
+		this.replacehistory = (contentOfHistory,historyToBeReplacedWith = null) => history.replaceState(historyToBeReplacedWith, null, contentOfHistory);
+		//
+		this.notice = (content, bgcolor = "#428bca", color = "white", fontsize = "16px",padding = "5px") =>
+		"<div style='background-color:${bgcolor};color:${color};font-size:${fontsize};padding:${padding};'>$content</div>";
+		this.ask = (questionToAsk,defaultAnswer = "") => prompt(questionToAsk, defaultAnswer);
+		this.error = alertContent => {alert(alertContent);return "<span class=\"juliar_error\">Error invoked: ${alertContent}</span>";};
+		////
+		this.trash = () => juliar.getobject('null') || juliar.getobject('undefined');
+		//Experimental
+		this.newwindow = (url = "http://www.juliar.org")  => {window.open(url,"newWindow");return "Opened ${url} in new window!";};
+		this.warnonclose = (WarnOnClose = true,warn = WarnOnClose) => {
+			if(JSON.parse(warn) != false){
+				window.onbeforeunload = function (e) {
+					var e = e || window.event;
+					if (e) e.returnValue = 'Are you sure?';
+					return 'Are you sure?';
+				};
+				return "Browser will warn on close!";
+			}
+			window.onbeforeunload = "";
+			return "Browser will normally close!";
+		};
+		this.urlparameters = nameOfUrlParameter => new RegExp('[\\?&]' + nameOfUrlParameter + '=([^&#]*)').exec(window.location.href)[1];
+		this.backbutton = (message = "Go Back") => '<a href="javascript:history.back(1)">${message}</a>';
+		
+		this.block = (blockContent,width = "inherit") => "<juliar_block>"+str+"</juliar_block>";
+		
+		this.section = (content,width = "auto", height = "auto", marginx = "0", marginy = "auto", backcolor = "transparent") => 
+		"<section style='width:${width};height:${height};margin: ${marginx} $marginy};background-color:${backcolor}'>${content}</section>";
+		this.columns = (content,numberOfColumns = 1, blockStyle = "table-cell") => {
+			if(blockStyle == 1) blockStyle = "inline-block";
+			return "<div style='vertical-align:top;display:${blockStyle};width:${~~100/numberOfColumns}%;box-shadow: 1px 0px 1px #888888'>${content}</div>";
+		};
+		this.float = (content,alignment = "right") => "<span style='float:${alignment};'>${content}</span>";
+		this.sticky = (content,yPosition = "initial", xPosition = "initial") => {
+			const x = args[0] < 0 ? "bottom:" : "top:";
+			const y = args[1] < 0 ? "right:" : "left:";
+			return "<span style='position:fixed;${x+xPosition};${y+yPosition}'>${content}</span>";
+		};
+		
+		this.padding = (content,size = "5px", paddingType = "all") => {
+			switch(paddingType){
+				case "all":
+				return "<div style='padding:"+size+"'>"+content+"</div>";
+				case "top":
+				return "<div style='padding-top:"+size+"'>"+content+"</div>";
+				case "bottom":
+				return "<div style='padding-bottom:"+size+"'>"+content+"</div>";
+				case "left":
+				return "<div style='padding-left:"+size+"'>"+content+"</div>";
+				case "right":
+				return "<div style='padding-right:"+size+"'>"+content+"</div>";
+				case "sides":
+				return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+content+"</div>";
+				case "vertical":
+				return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+content+"</div>";
+				default:
+				return "<div style='padding:"+size+"'>"+content+"</div>";
+			}
+		};
+		
+		
+		this.globalbackground = urlOrColors => {
+			if(urlOrColors.indexOf(".") != -1 || urlOrColors.indexOf("/") != -1) juliar.code("document.body.style.backgroundImage = \"url(${urlOrColors.replace(/\s/g, "")}\"");
+			else{ 
+				var temp = urlOrColors.split(" ");
+				temp.length == 2 ?  juliar.code("document.body.style.background = \"linear-gradient( to left top, ${temp[1]}, ${temp[0]}) fixed\"") : juliar.code("document.body.style.background = ${temp[0]}");
+			}
+			return "Background Changed using the following attribute <em>'${urlOrColors}'</em>";
+		};
+		this.background = (str,args) => {
+			var style;
+			args[0] = args[0] || "red";
+			if(args[0].indexOf(".") != -1 || args[0].indexOf("/") != -1) style = "background-image: url("+args[0].replace(/\s/g, "")+")";
+			else{ 
+				style = args.length == 2 ? "background: linear-gradient( to left top, "+args[1]+", "+args[0]+") fixed" : "background:"+args[0];
+			}
+			return "<div style='"+style+"'>"+str+"</div>";
+		};
+		this.list = (content,type = "decimal") => {
+			var category = juliar.index();
+			temp = {"decimal":1,"lowercase":'a',"uppercase":'A',"roman":'i',"uppercaseroman":'I'}[type] || 1;
+			var list = "var listcat= document.getElementsByTagName(\"juliar_list_"+category+"\")[0];var temp = document.createElement(\"li\");temp.innerHTML = \""+str+"\";if(listcat.previousElementSibling.nodeName != \"OL\"){";
+			list += "temp2 = document.createElement(\"OL\");temp2.type = \""+temp+"\";listcat.parentNode.insertBefore(temp2, listcat);temp2.appendChild(temp);}";
+			list += "else{listcat.previousElementSibling.appendChild(temp);}";
+			list += "listcat.parentNode.removeChild(listcat);"
+			juliar.code(list);
+			return "<juliar_list_"+category+"></juliar_list_"+category+">";
+		};
+		this.button = (url = "#",buttonName = "Submit",color = "SteelBlue") => {
+			juliar.css('.juliar_button_${color}{background-color:${color};color:white;text-decoration: none;padding: 10px 15px;}')
+			return "<a href='${url}' class='juliar_button_${color}'>${buttonName}</a>";
 		};
 		//
-		//DOM Stuff
-		/*this.submit = function(str,args){
-			var form = document.createElement("form");
-			form.setAttribute("method", "post");
-			form.setAttribute("action", str || "");
-			for(var i=0, length = args.length; i<length;++i){
-			var hiddenField = document.createElement("input");
-			hiddenField.setAttribute("type", "hidden");
-			hiddenField.setAttribute("name", args[i]);
-			hiddenField.setAttribute("value", juliar.getobject(args[i]));
-			form.appendChild(hiddenField);  
+		
+		//Array Manipulation
+		this.pick = (listToPickFrom,numberOfElementsToPick, picktype = 1) => {
+			var pickings = [];
+			var pickstore = "";
+			var temp = listToPickFrom.split(" ").filter(n => (n !== ""));
+			if(numberOfElementsToPick == undefined)  return temp[Math.random() * temp.length |0];
+			if(JSON.parse(picktype) == false && temp.length < numberOfElementsToPick) return "<span class=\"juliar_error\">Not enough elements to pick from</span>";
+			var output = "";
+			for(var i=0;i<numberOfElementsToPick;++i){
+				if(JSON.parse(picktype) == false){
+					while(pickings.indexOf((pickstore = temp[Math.random() * temp.length |0])) != -1);
+					output += pickstore + " ";
+					pickings.push(pickstore);
+				}
+				else
+				{
+					output += temp[Math.random() * temp.length |0] + " ";
+				}
 			}
-			document.body.appendChild(form);
-			form.submit();
-			return "";
-		}*/
-		this.columns = (str,args) => {
-			var temp = 100/(args[0] || 1) | 0;
-			var type = "table-cell";
-			if(args[1] == 1) type = "inline-block";
-			return "<div style='vertical-align:top;display:"+type+";width:"+temp+"%;box-shadow: 1px 0px 1px #888888'>"+str+"</div>";
+			return output;
 		};
-		this.newline = str => {str = JSON.parse(str) || 1;var temp;for(var i=0;i<str;i++){temp+="<br>";};return temp;};
-		this.float = (str,args) => {
-			args[0] = args[0] || "right";
-			return "<span style='float:"+args[0]+";'>"+str+"</span>";
+		this.randomize = listToRandomize => {
+			var arr = listToRandomize.split(" ").filter(n => (n !== ""));
+			var currentIndex = arr.length,
+			temporaryValue, randomIndex;
+			while (0 !== currentIndex) {
+				randomIndex = Math.random() * currentIndex |0;
+				currentIndex -= 1;
+				temporaryValue = arr[currentIndex];
+				arr[currentIndex] = arr[randomIndex];
+				arr[randomIndex] = temporaryValue;
+			}
+			return arr.join(' ');
 		};
-		this.sticky = (str,args) => {
-			args[0] = args[0]  || "initial";
-			args[1] = args[1]  || "initial";
-			var x = args[0] < 0 ? "bottom:" : "top:";
-			var y = args[1] < 0 ? "right:" : "left:";
-			return "<span style='position:fixed;"+x+args[0]+";"+y+args[1]+"'>"+str+"</span>";
-		};
-		this.spoiler = (str,args) => {
+		//
+		this.spoiler = (content,initialColor = "black", color = "black", backgroundColor = "white") => {
 			var temp = args[0] || "black";
 			var front = args[1] || "black";
 			var back = args[2] || "white";
-			juliar.css('.juliar_spoiler_'+temp+'{ background-color:'+temp+';color:'+temp+'}.juliar_spoiler_'+temp+':hover{background-color:'+front+';color:'+back+'}');
-			return "<span class='juliar_spoiler_"+temp+"'>"+str+"</span>";
+			juliar.css('.juliar_spoiler_${initialColor}{ background-color:${initialColor};color:${initialColor}.juliar_spoiler_${initialColor}:hover{background-color:${color};color:${backgroundColor}}');
+			return "<span class='juliar_spoiler_${initialColor}'>${content}</span>";
 		};
 		this.bullet = str => {
 			var category = juliar.index();
@@ -517,12 +603,11 @@ class Juliar_main{
 			return "<juliar_bullet_"+category+"></juliar_bullet_"+category+">";
 		};
 		
-		this.visibility = (str,args) => {var temp = args[0] || 40;return "<div style='opacity: "+temp/100+";filter: alpha(opacity="+temp+");'>"+str+"</div>";};
-		this.color = (str,args) => {
+		this.color = (content,...args) => {
 			var temp = args[0] || 'inherit';
-			if(args.length < 2) return "<span style='color: " + temp + "'> " + str + "</span>";
+			if(args.length < 2) return "<span style='color: " + temp + "'> ${content}</span>";
 			var output = "";
-			var words = str.split(" ");
+			var words = content.split(" ");
 			var index = 0;
 			var escaper = 0;
 			var found = 0;
@@ -540,156 +625,47 @@ class Juliar_main{
 			}
 			return output;
 		};
-		this.backgroundcolor = (str,args) => {args[0] = args[0] || "#428bca";return "<span style=\"background-color:"+args[0]+"\">"+str+"</span>";};
-		this.menu = (str,args) => {var name = args[0] || null;return "<juliar_menu name="+name+"><ul>"+str+"</ul></juliar_menu>";};
-		this.menuitem = (str,args) => {
-			var str = str || "&nbsp;";
-			var url = args[0] || "#";
-			var type = args[1] || "0";
-			var picture = args[2] || "";
-			if(picture) picture = "style=\"background: url("+picture+") no-repeat center center;padding-left:40px;background-size:100%;\"";
+		
+		//Need to FIx help...
+		this.help = str => {
+			if(str == "") return "<span class='juliar_error'>Type \\*help  'command name' \\* to see help for the command</span>";
+			var found = juliar.gethelp(str.trim());
+			if(found !== undefined) return found;
+			return "<span class='juliar_error'>Help could not be found for '"+str+"' </span>";	
+		};
+		
+		this.menu = (content,name = null) => {var name = args[0] || null;return "<juliar_menu name=\"${name}\"><ul>${content}</ul></juliar_menu>";};
+		this.menuitem = (name = "&nbsp", url = "#", type = "0", picture = "") => {
+			if(picture) picture = "style=\"background: url(${picture}) no-repeat center center;padding-left:40px;background-size:100%;\"";
 			var position = 0;
-			if((position = str.indexOf("<li>")) == -1){
+			if((position = name.indexOf("<li>")) == -1){
 				switch(type){
 					case "0":
-					return '<li><a href="'+url+'" '+picture+'>'+str+'</a></li>';
+					return '<li><a href="${url}" ${picture}>${name}</a></li>';
 					case "1":
-					return '<li><a target="_blank" href="'+url+' '+picture+' ">'+str+'</a></li>';
+					return '<li><a target="_blank" href="${url} ${picture} ">${name}</a></li>';
 					default:
-					juliar.setobject(args[0],str);
-					return '<li><a href="#" '+picture+'>'+str+'</a></li>';
+					juliar.setobject(args[0],name);
+					return '<li><a href="#" ${picture}>${name}</a></li>';
 				};
 			}
-			return '<li><a href="#">'+str.slice(0,position)+' + </a><ul>'+str.slice(position)+'</ul></li>';		
+			return '<li><a href="#">${name.slice(0,position)} + </a><ul>${name.slice(position)}</ul></li>';		
 		};
-		this.padding = (str,args) => {
-			var size = args[0] || "5px";
-			var pad = args[1] || "all";
-			switch(pad){
-				case "all":
-				return "<div style='padding:"+size+"'>"+str+"</div>";
-				case "top":
-				return "<div style='padding-top:"+size+"'>"+str+"</div>";
-				case "bottom":
-				return "<div style='padding-bottom:"+size+"'>"+str+"</div>";
-				case "left":
-				return "<div style='padding-left:"+size+"'>"+str+"</div>";
-				case "right":
-				return "<div style='padding-right:"+size+"'>"+str+"</div>";
-				case "sides":
-				return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</div>";
-				case "vertical":
-				return "<div style='padding-left:"+size+";padding-right:"+size+"'>"+str+"</div>";
-				default:
-				return "<div style='padding:"+size+"'>"+str+"</div>";
-			}
-		};
-		this.notice = (str,args) => {
-			var bgcolor = args[0] || "#428bca";
-			var color = args[1] || "white";
-			var fontsize = args[2] || "16px";
-			var padding = args[3] || "5px";
-			return "<div style='background-color:"+bgcolor+";color:"+color+";font-size:"+fontsize+";padding:"+padding+";'>"+str+"</div>";
-		};
-		this.ask = (str,args) => {var temp = args[0] || "";return prompt(str, temp);};
-		this.error = str => {alert(str);return "<span class=\"juliar_error\">Error invoked: "+str+"</span>";};
-		this.globalbackground = str => {
-			if(str.indexOf(".") != -1 || str.indexOf("/") != -1) juliar.code("document.body.style.backgroundImage = \"url("+str.replace(/\s/g, "")+")\"");
-			else{ 
-				var temp = str.split(" ");
-				temp.length == 2 ?  juliar.code("document.body.style.background = \"linear-gradient( to left top, "+temp[1]+", "+temp[0]+") fixed\"") : juliar.code("document.body.style.background = "+temp[0]);
-			}
-			return "Background Changed using the following attribute <em>'" + str+"'</em>";
-		};
-		this.background = (str,args) => {
-			var style;
-			args[0] = args[0] || "red";
-			if(args[0].indexOf(".") != -1 || args[0].indexOf("/") != -1) style = "background-image: url("+args[0].replace(/\s/g, "")+")";
-			else{ 
-				style = args.length == 2 ? "background: linear-gradient( to left top, "+args[1]+", "+args[0]+") fixed" : "background:"+args[0];
-			}
-			return "<div style='"+style+"'>"+str+"</div>";
-		};
-		this.list = (str,args) => {
-			var temp  = args[0] || "decimal";
-			var category = juliar.index();
-			temp = {"decimal":1,"lowercase":'a',"uppercase":'A',"roman":'i',"uppercaseroman":'I'}[temp] || 1;
-			var list = "var listcat= document.getElementsByTagName(\"juliar_list_"+category+"\")[0];var temp = document.createElement(\"li\");temp.innerHTML = \""+str+"\";if(listcat.previousElementSibling.nodeName != \"OL\"){";
-			list += "temp2 = document.createElement(\"OL\");temp2.type = \""+temp+"\";listcat.parentNode.insertBefore(temp2, listcat);temp2.appendChild(temp);}";
-			list += "else{listcat.previousElementSibling.appendChild(temp);}";
-			list += "listcat.parentNode.removeChild(listcat);"
-			juliar.code(list);
-			return "<juliar_list_"+category+"></juliar_list_"+category+">";
-		};
-		this.button = (str,args) => {
-			var str = str || "#";
-			var name = args[0] || "Submit";
-			var color = args[1] || 'SteelBlue';
-			juliar.css('.juliar_button_'+color+'{background-color:'+color+';color:white;text-decoration: none;padding: 10px 15px;}')
-			return "<a href='"+str+"' class='juliar_button_"+color+"'>"+name+"</a>";
-		};
-		//
-		//History Manipulation
-		this.history = () => window.history.length;
-		this.statehistory = () => history.state;
-		this.sethistory = (str,args) => {
-			var temp = args[0] || null;
-			history.pushState(temp, null, str);
-		};
-		this.gethistory = str => (IsNumeric(str) ? window.history.go(str) : window.history.go(juliar_core_globals(str)));
-		this.replacehistory = str => {var temp = args[0] || null;history.replaceState(temp, null, str);};
-		//
-		//Array Manipulation
-		this.pick = (str,args) => {
-			var picktype = args[1] || 1;
-			var pickings = [];
-			var pickstore = "";
-			var temp = str.split(" ").filter(n => (n !== ""));
-			var temp2 = args[0];
-			if(temp2 == undefined)  return temp[Math.random() * temp.length |0];
-			if(JSON.parse(picktype) == false && temp.length < temp2) return "<span class=\"juliar_error\">Not enough elements to pick from</span>";
-			var output = "";
-			for(var i=0;i<temp2;++i){
-				if(JSON.parse(picktype) == false){
-					while(pickings.indexOf((pickstore = temp[Math.random() * temp.length |0])) != -1);
-					output += pickstore + " ";
-					pickings.push(pickstore);
-				}
-				else
-				{
-					output += temp[Math.random() * temp.length |0] + " ";
-				}
-			}
-			return output;
-		};
-		this.randomize = str => {
-			var arr = str.split(" ").filter(n => (n !== ""));
-			var currentIndex = arr.length,
-			temporaryValue, randomIndex;
-			while (0 !== currentIndex) {
-				randomIndex = Math.random() * currentIndex |0;
-				currentIndex -= 1;
-				temporaryValue = arr[currentIndex];
-				arr[currentIndex] = arr[randomIndex];
-				arr[randomIndex] = temporaryValue;
-			}
-			return arr.join(' ');
-		};
-		//
+		
 		//Text Effects
-		this.left = str => "<div class='left'>" + str + "</div>";
-		this.right = str => "<div class='right'>" + str + "</div>";
-		this.center = str => "<div class='center'>" + str + "</div>";
-		this.middle = str => "<div class='middle'>" + str + "</div>";
-		this.bold = str => "<span class='bold'>" + str + "</span>";
-		this.italics = str => "<span class='italics'>" + str + "</span>";
-		this.crossout = str => "<span class='crossout'>" + str + "</span>";
-		this.overline = str => "<span class='overline'>" + str + "</span>";
-		this.subscript = str => "<span class='subscript'>" + str + "</span>";
-		this.superscript = str => "<span class='superscript'>" + str + "</span>";
-		this.underline = str => "<span class='underline'>" + str + "</span>";
-		this.uppercase = str => "<span style='text-transform: uppercase;'>"+str+"</span>";
-		this.lowercase = str => "<span style='text-transform: lowercase;'>"+str+"</span>";
+		this.left = content => "<div class='left'>${content}</div>";
+		this.right = content => "<div class='right'>${content}</div>";
+		this.center = content => "<div class='center'>${content}</div>";
+		this.middle = content => "<div class='middle'>${content}</div>";
+		this.bold = content => "<span class='bold'>${content}</span>";
+		this.italics = content => "<span class='italics'>${content}</span>";
+		this.crossout = content => "<span class='crossout'>${content}</span>";
+		this.overline = content => "<span class='overline'>${content}</span>";
+		this.subscript = content => "<span class='subscript'>${content}</span>";
+		this.superscript = content => "<span class='superscript'>${content}</span>";
+		this.underline = content => "<span class='underline'>${content}</span>";
+		this.uppercase = content => "<span style='text-transform: uppercase;'>${content}</span>";
+		this.lowercase = content => "<span style='text-transform: lowercase;'>${content}</span>";
 		this.alternatecase = str => {
 			var index = 0;
 			var output = "";
@@ -709,6 +685,7 @@ class Juliar_main{
 			}
 			return output;  
 		};
+		
 		this.capitalize = str => "<span style='text-transform: capitalize;'>"+str+"</span>";
 		this.blur = (str,args) => {
 			var temp = args[0] || 'black';
@@ -738,6 +715,7 @@ class Juliar_main{
 			for (i = 0; i < counter; i++) output += "</span>";
 			return output;
 		};
+		
 		this.highlight = (str,args) => {
 			var index = 0;
 			var output = "";
@@ -772,26 +750,7 @@ class Juliar_main{
 			var temp = args[0] || 'inherit';
 			return "<span style='font-size: " + temp + "'> " + str + "</span>";
 		};
-		this.font = (str,args) => { //May needtomodify to prevent scripts... DEFINITELY NEEDS MODIFYING
-			var temp = args[0] || 'inherit';
-			WebFontConfig = {
-				google: { families: [ temp.split(/(?=[A-Z])/).join(" ")+'::latin' ] }
-			};
-			var wf = document.createElement('script');
-			wf.src = '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-			wf.type = 'text/javascript';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(wf, s);
-			return "<span style=\"font-family: '" + temp.split(/(?=[A-Z])/).join(" ") + "'\"> " + str + "</span>";
-		};
-		this.rotate = (str,args) => {
-			var temp = args[0] || 350;
-			args[0] = args[0]  || "inherit";
-			args[1] = args[1]  || "inherit";
-			var x = args[0] < 0 ? "bottom:" : "top:";
-			var y = args[1] < 0 ? "right:" : "left:";
-			return "<div style='transform: rotate("+temp+"deg);position:relative;"+x+args[0]+";"+y+args[1]+"'>" + str + "</div>";
-		};
+		
 		this.reflect = (str,args) => {
 			var temp = args[0] || "X";
 			return "<div style='transform: scale"+temp.toUpperCase()+"(-1);'>" + str + "</div>";
@@ -812,7 +771,27 @@ class Juliar_main{
 			var steps = args[1] || 4;
 			return "<juliar_blink style='animation: blink "+sec+"s steps("+steps+") infinite;'>"+str+"</juliar_blink>";
 		};
-		//
+		this.font = (str,args) => { //May needtomodify to prevent scripts... DEFINITELY NEEDS MODIFYING
+			var temp = args[0] || 'inherit';
+			WebFontConfig = {
+				google: { families: [ temp.split(/(?=[A-Z])/).join(" ")+'::latin' ] }
+			};
+			var wf = document.createElement('script');
+			wf.src = '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+			wf.type = 'text/javascript';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(wf, s);
+			return "<span style=\"font-family: '" + temp.split(/(?=[A-Z])/).join(" ") + "'\"> " + str + "</span>";
+		};
+		this.rotate = (str,args) => {
+			var temp = args[0] || 350;
+			args[0] = args[0]  || "inherit";
+			args[1] = args[1]  || "inherit";
+			var x = args[0] < 0 ? "bottom:" : "top:";
+			var y = args[1] < 0 ? "right:" : "left:";
+			return "<div style='transform: rotate("+temp+"deg);position:relative;"+x+args[0]+";"+y+args[1]+"'>" + str + "</div>";
+		};
+		
 		//Date & Time
 		this.completedate = () => {
 			var now = new Date();
@@ -834,54 +813,7 @@ class Juliar_main{
 			var d = new Date().getTimezoneOffset()/60;
 			return d > 0 ? "GMT-"+d : 'GMT+'.Math.abs(d); 
 		};
-		this.ip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).query;
-		};
-		this.zipfromip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).zip;
-		};
-		this.zonefromip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).timezone;
-		};
-		this.regionfromip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).regionName;
-		};
-		this.locationfromip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).lat +" "+ JSON.parse(xmlhttp.responseText).lon;
-		};
-		this.countryfromip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).country;
-		};
-		this.cityfromip = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).city;
-		};
-		this.isp = str => {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
-			xmlhttp.send();
-			return JSON.parse(xmlhttp.responseText).isp;
-		};
+		
 		//
 		//News Related
 		this.newsbanner = (str,args) => {
@@ -1187,35 +1119,133 @@ class Juliar_main{
 			for(var i = 1; i < input.length; i++) result = lcmcalc(result, input[i]);
 			return result;
 		};
-		////
-		this.trash = () => juliar.getobject('null') || juliar.getobject('undefined');
-		//Experimental
-		this.newwindow = str => {
-			str = str || "http://www.juliar.org"; window.open(str,"newWindow");
-			return "Opened "+str+" in new window!";
-		};
-		this.warnonclose = (str,args) => {
-			str = str.trim() || args[0] || true;
-			if(JSON.parse(str) != false){
-				window.onbeforeunload = function (e) {
-					var e = e || window.event;
-					if (e) {
-						e.returnValue = 'Are you sure?';
-					}
-					return 'Are you sure?';
-				};
-				return "Browser will warn on close!";
-			}
-			window.onbeforeunload = "";
-			return "Browser will normally close!";
-		};
-		this.urlparameters = () => {
-			var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-			return (results && results[1]) || undefined;
-		};
-		this.backbutton = str => '<a href="javascript:history.back(1)">'+(str || 'Go Back')+'</a>';
 	}
 }
+
+//NOT CONVERTED YET
+class Juliar_oldmain{
+	constructor(juliar){
+		var css = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
+		css += "li>a{color:#557FBB;text-decoration:none}li>a:visited{color:#557FBB}li>a:link{color:#557FBB}li>a:hover{color:grey}";
+		css += ".center{text-align:center;}.left{text-align:left}.right{text-align:right}.middle{display:block;margin-left:auto;margin-right:auto;}";
+		css += ".smaller{font-size:95%}.larger{font-size:105%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
+		css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
+		css += ".chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
+		css += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
+		css += ".marquee:hover{animation-play-state: paused}@keyframes marquee{0%{ text-indent: 100% }100%{ text-indent: -25% }}";
+		css += ".progress-bar{background-color: #1a1a1a;height: 25px;padding: 5px;width: 350px;margin: 50px 0;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}";
+		css += ".progress-bar span{display: inline-block;height: 100%;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}";
+		css += "text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset";
+		css += "transition: all 0.7s ease 0s;}input[type='text'].searchable:focus{width: 200px;}";
+		css += ".juliar_error{color:red}";
+		css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
+		css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
+		css += "@keyframes blink {0%{opacity: 1;}50%{opacity: 0;}100%{opacity: 1;}}";
+		css += "juliar_menu li,juliar_menu ul{list-style:none;margin:0 0 -2px;padding:0;background-color:#333;}"+
+		"juliar_menu ul{text-align:left;position:relative;z-index:597;text-transform:uppercase}juliar_menu ul li{float:left;min-height:1px;vertical-align:middle}"+
+		"juliar_menu ul li.hover,juliar_menu ul li:hover{position:relative;z-index:599;cursor:default}juliar_menu ul ul{visibility:hidden;position:absolute;"+
+		"top:100%;z-index:598;width:100%;bottom:0;left:0;margin-top:0;border-top:4px solid #1b9bff;text-transform:none;min-width:190px}"+
+		"juliar_menu ul ul li{float:none;font-weight:400;position:relative}juliar_menu,juliar_menu a{background:#333;font-size:14px;font-weight:700}"+
+		"juliar_menu ul ul ul{top:0;left:auto;right:-99.5%;border-top:0 none}juliar_menu ul li:hover>ul{visibility:visible}"+
+		"juliar_menu a{display:block;line-height:1em;text-decoration:none;color:#CBCBCB;padding:0 15px;margin-right:0}"+
+		"juliar_menu{padding:0;margin:0;border:0;border-bottom:4px solid #1b9bff}juliar_menu>ul{display:inline-block}"+
+		"juliar_menu ul:after,juliar_menu:after{content:&#39;&#39;;display:block;clear:both}"+
+		"juliar_menu ul ul a{color:#FFF;border:1px solid #0082e7;border-top:0 none;line-height:150%;padding:16px 20px}"+
+		"juliar_menu>ul>li>a{line-height:48px;color:white}juliar_menu>ul>li>a:visited{color:white}juliar_menu>ul>li>a:link{color:white}juliar_menu ul ul li:first-child>a{border-top:1px solid #0082e7}"+
+		"juliar_menu ul ul li:hover>a{background:#35a6ff}juliar_menu ul ul li:last-child>a{border-radius:0 0 3px 3px;box-shadow:0 1px 0 #1b9bff}"+
+		"juliar_menu ul ul li:last-child:hover>a{border-radius:0 0 0 3px}juliar_menu ul ul li.has-sub>a:after{content:&#39;+&#39;;position:absolute;top:50%;right:15px;margin-top:-8px}"+
+		"juliar_menu ul li.active>a,juliar_menu ul li:hover>a{background:#1b9bff;color:#FFF}juliar_menu ul li.has-sub>a:after{content:&#39;+&#39;;margin-left:5px}"+
+		"juliar_menu ul li.last ul{left:auto;right:0}juliar_menu ul li.last ul ul{left:auto;right:99.5%}";
+		css += "footer{background-color:#333;padding:15px;text-align:center;color:white;}";
+		css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
+		juliar.css = css;
+		
+		this.link = (str,...args = str) => {
+			str = str.trim() || args[0];
+			args[0] = args[0] || str;
+			var temp = !(args[1]) == true ? "_blank" : "_self";
+			return "<a href='"+args[0]+"' target='"+temp+"'>"+str+"</a>";
+		};
+		this.mail = (str,args) => {str = str || args[0];args[0] = args[0] || str;return "<a href='mailto:"+args[0]+"'>"+str+"</a>";};
+		//DOM Stuff
+		/*this.submit = function(str,args){
+			var form = document.createElement("form");
+			form.setAttribute("method", "post");
+			form.setAttribute("action", str || "");
+			for(var i=0, length = args.length; i<length;++i){
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", args[i]);
+			hiddenField.setAttribute("value", juliar.getobject(args[i]));
+			form.appendChild(hiddenField);  
+			}
+			document.body.appendChild(form);
+			form.submit();
+			return "";
+		}*/
+		
+		//
+		
+		
+		
+	}
+}
+
+class Juliar_web{
+	constructor(juliar){
+		if(juliar.environment != "web") return "Cannot use this module as environment is not web";
+		this.ip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).query;
+		};
+		this.zipfromip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).zip;
+		};
+		this.zonefromip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).timezone;
+		};
+		this.regionfromip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).regionName;
+		};
+		this.locationfromip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).lat +" "+ JSON.parse(xmlhttp.responseText).lon;
+		};
+		this.countryfromip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).country;
+		};
+		this.cityfromip = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).city;
+		};
+		this.isp = str => {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "http://ip-api.com/json/"+str, false);
+			xmlhttp.send();
+			return JSON.parse(xmlhttp.responseText).isp;
+		};
+	}
+}
+
+
 class Juliar_graph{
 	constructor(juliar){
 		this.graph = (str,args) => {
@@ -1336,16 +1366,16 @@ class Juliar_interpreter{
 		juliar.css = css;
 		
 		this.clearinterpreter = () => {
-		var ijuliars = document.getElementsByTagName("ijuliar"),len = ijuliars.length;
-		if(len != 0){ juliar.history = [];juliar.historyindex = 0;juliar.historytemp = "";}
-		while(len--){
-			var jselector = ijuliars[len];
-			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
-			jselector.addEventListener("keyup", keyUp);
-		}
-		if (sessionStorage.getItem("juliar_interpreter_history")) {
-			juliar.history = sessionStorage.getItem("juliar_interpreter_history").split("*!!!!*");
-		}
+			var ijuliars = document.getElementsByTagName("ijuliar"),len = ijuliars.length;
+			if(len != 0){ juliar.history = [];juliar.historyindex = 0;juliar.historytemp = "";}
+			while(len--){
+				var jselector = ijuliars[len];
+				jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
+				jselector.addEventListener("keyup", keyUp);
+			}
+			if (sessionStorage.getItem("juliar_interpreter_history")) {
+				juliar.history = sessionStorage.getItem("juliar_interpreter_history").split("*!!!!*");
+			}
 		};
 		this.deleteinterpreter = () => {
 			var x = document.activeElement.parentNode.parentNode;

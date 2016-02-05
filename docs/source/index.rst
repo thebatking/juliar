@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Juliar Alpha 4 documentation!
+Welcome to Juliar Alpha 5 documentation!
 ========================================
 
 .. note:: This documentation is still unfinished. Please help us out if you can!

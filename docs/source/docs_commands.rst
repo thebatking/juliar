@@ -1199,7 +1199,7 @@ Returns:
 \*factorial \*
 ----------------
 
-Description: This value easily finds factorial of the number using tail-recursion.
+Description: This command easily finds factorial of number or numers.
 
 Input: Number (Number of factorial)
 
@@ -1243,6 +1243,21 @@ Example(s):
 
 Returns:
 Fetched content from the URL.
+
+\*fibonacci \*
+----------------
+
+Description: This command easily generates fibonacci sequenc
+
+Input: Number to do fibonacci sequence to.
+
+Arguments: NONE
+
+Example(s):
+``*fibonacci 3 *``
+
+Returns:
+fibonacci sequence.
 
 \*flash \*
 ----------------
@@ -1308,20 +1323,6 @@ Example(s):
 Returns:
 This will display the "copyright 2015" message as a footer. The footer is usually placed at the very end of the code.
 
-\*footer \*
-----------------
-
-Description: Adds footer with the Input being as content.
-
-Input: Content that will use footer.
-
-Arguments: NONE
-
-Example(s):
-``*footer copyright 2015*``
-
-Returns:
-This will display the "copyright 2015" message as a footer. The footer is usually placed at the very end of the code.
 
 \*gcd \*
 ----------------
@@ -1565,6 +1566,22 @@ Example(s):
 Returns:
 ``4``
 
+\*ignore \*
+----------------
+
+Description: ignores the code but unlike hide outputs the content. This is useful if you have to write a lot of * that are not commands.
+Simply ignore that section and juliar compiler/interpreter won't look at it. This is still an in progress command and requires that you have equal number of *.
+
+Input: content that you want ignored
+
+Arguments: NONE
+
+Example(s):
+``*ignore I love *red * *purple * and *green * *``
+
+Returns:
+``4``
+
 \*import \*
 ----------------
 
@@ -1610,6 +1627,36 @@ Example(s):
 
 Returns:
 This will display Google as Google is its own service provider.
+
+\*isPrime \*
+----------------
+
+Description: Check if numbers are prime. 
+
+Input: Number (or Infinite amount of Numbers)
+
+Arguments: NONE
+
+Example(s):
+``*isPrime 2 5 7*``
+
+Returns:
+Whether the number (or numbers) are prime. If at least one is not prime. The check fails and returns false, otherwise true.
+
+\*primeList \*
+----------------
+
+Description: Generates prime list 
+
+Input: Number to which to generate the fibonacci numbers
+
+Arguments: NONE
+
+Example(s):
+``*primeList 7*``
+
+Returns:
+prime numbers list in our case 3,5, and 7.
 
 \*italics \*
 ----------------
@@ -1845,19 +1892,17 @@ Returns:
 
 \*loop \*
 ----------------
-Alias: repeat
-
-Description: Loops the content X number of times
+Description: Executes the command and all subcommands X number of times. Useful if values change...Otherwise use repeat as it's faster...
 
 Input: String[ip]
 
 Arguments: Number(Optional: Number of times to loop the content [default: 2])
 
 Example(s):
-``*loop=5 hello *``
+``*loop=5 *randomnumber **``
 
 Returns:
-``hello hello hello hello hello``
+``3 2 5 8 7``
 
 \*lowercase \*
 ----------------
@@ -2379,9 +2424,8 @@ Returns:
 
 \*repeat \*
 ----------------
-Alias: loop
 
-Description: Loops the content X number of times
+Description: Outputs the content X number of times. Compare with \*loop \* where commands gets executed.
 
 Input: String[ip]
 
