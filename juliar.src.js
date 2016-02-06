@@ -48,7 +48,8 @@ class Juliar{
 			if(this.verbose) console.error(content);
 			return `<juliar_error>${content}</juliar_error>`;
 			default:
-			console.log(content);
+			if(this.verbose) console.log(content);
+			return `${content}`;
 		}
 	}
 	constructor(verbose = 0){
