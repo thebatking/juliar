@@ -19,6 +19,7 @@ class Juliar{
 				if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";
 				else {
 					let oldstring = str.slice(lastindex, ++currentindex);
+					console.log(oldstring);
 					str = str.substr(0, lastindex) + this.picker(oldstring.slice(1, -1)) + str.substr(currentindex);
 					currentindex = lastindex-1;
 				}
@@ -124,17 +125,19 @@ class Juliar{
 		}
 	}
 	picker(str){
+		//console.log(str);
 		let temp = str.replace(/\s/g, " ").split(" ")[0];
 		let length = temp.length;
 		temp = temp.split("=");
 		let command = temp[0];
-		let args = temp[1] === undefined ? [] : str.slice(++command.length,length).split(",");
+		let args = temp[1] === undefined ? [] : str.slice(1+command.length,length).split(",");
 		const first = command[0];
 		const second = command[1];
 		var modifier;
+		//console.log(str.substr(length).repeat(args[0] || 2));
 		if("#" === command || "hide" === command) return "";
 		else if("`" === command || "ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");
-		else if("loop" === command) return `*${str} *`.repeat(args[0] || 2);
+		else if("loop" === command) return this.parser(str.substr(length).repeat(args[0] || 2));
 		else if(first === '<') (second === "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
 		else if(first === '>') (second === "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
 		else if(first === "x" && second === undefined) command = "multiply" + command.slice(1);
@@ -198,7 +201,7 @@ class Juliar_main{
 		css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
 		juliar.css = css;
 		this.version = () => "Language \\*Juliar \\* version Alpha 5. Running on " + navigator.userAgent;
-		this.repeat = (whatToRepeat,numberOfRepeats = 2) => str.repeat(numberOfRepeats);
+		this.repeat = (whatToRepeat,numberOfRepeats = 2) => whatToRepeat.repeat(numberOfRepeats);
 		this.evaluate = operation => eval(operation);
 		this.isPrime = (...numbersToCheck) => {
 			for(let value of numbersToCheck){
