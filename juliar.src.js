@@ -13,29 +13,16 @@ class Juliar{
 		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
 			if(str[currentindex-1] == "\\");
 			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
-				if(str.indexOf("loop",currentindex) == currentindex+1 || str.indexOf("ignore",currentindex) == currentindex+1 || str.indexOf("hide",currentindex) == currentindex+1){
-					hil = 1;
-				}
+				if(str.indexOf("loop",currentindex) == currentindex+1 || str.indexOf("ignore",currentindex) == currentindex+1 || str.indexOf("hide",currentindex) == currentindex+1) hil = 1;
 				positions.push(currentindex);
 			}
 			else{
 				if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";
-				else {
-					if(hil != 0){
-						if(positions.length == 0){
-							let oldstring = str.slice(lastindex+1, currentindex++);
-							console.log(oldstring, "HILL");
-							str = str.substr(0, lastindex) + this.picker(oldstring) + str.substr(currentindex);
-							currentindex = lastindex-1;
-							hil = 0;
-						}
-					}
-					else{
-						let oldstring = str.slice(lastindex+1, currentindex++);
-						console.log(oldstring);
-						str = str.substr(0, lastindex) + this.picker(oldstring) + str.substr(currentindex);
-						currentindex = lastindex-1;
-					}
+				else if(hil === 0 || positions.length === 0){
+					let oldstring = str.slice(lastindex+1, currentindex++);
+					str = str.substr(0, lastindex) + this.picker(oldstring) + str.substr(currentindex);
+					currentindex = lastindex-1;
+					hil = 0;
 				}
 			}
 			++currentindex;
@@ -139,7 +126,6 @@ class Juliar{
 		}
 	}
 	picker(str){
-		//console.log(str);
 		let temp = str.replace(/\s/g, " ").split(" ")[0];
 		let length = temp.length;
 		temp = temp.split("=");
@@ -148,9 +134,8 @@ class Juliar{
 		const first = command[0];
 		const second = command[1];
 		var modifier;
-		//console.log(str.substr(length).repeat(args[0] || 2));
-		if("#" === command || "hide" === command) return "";
-		else if("`" === command || "ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");
+		if("hide" === command) return "";
+		else if("ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");
 		else if("loop" === command) return this.parser(str.substr(length).repeat(args[0] || 2));
 		else if(first === '<') (second === "=")? command = "lessthanorequalto" +command.slice(2) : command = "lessthan" + command.slice(1);
 		else if(first === '>') (second === "=")? command = "greaterthanorequalto" +command.slice(2) : command = "greaterthan" + command.slice(1);
