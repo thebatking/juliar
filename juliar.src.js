@@ -1403,106 +1403,105 @@ class Juliar_interpreter{
 				document.dispatchEvent(new Event('juliar_done'));
 			}
 			else if (keyCode === 38) {
-	if (juliar.history.length !== 0) {
-	++juliar.historyindex;
-	if(juliar.historyindex > juliar.history.length){
-	target.value = juliar.historytemp;
-	juliar.historyindex = 0;
+				if (juliar.history.length !== 0) {
+					++juliar.historyindex;
+					if(juliar.historyindex > juliar.history.length){
+						target.value = juliar.historytemp;
+						juliar.historyindex = 0;
+					}
+					else{
+						target.value = juliar.history[juliar.historyindex-1];
+					}
+					target.parentNode.getElementsByClassName("background")[0].value = "";
+				}
+			}
+			else if (keyCode === 40) {
+				if (juliar.history.length !== 0) {
+					--juliar.historyindex;
+					if(juliar.historyindex < 0){
+						juliar.historyindex = juliar.history.length;
+						target.value = juliar.history[juliar.historyindex-1];
+					}
+					else if(juliar.historyindex == 0){
+						target.value = juliar.historytemp;
+					}
+					else{
+						target.value = juliar.history[juliar.historyindex-1];
+					}
+					target.parentNode.getElementsByClassName("background")[0].value = "";
+				}
+			}
+			else if (keyCode == 39){
+				var val = target.value;
+				juliar.historytemp = target.value;
+				juliar.historyindex = 0;
+				
+				var currentindex=0, positions = [];
+				var temppos = [];
+				while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
+					if(val[currentindex-1] == "\\");
+					else if (!((nextvalue = val.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+						positions.push(currentindex);
+					}
+					else{
+						if ((lastindex = positions.pop()) === undefined) temppos.push(currentindex);;
+					}
+					++currentindex;
+				}
+				var foundunit = find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+				if(val.length > 1 && val.length > val.lastIndexOf("*")+1 && foundunit != "" && val.slice(val.lastIndexOf("*")).length < 1+foundunit.length) target.value = val.slice(0,val.lastIndexOf("*")+1) + foundunit;
+				else if(temppos.length > 0){
+					var position;
+					while(position = temppos.pop()){
+						target.value = target.value.slice(0,position) + target.value.slice(position+1);
+					}
+				}
+				else if(positions.length > 0){
+					var countdown = positions.length;
+					while(countdown--){
+						target.value += " *";
+					}
+				}
+				target.parentNode.getElementsByClassName("background")[0].value = "";
+			}
+			else{
+				var val = target.value;
+				juliar.historytemp = target.value;
+				juliar.historyindex = 0;
+				if(val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1){
+					var foundcomm = find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
+					if(foundcomm){
+						target.parentNode.getElementsByClassName("background")[0].value =  target.value.slice(0,val.lastIndexOf("*")+1)+foundcomm;
+					}
+					else{
+						target.parentNode.getElementsByClassName("background")[0].value = target.value;
+					}
+					var currentindex=0, nextvalue,lastindex =0, positions = [], tempstr;
+					var negcount =0;
+					while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
+						if(val[currentindex-1] == "\\");
+						else if (!((nextvalue = val.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+							positions.push(currentindex);
+						}
+						else{
+							if ((lastindex = positions.pop()) === undefined) negcount++;
+						}
+						++currentindex;
+					}
+					if(negcount){
+						target.parentNode.getElementsByClassName("background")[0].value += " <<ERROR: There are "+negcount+" misplaced *";
+					}
+					else if(positions.length > 0){
+						countdown = positions.length;
+						tempstr = "";
+						while(countdown--)  tempstr += " *";
+						target.parentNode.getElementsByClassName("background")[0].value += tempstr;
+					}
+				}
+				else{
+					target.parentNode.getElementsByClassName("background")[0].value = "";
+				}
+			}
+		}
 	}
-	else{
-	target.value = juliar.history[juliar.historyindex-1];
-	}
-	target.parentNode.getElementsByClassName("background")[0].value = "";
-	}
-	}
-	else if (keyCode === 40) {
-	if (juliar.history.length !== 0) {
-	--juliar.historyindex;
-	if(juliar.historyindex < 0){
-	juliar.historyindex = juliar.history.length;
-	target.value = juliar.history[juliar.historyindex-1];
-	}
-	else if(juliar.historyindex == 0){
-	target.value = juliar.historytemp;
-	}
-	else{
-	target.value = juliar.history[juliar.historyindex-1];
-	}
-	target.parentNode.getElementsByClassName("background")[0].value = "";
-	}
-	}
-	else if (keyCode == 39){
-	var val = target.value;
-	juliar.historytemp = target.value;
-	juliar.historyindex = 0;
-	
-	var currentindex=0, positions = [];
-	var temppos = [];
-	while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
-	if(val[currentindex-1] == "\\");
-	else if (!((nextvalue = val.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
-	positions.push(currentindex);
-	}
-	else{
-	if ((lastindex = positions.pop()) === undefined) temppos.push(currentindex);;
-	}
-	++currentindex;
-	}
-	var foundunit = find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
-	if(val.length > 1 && val.length > val.lastIndexOf("*")+1 && foundunit != "" && val.slice(val.lastIndexOf("*")).length < 1+foundunit.length) target.value = val.slice(0,val.lastIndexOf("*")+1) + foundunit;
-	else if(temppos.length > 0){
-	var position;
-	while(position = temppos.pop()){
-	target.value = target.value.slice(0,position) + target.value.slice(position+1);
-	}
-	}
-	else if(positions.length > 0){
-	var countdown = positions.length;
-	while(countdown--){
-	target.value += " *";
-	}
-	}
-	target.parentNode.getElementsByClassName("background")[0].value = "";
-	}
-	else{
-	var val = target.value;
-	juliar.historytemp = target.value;
-	juliar.historyindex = 0;
-	if(val.length > 1 && val != "" && val.length != val.lastIndexOf("*")+1){
-	var foundcomm = find(val.slice(val.lastIndexOf("*")+1),juliar.commands);
-	if(foundcomm){
-	target.parentNode.getElementsByClassName("background")[0].value =  target.value.slice(0,val.lastIndexOf("*")+1)+foundcomm;
-	}
-	else{
-	target.parentNode.getElementsByClassName("background")[0].value = target.value;
-	}
-	var currentindex=0, nextvalue,lastindex =0, positions = [], tempstr;
-	var negcount =0;
-	while ((currentindex = val.indexOf("*", currentindex)) !== -1) {
-	if(val[currentindex-1] == "\\");
-	else if (!((nextvalue = val.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
-	positions.push(currentindex);
-	}
-	else{
-	if ((lastindex = positions.pop()) === undefined) negcount++;
-	}
-	++currentindex;
-	}
-	if(negcount){
-	target.parentNode.getElementsByClassName("background")[0].value += " <<ERROR: There are "+negcount+" misplaced *";
-	}
-	else if(positions.length > 0){
-	countdown = positions.length;
-	tempstr = "";
-	while(countdown--)  tempstr += " *";
-	target.parentNode.getElementsByClassName("background")[0].value += tempstr;
-	}
-	}
-	else{
-	target.parentNode.getElementsByClassName("background")[0].value = "";
-	}
-	}
-	}
-	}
-	}
-		
+}
