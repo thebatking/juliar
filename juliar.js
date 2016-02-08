@@ -15,20 +15,23 @@ var Juliar = (function () {
 			var currentindex = 0,
 			    nextvalue = undefined,
 			    lastindex = 0,
-			    positions = [];
+			    positions = [],
+			    hil = 0; //hil = hide, ignore, loop
 			while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
 				if (str[currentindex - 1] == "\\") ;else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+					if (str.indexOf("loop", currentindex) == currentindex + 1 || str.indexOf("ignore", currentindex) == currentindex + 1 || str.indexOf("hide", currentindex) == currentindex + 1) hil = 1;
 					positions.push(currentindex);
 				} else {
-					if ((lastindex = positions.pop()) === undefined) str = "<span class='juliar_error'>Code has an extra &#42 </span><br/><em>Position: " + currentindex++ + "</em>";else {
-						var oldstring = str.slice(lastindex, ++currentindex);
-						str = str.substr(0, lastindex) + this.picker(oldstring.slice(1, -1)) + str.substr(currentindex);
+					if ((lastindex = positions.pop()) === undefined) str = this.log("Code has an extra &#42", "error", "Position: " + currentindex++);else if (hil === 0 || positions.length === 0) {
+						var oldstring = str.slice(lastindex + 1, currentindex++);
+						str = str.substr(0, lastindex) + this.picker(oldstring) + str.substr(currentindex);
 						currentindex = lastindex - 1;
+						hil = 0;
 					}
 				}
 				++currentindex;
 			}
-			if (positions.length > 0) str = "<span class='juliar_error'>Code is not properly closed </span><br/><em># of missing &#42 : " + positions.length + "</em>";
+			if (positions.length > 0) str = this.log("Code is not properly closed", "error", "# of missing &#42 : " + positions.length);
 			if (this.csscontent != "") {
 				var css = document.createElement("style");
 				css.type = "text/css";
@@ -39,19 +42,33 @@ var Juliar = (function () {
 		}
 	}, {
 		key: "log",
-		value: function log(content, logType) {
+		value: function log() {
+			var content = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
+			var logType = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+
+			for (var _len = arguments.length, additionalText = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+				additionalText[_key - 2] = arguments[_key];
+			}
+
+			additionalText.reduce(function (previousValue, currentValue) {
+				return previousValue + "<br/>" + currentValue;
+			});
 			switch (logType) {
 				case "warn":
-					if (this.verbose) console.warn(content);
-					return "<juliar_warn>" + content + "</juliar_warn>";
+					if (this.verbose > 1) console.warn(content, additionalText);
+					if (this.verbose == 1) return "<juliar_warn>" + content + "</juliar_warn><br/><juliar_italics>" + additionalText + "</juliar_italics>";
+					return "";
 				case "info":
-					if (this.verbose) console.info(content);
-					return "<juliar_info>" + content + "</juliar_info>";
+					if (this.verbose > 1) console.info(content, additionalText);
+					if (this.verbose == 1) return "<juliar_info>" + content + "</juliar_info><br/><juliar_italics>" + additionalText + "</juliar_italics>";
+					return "";
 				case "error":
-					if (this.verbose) console.error(content);
-					return "<juliar_error>" + content + "</juliar_error>";
+					if (this.verbose > 1) console.error(content, additionalText);
+					if (this.verbose == 1) return "<juliar_error>" + content + "</juliar_error><br/><juliar_italics>" + additionalText + "</juliar_italics>";
+					return "";
 				default:
-					console.log(content);
+					if (this.verbose > 1) console.log(content, additionalText);
+					return content + " <br/><juliar_italics>" + additionalText + "</juliar_italics>";
 			}
 		}
 	}, {
@@ -67,11 +84,10 @@ var Juliar = (function () {
 	}]);
 
 	function Juliar() {
-		var verbose = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+		var verbose = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
 
 		_classCallCheck(this, Juliar);
 
-		console.log("%c Welcome %cto %cJ%cu%cl%ci%ca%cr", "color: black; font-style: italic; font-size: 40px", "color: blue; font-style: italic; font-size: 40px", "color: rgb(0,147,221); font-style: italic; font-size: 40px", "color: rgb(231,120,23); font-style: italic; font-size: 40px", "color: rgb(218,37,29); font-style: italic; font-size: 40px", "color: rgb(0,146,63); font-style: italic; font-size: 40px", "color: rgb(40,22,111); font-style: italic; font-size: 40px", "color: rgb(221,19,123); font-style: italic; font-size: 40px");
 		this.verbose = verbose;
 		this.environment = window ? window.location.protocol == 'file:' ? "local" : "web" : "server";
 		///This Code Needs to be updated to new engine
@@ -148,7 +164,6 @@ var Juliar = (function () {
 		});
 		this.commands = temp;
 		document.dispatchEvent(new Event('juliar_done'));
-		if (verbose) console.log(this.log);
 	}
 
 	_createClass(Juliar, [{
@@ -169,11 +184,11 @@ var Juliar = (function () {
 			var length = temp.length;
 			temp = temp.split("=");
 			var command = temp[0];
-			var args = temp[1] === undefined ? [] : str.slice(++command.length, length).split(",");
+			var args = temp[1] === undefined ? [] : str.slice(1 + command.length, length).split(",");
 			var first = command[0];
 			var second = command[1];
 			var modifier;
-			if ("#" === command || "hide" === command) return "";else if ("`" === command || "ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");else if ("loop" === command) return ("*" + str + " *").repeat(args[0] || 2);else if (first === '<') second === "=" ? command = "lessthanorequalto" + command.slice(2) : command = "lessthan" + command.slice(1);else if (first === '>') second === "=" ? command = "greaterthanorequalto" + command.slice(2) : command = "greaterthan" + command.slice(1);else if (first === "x" && second === undefined) command = "multiply" + command.slice(1);else if ((modifier = ({
+			if ("hide" === command) return "";else if ("ignore" === command) return str.substr(length).replace(/\*/g, "\\\*");else if ("loop" === command) return this.parser(str.substr(length).repeat(args[0] || 2));else if (first === '<') second === "=" ? command = "lessthanorequalto" + command.slice(2) : command = "lessthan" + command.slice(1);else if (first === '>') second === "=" ? command = "greaterthanorequalto" + command.slice(2) : command = "greaterthan" + command.slice(1);else if (first === "x" && second === undefined) command = "multiply" + command.slice(1);else if ((modifier = ({
 				"+": "add",
 				"-": "subract",
 				"/": "divide",
@@ -193,7 +208,7 @@ var Juliar = (function () {
 					return (_modules$mods$i = this.modules[mods[i]])[command].apply(_modules$mods$i, [str.substr(length)].concat(_toConsumableArray(args)));
 				}
 			}
-			return "<span class='juliar_error'>Unknown command '" + command + "' </span><br/><em>Arguments: " + args + " </em><br/><em>Content: " + str.substr(length).trim() + " </em>";
+			return this.log("Unknown command '" + command + "'", "error", "Arguments: " + args, "Content: " + str.substr(length));
 		}
 	}]);
 
@@ -207,10 +222,12 @@ var juliar;document.addEventListener("DOMContentLoaded", function () {
 var Juliar_main = function Juliar_main(juliar) {
 	_classCallCheck(this, Juliar_main);
 
-	var css = "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
+	console.log("%c Welcome %cto %cJ%cu%cl%ci%ca%cr", "color: black; font-style: italic; font-size: 40px", "color: blue; font-style: italic; font-size: 40px", "color: #0093DD; font-style: italic; font-size: 40px", "color: #E77817; font-style: italic; font-size: 40px", "color: #DA251D; font-style: italic; font-size: 40px", "color: #00923F; font-style: italic; font-size: 40px", "color: #28166F; font-style: italic; font-size: 40px", "color: #DD137B; font-style: italic; font-size: 40px");
+	var css = "";
+	css += "body{font-family: Tahoma, Geneva, sans-serif;background-repeat:no-repeat;background-size:cover;}";
 	css += "li>a{color:#557FBB;text-decoration:none}li>a:visited{color:#557FBB}li>a:link{color:#557FBB}li>a:hover{color:grey}";
 	css += ".center{text-align:center;}.left{text-align:left}.right{text-align:right}.middle{display:block;margin-left:auto;margin-right:auto;}";
-	css += ".smaller{font-size:95%}.larger{font-size:105%}.subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
+	css += ".subscript{vertical-align: sub;font-size: smaller;}.superscript{vertical-align: super;font-size: smaller;}";
 	css += ".underline{text-decoration: underline;}.bold{font-weight: bold;}.italics{font-style: italic;}.crossout{text-decoration: line-through;}.overline{text-decoration: overline;}";
 	css += ".chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
 	css += ".marquee{margin: 0 auto;overflow: hidden;white-space: nowrap; box-sizing: border-box;}";
@@ -226,20 +243,25 @@ var Juliar_main = function Juliar_main(juliar) {
 	css += "juliar_menu li,juliar_menu ul{list-style:none;margin:0 0 -2px;padding:0;background-color:#333;}" + "juliar_menu ul{text-align:left;position:relative;z-index:597;text-transform:uppercase}juliar_menu ul li{float:left;min-height:1px;vertical-align:middle}" + "juliar_menu ul li.hover,juliar_menu ul li:hover{position:relative;z-index:599;cursor:default}juliar_menu ul ul{visibility:hidden;position:absolute;" + "top:100%;z-index:598;width:100%;bottom:0;left:0;margin-top:0;border-top:4px solid #1b9bff;text-transform:none;min-width:190px}" + "juliar_menu ul ul li{float:none;font-weight:400;position:relative}juliar_menu,juliar_menu a{background:#333;font-size:14px;font-weight:700}" + "juliar_menu ul ul ul{top:0;left:auto;right:-99.5%;border-top:0 none}juliar_menu ul li:hover>ul{visibility:visible}" + "juliar_menu a{display:block;line-height:1em;text-decoration:none;color:#CBCBCB;padding:0 15px;margin-right:0}" + "juliar_menu{padding:0;margin:0;border:0;border-bottom:4px solid #1b9bff}juliar_menu>ul{display:inline-block}" + "juliar_menu ul:after,juliar_menu:after{content:&#39;&#39;;display:block;clear:both}" + "juliar_menu ul ul a{color:#FFF;border:1px solid #0082e7;border-top:0 none;line-height:150%;padding:16px 20px}" + "juliar_menu>ul>li>a{line-height:48px;color:white}juliar_menu>ul>li>a:visited{color:white}juliar_menu>ul>li>a:link{color:white}juliar_menu ul ul li:first-child>a{border-top:1px solid #0082e7}" + "juliar_menu ul ul li:hover>a{background:#35a6ff}juliar_menu ul ul li:last-child>a{border-radius:0 0 3px 3px;box-shadow:0 1px 0 #1b9bff}" + "juliar_menu ul ul li:last-child:hover>a{border-radius:0 0 0 3px}juliar_menu ul ul li.has-sub>a:after{content:&#39;+&#39;;position:absolute;top:50%;right:15px;margin-top:-8px}" + "juliar_menu ul li.active>a,juliar_menu ul li:hover>a{background:#1b9bff;color:#FFF}juliar_menu ul li.has-sub>a:after{content:&#39;+&#39;;margin-left:5px}" + "juliar_menu ul li.last ul{left:auto;right:0}juliar_menu ul li.last ul ul{left:auto;right:99.5%}";
 	css += "footer{background-color:#333;padding:15px;text-align:center;color:white;}";
 	css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
+
+	css += "juliar_error{color:red;}juliar_warn{color:#E77817}juliar_info{color:#0093DD}";
+	css += "juliar_bold{font-weight:bold}juliar_italics{font-style:italic}juliar_underline{text-decoration: underline}juliar_overline{text-decoration: overline}juliar_crossout{text-decoration: line-through}";
+	css += "juliar_smaller{font-size:95%}juliar_larger{font-size:105%}";
+
 	juliar.css = css;
 	this.version = function () {
 		return "Language \\*Juliar \\* version Alpha 5. Running on " + navigator.userAgent;
 	};
 	this.repeat = function (whatToRepeat) {
 		var numberOfRepeats = arguments.length <= 1 || arguments[1] === undefined ? 2 : arguments[1];
-		return str.repeat(numberOfRepeats);
+		return whatToRepeat.repeat(numberOfRepeats);
 	};
 	this.evaluate = function (operation) {
 		return eval(operation);
 	};
 	this.isPrime = function () {
-		for (var _len = arguments.length, numbersToCheck = Array(_len), _key = 0; _key < _len; _key++) {
-			numbersToCheck[_key] = arguments[_key];
+		for (var _len2 = arguments.length, numbersToCheck = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+			numbersToCheck[_key2] = arguments[_key2];
 		}
 
 		var _iteratorNormalCompletion = true;
@@ -291,8 +313,8 @@ var Juliar_main = function Juliar_main(juliar) {
 		});
 	};
 	this.factorial = function () {
-		for (var _len2 = arguments.length, numbers = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-			numbers[_key2] = arguments[_key2];
+		for (var _len3 = arguments.length, numbers = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+			numbers[_key3] = arguments[_key3];
 		}
 
 		var list = "";
@@ -404,12 +426,12 @@ var Juliar_main = function Juliar_main(juliar) {
 	this.checkrepo = function () {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", repolink, !1);
-		return (xmlhttp.status = 200) ? "The repo <strong>" + repolink + "</strong> has a pulse" : "<juliar_error>repo does not appear to be active! Try changing repo via \\*repo \\*</juliar_error>";
+		return (xmlhttp.status = 200) ? "The repo <juliar_bold>" + repolink + "</juliar_bold> has a pulse" : juliar.log("This repo does not appear to be active! Try changing repo via \\*repo \\*", "error");
 	};
 	this.update = function () {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", repolink + "&versions=" + Object.keys(juliar.modules).toString(), !1);
-		return xmlhttp.status == 200 ? xmlhttp.responseText : "<juliar_error>Could not get the updates! Make sure that the repo is active by typing \\*checkrepo \\*</juliar_error>";
+		return xmlhttp.status == 200 ? xmlhttp.responseText : juliar.log("Could not get the updates! Make sure that the repo is active by typing \\*checkrepo \\*", "error");
 	};
 	this.download = function (moduleName) {
 		var name = moduleName.split("/").pop();
@@ -420,7 +442,7 @@ var Juliar_main = function Juliar_main(juliar) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", moduleName, !1);
 		xmlhttp.send();
-		if (xmlhttp.status != 200) return "<juliar_error>Cannot download the module. Make sure that you spell the package name correctly.</juliar_error>";
+		if (xmlhttp.status != 200) return juliar.log("Cannot download the module. Make sure that you spell the package name correctly.", "error");
 		var fileref = document.createElement("a");
 		fileref.download = name + ".juliar";
 		fileref.href = 'data:text/plain;base64,' + btoa(xmlhttp.responseText);
@@ -446,7 +468,7 @@ var Juliar_main = function Juliar_main(juliar) {
 		juliar.commands = temp;
 	}
 	this.deport = function (a) {
-		return juliar.modules[a] === undefined ? '<juliar_error>Module "' + a + '" does not exists</juliar_error>' : (delete juliar.modules[a], countcommands(), document.dispatchEvent(new Event('deleted ' + a)), 'Deported Module "' + a + '"');
+		return juliar.modules[a] === undefined ? juliar.log("Module \"" + a + "\" does not exists", "error") : (delete juliar.modules[a], countcommands(), document.dispatchEvent(new Event('deleted ' + a)), 'Deported Module "' + a + '"');
 	};
 	this.javascript = function (script) {
 		if (script.split(" ")[0].indexOf(".js") !== -1) {
@@ -461,7 +483,7 @@ var Juliar_main = function Juliar_main(juliar) {
 	this["import"] = function (str) {
 		var alias = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-		if (str.trim() === "") return "<juliar_error>You Did not specify what to import! Cannot Continue to Import</juliar_error>";
+		if (str.trim() === "") return juliar.log("You Did not specify what to import! Cannot Continue to Import");
 		var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
 		var name = str.trim().split("/").pop();
 		if (ext == "juliar" && eval("typeof Juliar_" + name) == "function") {
@@ -502,7 +524,7 @@ var Juliar_main = function Juliar_main(juliar) {
 			};
 			document.body.appendChild(fileref);
 			fileref.click();
-			return "Let's try to import " + ("<em>'" + str + "'</em>" || "the file") + " locally...";
+			return "Let's try to import " + ("<juliar_bold>'" + str + "'</juliar_bold>" || "the file") + " locally...";
 		} else {
 			if (ext == "juliar") {
 				var repo = args[1] || true;
@@ -510,11 +532,11 @@ var Juliar_main = function Juliar_main(juliar) {
 				str.indexOf("//") != -1 ? http.open("GET", str, !1) : http.open("GET", "modules/" + str + ".juliar", !1);
 				http.send();
 				if (http.status != 200 || http.responseText.indexOf("Juliar_" + name) == -1) {
-					if (repo == false) return "<juliar_alert>Failed to Load the module '" + name + "'</juliar_alert>";
+					if (repo == false) return juliar.log("Failed to Load the module '" + name + "'", "error");
 					http = new XMLHttpRequest();
 					http.open("GET", repolink + name, !1);
 					http.send();
-					if (http.status != 200) return "<juliar_alert>Failed to Load the module '" + name + "' from Juliar repo</juliar_alert>";
+					if (http.status != 200) return juliar.log("Failed to Load the module '" + name + "' from Juliar repo", "error");
 				}
 				var fileref = document.createElement("script");
 				fileref.type = "text/javascript";
@@ -527,7 +549,7 @@ var Juliar_main = function Juliar_main(juliar) {
 				var http = new XMLHttpRequest();
 				str.indexOf("//") != -1 ? http.open("GET", str, !1) : http.open("GET", "modules/" + str + ".jss", !1);
 				http.send();
-				if (http.status != 200) return "<juliar_alert>Failed to Load JSS '" + name + "'</juliar_alert>";
+				if (http.status != 200) return juliar.log("Failed to Load JSS '" + name + "'", "error");
 				var css = document.createElement("style");
 				css.type = "text/css";
 				css.innerHTML = juliar.parser(http.responseText);
@@ -537,7 +559,7 @@ var Juliar_main = function Juliar_main(juliar) {
 				var http = new XMLHttpRequest();
 				str.indexOf("//") != -1 ? http.open("GET", str, !1) : http.open("GET", "modules/" + str + ".jss", !1);
 				http.send();
-				if (http.status != 200) return "<juliar_alert>Failed to Load Juliar File '" + name + "'</juliar_alert>";
+				if (http.status != 200) return juliar.log("Failed to Load Juliar File '" + name + "'", "error");
 				var div = document.createElement("div");
 				div.innerHTML = juliar.parser(http.responseText);
 				document.body.appendChild(div);
@@ -546,8 +568,8 @@ var Juliar_main = function Juliar_main(juliar) {
 		}
 	};
 	this.commands = function (str) {
-		for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-			args[_key3 - 1] = arguments[_key3];
+		for (var _len4 = arguments.length, args = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+			args[_key4 - 1] = arguments[_key4];
 		}
 
 		//List commands
@@ -567,8 +589,8 @@ var Juliar_main = function Juliar_main(juliar) {
 		for (i = 0; i < y; i++) {
 			if (!command && names.length == 0 || command && list[i].name.indexOf(command) == 0 || names.indexOf(list[i].mods) != -1) {
 				functions += " \\*" + list[i].name + " " + "\\* ";
-				if (list[i].mods != "") functions += "<em>>> IMPORTED from <strong>" + list[i].mods + "</strong><span class='juliar_error'> level: " + list[i].level + "</span></em>";
-				functions += "<br>";
+				if (list[i].mods != "") functions += "<juliar_italics>>> IMPORTED from <juliar_bold>" + list[i].mods + "</juliar_bold><juliar_error> level: " + list[i].level + "</juliar_error></juliar_italics>";
+				functions += "<br/>";
 			}
 		}
 
@@ -616,8 +638,8 @@ var Juliar_main = function Juliar_main(juliar) {
 	};
 	//Redirection
 	this.store = function (itemToStore) {
-		for (var _len4 = arguments.length, nameOfItems = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-			nameOfItems[_key4 - 1] = arguments[_key4];
+		for (var _len5 = arguments.length, nameOfItems = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+			nameOfItems[_key5 - 1] = arguments[_key5];
 		}
 
 		var _iteratorNormalCompletion3 = true;
@@ -838,7 +860,7 @@ var Juliar_main = function Juliar_main(juliar) {
 			return n !== "";
 		});
 		if (numberOfElementsToPick == undefined) return temp[Math.random() * temp.length | 0];
-		if (JSON.parse(picktype) == false && temp.length < numberOfElementsToPick) return "<span class=\"juliar_error\">Not enough elements to pick from</span>";
+		if (JSON.parse(picktype) == false && temp.length < numberOfElementsToPick) return juliar.log("Not enough elements to pick from", "error");
 		var output = "";
 		for (var i = 0; i < numberOfElementsToPick; ++i) {
 			if (JSON.parse(picktype) == false) {
@@ -873,9 +895,6 @@ var Juliar_main = function Juliar_main(juliar) {
 		var color = arguments.length <= 2 || arguments[2] === undefined ? "black" : arguments[2];
 		var backgroundColor = arguments.length <= 3 || arguments[3] === undefined ? "white" : arguments[3];
 
-		var temp = args[0] || "black";
-		var front = args[1] || "black";
-		var back = args[2] || "white";
 		juliar.css('.juliar_spoiler_${initialColor}{ background-color:${initialColor};color:${initialColor}.juliar_spoiler_${initialColor}:hover{background-color:${color};color:${backgroundColor}}');
 		return "<span class='juliar_spoiler_${initialColor}'>${content}</span>";
 	};
@@ -890,8 +909,8 @@ var Juliar_main = function Juliar_main(juliar) {
 	};
 
 	this.color = function (content) {
-		for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-			args[_key5 - 1] = arguments[_key5];
+		for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+			args[_key6 - 1] = arguments[_key6];
 		}
 
 		var temp = args[0] || 'inherit';
@@ -921,10 +940,10 @@ var Juliar_main = function Juliar_main(juliar) {
 
 	//Need to FIx help...
 	this.help = function (str) {
-		if (str == "") return "<span class='juliar_error'>Type \\*help  'command name' \\* to see help for the command</span>";
+		if (str == "") return "<julair_error>Type \\*help  'command name' \\* to see help for the command</juliar_error>";
 		var found = juliar.gethelp(str.trim());
 		if (found !== undefined) return found;
-		return "<span class='juliar_error'>Help could not be found for '" + str + "' </span>";
+		return "<juliar_error>Help could not be found for '" + str + "' </juliar_error>";
 	};
 
 	this.menu = function (content) {
@@ -1021,10 +1040,10 @@ var Juliar_main = function Juliar_main(juliar) {
 		return "<span style='text-shadow: 0 0 3px " + color + ";color: transparent;'>" + content + "</span>";
 	};
 	this.smaller = function (content) {
-		return "<span class='smaller'>" + content + "</span>";
+		return "<juliar_smaller>" + content + "</juliar_smaller>";
 	};
 	this.larger = function (content) {
-		return "<span class='larger'>" + content + "</span>";
+		return "<juliar_larger>" + content + "</juliar_larger>";
 	};
 	this.shrink = function (content) {
 		var output = "",
@@ -1033,13 +1052,13 @@ var Juliar_main = function Juliar_main(juliar) {
 		for (var i = 0, length = content.length; i < length; ++i) {
 			if (content[i] == '<') escaper = 1;
 			if (escaper === 0) {
-				output += "<span class='smaller'>" + content[i];counter++;
+				output += "<juliar_smaller>" + content[i];counter++;
 			} else {
 				output += content[i];
 			}
 			if (content[i] == '>') escaper = 0;
 		}
-		for (i = 0; i < counter; i++) output += "</span>";
+		for (i = 0; i < counter; i++) output += "</juliar_smaller>";
 		return output;
 	};
 	this.grow = function (content) {
@@ -1049,18 +1068,18 @@ var Juliar_main = function Juliar_main(juliar) {
 		for (var i = 0, length = content.length; i < length; ++i) {
 			if (content[i] == '<') escaper = 1;
 			if (escaper === 0) {
-				output += "<span class='larger'>" + content[i];counter++;
+				output += "<juliar_larger>" + content[i];counter++;
 			} else {
 				output += content[i];
 			}
 			if (content[i] == '>') escaper = 0;
 		}
-		for (i = 0; i < counter; i++) output += "</span>";
+		for (i = 0; i < counter; i++) output += "</juliar_larger>";
 		return output;
 	};
 	this.highlight = function (str) {
-		for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-			args[_key6 - 1] = arguments[_key6];
+		for (var _len7 = arguments.length, args = Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+			args[_key7 - 1] = arguments[_key7];
 		}
 
 		var index = 0;
@@ -1799,6 +1818,10 @@ var Juliar_graph = function Juliar_graph(juliar) {
 		if (x == null) return null;
 		return x / Math.sqrt(a.length);
 	}
+};
+
+var Juliar_interpreterNEW = function Juliar_interpreterNEW(juliar) {
+	_classCallCheck(this, Juliar_interpreterNEW);
 };
 
 var Juliar_interpreter = function Juliar_interpreter(juliar) {
