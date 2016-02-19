@@ -1,13 +1,22 @@
+/* 
+	Language: Juliar
+	Website: www.juliar.org
+	Incepted: 4/12/2015
+*/
 "use strict"
+//Main Controller
 class Juliar{
+	//Commands can set css code...
 	set css(code){
 		this.csscontent += code;
 	}
+	//This command is used by Main Controller to get the css code and apply it.
 	get css(){
 		var code = this.csscontent;
 		this.csscontent = "";
 		return code;
 	}
+	//This is a main parser...It allows injection/overwrite via juliar.parser();
 	parser(str = ""){
 		let currentindex=0, nextvalue,lastindex =0, positions = [], hil = 0; //hil = hide, ignore, loop
 		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
@@ -36,6 +45,7 @@ class Juliar{
 		}
 		return str.replace(/\\\*/g, "*");	
 	}
+	//Manages what to do with log/errors...can be overriden/injected for customization.
 	log(content = "", logType = "", ...additionalText){
 		additionalText.reduce((previousValue, currentValue) => previousValue + "<br/>"+ currentValue);
 		switch(logType){
@@ -56,6 +66,7 @@ class Juliar{
 			return `${content} <br/><juliar_italics>${additionalText}</juliar_italics>`;
 		}
 	}
+	//Main Command that interprets Juliar Commands.
 	constructor(verbose = 1){
 		this.verbose = verbose;
 		this.environment = window? ((window.location.protocol == 'file:')? "local": "web") : "server";
@@ -114,6 +125,7 @@ class Juliar{
 		this.commands = temp;
 		document.dispatchEvent(new Event('juliar_done'));
 	}
+	//Tag Selectors/HTML...can be overriden to select different tags.
 	selector(type = "juliar"){
 		let juliars = document.getElementsByTagName(type);
 		for (let i = 0, juliar_length = juliars.length; i < juliar_length; i++) {
@@ -121,6 +133,7 @@ class Juliar{
 			jselector.innerHTML = this.parser(jselector.innerHTML);
 		}
 	}
+	//Decides what to do with the snippets of code.. can be overriden/injected to change functionality.
 	picker(str){
 		let temp = str.replace(/\s/g, " ").split(" ")[0];
 		let length = temp.length;
@@ -159,6 +172,7 @@ class Juliar{
 	}
 }var juliar; document.addEventListener("DOMContentLoaded", () => { juliar = new Juliar();});
 
+//HTML Controller...contains a library of many commands.
 class Juliar_main{
 	constructor(juliar){
 		console.log("%c Welcome %cto %cJ%cu%cl%ci%ca%cr", "color: black; font-style: italic; font-size: 40px",
