@@ -1,4 +1,10 @@
+/* 
+	Language: Juliar
+	Website: www.juliar.org
+	Incepted: 4/12/2015
+*/
 "use strict";
+//Main Controller
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -9,6 +15,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Juliar = (function () {
 	_createClass(Juliar, [{
 		key: "parser",
+
+		//This is a main parser...It allows injection/overwrite via juliar.parser();
 		value: function parser() {
 			var str = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
 
@@ -40,6 +48,8 @@ var Juliar = (function () {
 			}
 			return str.replace(/\\\*/g, "*");
 		}
+
+		//Manages what to do with log/errors...can be overriden/injected for customization.
 	}, {
 		key: "log",
 		value: function log() {
@@ -71,11 +81,17 @@ var Juliar = (function () {
 					return content + " <br/><juliar_italics>" + additionalText + "</juliar_italics>";
 			}
 		}
+
+		//Main Command that interprets Juliar Commands.
 	}, {
 		key: "css",
+
+		//Commands can set css code...
 		set: function set(code) {
 			this.csscontent += code;
 		},
+
+		//This command is used by Main Controller to get the css code and apply it.
 		get: function get() {
 			var code = this.csscontent;
 			this.csscontent = "";
@@ -124,7 +140,7 @@ var Juliar = (function () {
 		//STOP
 
 		//Initialize Modules
-		this.modules = { "main": new Juliar_main(this), "graph": new Juliar_graph(), "interpreter": new Juliar_interpreter(this) };
+		this.modules = { "main": new Juliar_main(this), "graph": new Juliar_graph(), "interpreter": new Juliar_interpreter(this), "web": Juliar_web(this) };
 
 		this.selector("juliar");
 
@@ -166,6 +182,8 @@ var Juliar = (function () {
 		document.dispatchEvent(new Event('juliar_done'));
 	}
 
+	//Tag Selectors/HTML...can be overriden to select different tags.
+
 	_createClass(Juliar, [{
 		key: "selector",
 		value: function selector() {
@@ -177,6 +195,8 @@ var Juliar = (function () {
 				jselector.innerHTML = this.parser(jselector.innerHTML);
 			}
 		}
+
+		//Decides what to do with the snippets of code.. can be overriden/injected to change functionality.
 	}, {
 		key: "picker",
 		value: function picker(str) {
@@ -218,6 +238,8 @@ var Juliar = (function () {
 var juliar;document.addEventListener("DOMContentLoaded", function () {
 	juliar = new Juliar();
 });
+
+//HTML Controller...contains a library of many commands.
 
 var Juliar_main = function Juliar_main(juliar) {
 	_classCallCheck(this, Juliar_main);
@@ -482,6 +504,7 @@ var Juliar_main = function Juliar_main(juliar) {
 	};
 	this["import"] = function (str) {
 		var alias = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+		var repo = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
 		if (str.trim() === "") return juliar.log("You Did not specify what to import! Cannot Continue to Import");
 		var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
@@ -527,7 +550,6 @@ var Juliar_main = function Juliar_main(juliar) {
 			return "Let's try to import " + ("<juliar_bold>'" + str + "'</juliar_bold>" || "the file") + " locally...";
 		} else {
 			if (ext == "juliar") {
-				var repo = args[1] || true;
 				var http = new XMLHttpRequest();
 				str.indexOf("//") != -1 ? http.open("GET", str, !1) : http.open("GET", "modules/" + str + ".juliar", !1);
 				http.send();
@@ -1822,6 +1844,9 @@ var Juliar_graph = function Juliar_graph(juliar) {
 
 var Juliar_interpreterNEW = function Juliar_interpreterNEW(juliar) {
 	_classCallCheck(this, Juliar_interpreterNEW);
+
+	var css = "";
+	juliar.css = css;
 };
 
 var Juliar_interpreter = function Juliar_interpreter(juliar) {

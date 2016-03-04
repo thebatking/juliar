@@ -86,7 +86,7 @@ class Juliar{
 		//STOP 
 		
 		//Initialize Modules
-		this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this)};
+		this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this), "web": Juliar_web(this)};
 		
 		this.selector("juliar");
 		
@@ -363,7 +363,7 @@ class Juliar_main{
 			juliar.code(script);
 			return "";
 		};
-		this.import = (str,alias = null) => {
+		this.import = (str,alias = null, repo = true) => {
 			if(str.trim() === "") return juliar.log(`You Did not specify what to import! Cannot Continue to Import`);
 			var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
 			var name = str.trim().split("/").pop();
@@ -413,7 +413,6 @@ class Juliar_main{
 			}
 			else{
 				if(ext == "juliar"){
-					var repo = args[1] || true;
 					var http = new XMLHttpRequest();
 					str.indexOf("//") != -1 ? http.open("GET", str, !1): http.open("GET", "modules/"+str+".juliar", !1);
 					http.send();
@@ -1329,9 +1328,9 @@ class Juliar_graph{
 
 class Juliar_interpreterNEW{
 	constructor(juliar){
-		
+		var css = "";
+		juliar.css = css;
 	}
-
 }
 
 class Juliar_interpreter{
