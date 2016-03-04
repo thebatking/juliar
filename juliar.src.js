@@ -86,7 +86,7 @@ class Juliar{
 		//STOP 
 		
 		//Initialize Modules
-		this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this), "web": Juliar_web(this)};
+		this.modules = {"main": new Juliar_main(this), "graph": new Juliar_graph,"interpreter": new Juliar_interpreter(this), "web": new Juliar_web(this)};
 		
 		this.selector("juliar");
 		
