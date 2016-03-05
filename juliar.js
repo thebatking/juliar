@@ -506,7 +506,7 @@ var Juliar_main = function Juliar_main(juliar) {
 		var alias = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 		var repo = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
-		if (str.trim() === "") return juliar.log("You Did not specify what to import! Cannot Continue to Import");
+		if ((str = str.trim()) === "") return juliar.log("You Did not specify what to import! Cannot Continue to Import");
 		var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
 		var name = str.trim().split("/").pop();
 		if (ext == "juliar" && eval("typeof Juliar_" + name) == "function") {

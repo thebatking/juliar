@@ -9,6 +9,8 @@
 ###### Official Repository: https://github.com/juliarLang or http://www.src.juliar.org
 ###### Official Website: http://www.juliar.org
 ###### Twitter: https://twitter.com/juliarLang or http://www.twitter.juliar.org
+###### Facebook: https://www.facebook.com/juliarlang/
+###### YouTube: https://www.youtube.com/channel/UCRkKqD0fnuVAJLJe9p4ZiKQ
 ###### Documentation: http://juliarlang.readthedocs.org/en/latest/
 ###### Forums: http://juliar.tk or http://www.forums.juliar.org
 

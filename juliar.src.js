@@ -364,7 +364,7 @@ class Juliar_main{
 			return "";
 		};
 		this.import = (str,alias = null, repo = true) => {
-			if(str.trim() === "") return juliar.log(`You Did not specify what to import! Cannot Continue to Import`);
+			if((str = str.trim()) === "") return juliar.log(`You Did not specify what to import! Cannot Continue to Import`);
 			var ext = str.slice((str.lastIndexOf(".") - 1 >>> 0) + 2) || "juliar";
 			var name = str.trim().split("/").pop();
 			if(ext == "juliar" && eval("typeof Juliar_"+name) == "function"){ //cache
