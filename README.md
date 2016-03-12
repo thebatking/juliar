@@ -13,6 +13,7 @@
 ###### YouTube: https://www.youtube.com/channel/UCRkKqD0fnuVAJLJe9p4ZiKQ
 ###### Documentation: http://juliarlang.readthedocs.org/en/latest/
 ###### Forums: http://juliar.tk or http://www.forums.juliar.org
+###### Wikipedia: https://en.wikipedia.org/wiki/Juliar
 
 ##Welcome to *JULIAR *
 _Incepted On: 4/12/2015_
