@@ -1643,7 +1643,7 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 	css += ".juliar-console input{font-size:21px;width:100%;margin: 0px;padding:0px;box-shadow: none;}";
 	css += ".juliar-console .background{color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
-	css += ".juliar-console .bar{z-index:-1;line-height:23px;left:-12px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:3px;}";
+	css += ".juliar-console .bar{line-height:23px;left:-12px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:1px;}";
 	css += "ijuliar{display:inline-block;width:100%;}";
 	css += "ijuliar .realblock{box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
@@ -1658,7 +1658,21 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 	css += "ijuliar .juliar_min_btn{float:right;font-size:14px;cursor:pointer;color:#9b9da2;display:none;padding: 0px 20px}";
 	css += "ijuliar .juliar_min_btn:hover{background-color:#40454f;color:white;}";
 	css += "ijuliar .jcontent{transition: opacity 0.5s linear;opacity: 1;height:auto}";
+
+	css += "ijuliar .dropdown-content {z-index:5;display: none;position: absolute;background-color: #f9f9f9; min-width: 160px;";
+	css += "box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);}";
+	css += "ijuliar .dropdown-content a {color: black;padding: 12px 16px;text-decoration: none;display: block;}";
+	css += "ijuliar .dropdown-content a:hover {background-color: #f1f1f1}";
+	css += "ijuliar .show {display:block;}";
 	juliar.css = css;
+
+	var generate_list_commands = function generate_list_commands() {
+		var empt = "";
+		for (var i = 0; i < juliar.history.length; i++) {
+			empt += "<a href='#' class='commandsel'>" + juliar.history[i] + "</a>";
+		}
+		return empt;
+	};
 
 	this.clearinterpreter = function () {
 		var ijuliars = document.getElementsByTagName("ijuliar"),
@@ -1668,11 +1682,21 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 		}
 		while (len--) {
 			var jselector = ijuliars[len];
-			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
+			jselector.innerHTML = '<div class="juliar-console"><div class="bar">></div><div class="dropdown-content"></div><input class="background"><input class="foreground" placeholder="Enter *Juliar * command here..."></div>';
 			jselector.addEventListener("keyup", keyUp);
 			jselector.addEventListener("click", function (e) {
 				var classname = e.target.className;
 				switch (classname) {
+					case "bar":
+						var el = e.target.parentNode.getElementsByClassName("dropdown-content")[0];
+						el.innerHTML = generate_list_commands();
+						el.classList.toggle("show");
+						break;
+					case "commandsel":
+						var el = e.target.parentNode.parentNode.parentNode.getElementsByClassName("foreground")[0];
+						el.value = e.target.innerHTML;
+						e.target.parentNode.classList.remove("show");
+						break;
 					case "commandused":
 						var el = e.target.parentNode.parentNode.getElementsByClassName("foreground")[0];
 						el.value = e.target.innerHTML;el.focus();break;
@@ -1689,7 +1713,7 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 						break;
 					case "commandlist":
 						var el = e.target.parentNode.parentNode.parentNode.getElementsByClassName("foreground")[0];
-						el.value = e.target.innerHTML;el.focus();break;
+						el.value = e.target.innerHTML;el.focus();
 						break;
 				}
 			});
