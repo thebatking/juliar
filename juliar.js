@@ -1643,7 +1643,7 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 	css += ".juliar-console input{font-size:21px;width:100%;margin: 0px;padding:0px;box-shadow: none;}";
 	css += ".juliar-console .background{color:#93969b;background-color:white;outline: 0px;position:absolute;left:0px;border: 0px transparent;}";
 	css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
-	css += ".juliar-console .bar{line-height:23px;left:-12px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:1px;}";
+	css += ".juliar-console .bar{cursor:help;line-height:25px;left:-12px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:2px;}";
 	css += "ijuliar{display:inline-block;width:100%;}";
 	css += "ijuliar .realblock{box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 	css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
@@ -1672,6 +1672,28 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 			empt += "<a href='#' class='commandsel'>" + juliar.history[i] + "</a>";
 		}
 		return empt;
+	};
+
+	var filter_commands = function filter_commands(func) {
+		var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+		var ARGUMENT_NAMES = /([^\s,]+)/g;
+		var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+		var temp;
+		if ((temp = fnStr.indexOf("=>")) != -1) {
+			var result = fnStr.slice(0, temp).match(ARGUMENT_NAMES);
+			if (result[0].indexOf("(") == 0) {
+				result[0] = result[0].slice(1);
+			}
+			if (result[result.length - 1].lastIndexOf(")") == result[result.length - 1].length - 1) {
+				result[result.length - 1] = result[result.length - 1].slice(0, -1);
+			}
+		} else {
+			var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+		}
+		if (result === null) return "";
+		if (result.length < 2) return " " + result[0];
+		var tempres = result.shift();
+		return "=(" + result.join('') + ") " + tempres;
 	};
 
 	this.clearinterpreter = function () {
@@ -1748,11 +1770,12 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 	function find(key, array) {
 		for (var i = 0; i < array.length; i++) {
 			if (array[i].name.indexOf(key) == 0) {
-				return array[i].name;
+				return [array[i].name, array[i].mods];
 			}
 		}
 		return "";
 	};
+
 	var keyUp = function keyUp(e) {
 		var keyCode = e.keyCode;
 		var target = e.target;
@@ -1824,7 +1847,8 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 				}
 				++currentindex;
 			}
-			var foundunit = find(val.slice(val.lastIndexOf("*") + 1), juliar.commands);
+			var founditem = find(val.slice(val.lastIndexOf("*") + 1), juliar.commands);
+			var foundunit = founditem[0];
 			if (val.length > 1 && val.length > val.lastIndexOf("*") + 1 && foundunit != "" && val.slice(val.lastIndexOf("*")).length < 1 + foundunit.length) target.value = val.slice(0, val.lastIndexOf("*") + 1) + foundunit;else if (temppos.length > 0) {
 				var position;
 				while (position = temppos.pop()) {
@@ -1842,11 +1866,15 @@ var Juliar_interpreter = function Juliar_interpreter(juliar) {
 			juliar.historytemp = target.value;
 			juliar.historyindex = 0;
 			if (val.length > 1 && val != "" && val.length != val.lastIndexOf("*") + 1) {
-				var foundcomm = find(val.slice(val.lastIndexOf("*") + 1), juliar.commands);
+				var founditem = find(val.slice(val.lastIndexOf("*") + 1), juliar.commands);
+				var foundcomm = founditem[0];
 				if (foundcomm) {
 					target.parentNode.getElementsByClassName("background")[0].value = target.value.slice(0, val.lastIndexOf("*") + 1) + foundcomm;
 				} else {
 					target.parentNode.getElementsByClassName("background")[0].value = target.value;
+				}
+				if (foundcomm != undefined) {
+					target.parentNode.getElementsByClassName("background")[0].value += filter_commands(eval("juliar.modules." + (founditem[1] || "main") + "." + foundcomm + ".toString()"));
 				}
 				var currentindex = 0,
 				    nextvalue,
