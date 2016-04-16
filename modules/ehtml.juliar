@@ -1,16 +1,16 @@
 /*
 	Language: juliar
 	Type: Module
-	Name: shtml.juliar
-	Version: 0.1
-	First Published: 3/04/2016
+	Name: ehtml.juliar
+	Version: 1.0
+	First Published: 4/15/2016
 	Creator: Andrei Makhanov
 	Official Repository: https://repo.juliar.org
 	Official Website: http://juliar.org
 	Comment:
-	Write Simple HTML simply
+	Write Easy HTML simply
 */
-function Juliar_shtml(juliar){
+function Juliar_ehtml(juliar){
 	function convert(t){
 		if(t != ""){
 				var buffer = "";
@@ -31,7 +31,7 @@ function Juliar_shtml(juliar){
     }
         
         
-    this.shtml = function(str){
+    this.ehtml = function(str){
 		var tokens = [];
 		var levels = [-1];
 		str = str.trim();
