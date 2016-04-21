@@ -3,13 +3,14 @@
 *future
 	*package juliar *
 	*version 1.0 *
-	*release alpha 5 *
+	*release alpha 7 *
 	*authors
-		Andrei Mikhailov Makhanov
+		Andrey Mikhailov Makhanov
 		Lord Ptolemy
 		Pier Giorgio Poloni
 		Darren P. Henderson
 		Gian Carlo Casamayor
 	*
-	*site http://www.juliar.org *
+	*notes *
+	*site https://www.juliar.org *
 *
