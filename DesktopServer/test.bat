@@ -1,0 +1,1 @@
+JuliarInterpreter <  sample.txt > output.txt

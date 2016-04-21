@@ -22,7 +22,7 @@ class Juliar{
 		let currentindex=0, nextvalue,lastindex =0, positions = [], hil = 0; //hil = hide, ignore, loop
 		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
 			if(str[currentindex-1] == "\\");
-			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || nextvalue === 13)) {
 				if(str.indexOf("loop",currentindex) == currentindex+1 || str.indexOf("ignore",currentindex) == currentindex+1  /*|| str.indexOf("hide",currentindex) == currentindex+1*/) hil = 1;
 				positions.push(currentindex);
 			}

@@ -1,0 +1,5 @@
+Hi, I am Juliar Interpreter
+Let's add 2 and 3 to get *add 2 3*
+Let's subract 5 and 2 from 10 to get *subtract 10 5 2 * .
+Let's multiply 2 3 and 5 to get *multiply 2 3 5 * .
+Let's divide 100 by 2 and 25 to get *divide 100 2 25 * .

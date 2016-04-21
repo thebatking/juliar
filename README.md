@@ -1,4 +1,4 @@
-# *Juliar * Alpha 6
+# *Juliar * Alpha 7
 ![logo](https://cloud.githubusercontent.com/assets/11934545/9560198/1641db26-4dd6-11e5-8b7d-8aaf54ca2ea1.png)
 
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/juliarLang/juliar.svg)](http://isitmaintained.com/project/juliarLang/juliar "Average time to resolve an issue")
@@ -16,10 +16,25 @@
 
 ##Welcome to *JULIAR *
 _Incepted On: 4/12/2015_
-#####*JULIAR * was originally a new "web" language written in pure javascript. It is now becoming a "desktop" language as well as we're building new Juliar ->ASM compilers, as well as Juliar suite.
-_The Project now has 2 versions. Juliar Compiler which is "desktop" version and Juliar which is web based. Both run the same modules starting with Alpha 6_
+#####*JULIAR * was originally a "web" language (like javascript). It is now also being developed as a "desktop" language (like C#) and "serverside" (like php) language.
+It's now universal, with a strong focus on Cross-platform and performance.
 
-_Starting from Alpha 5, we use babel to transpile. Our code is much cleaner and easier to modify_
+We are currently trying to build a Desktop compiler and add FastCGI support. If you could help us, we would really appreciate!
+
+We are also building Juliar->ASM compiler as well as Juliar Operating System.
+
+_The Project now has 2 versions: Web version and DesktopServer version. If you just want to try out the language and see why we use it, try out
+the WebsiteClient version. Run JuliarServer.exe (if on windows), put the file into webfolder if you run a server, or just open index.html with 
+your favorite browser and start using our interpreter.
+
+For more serious projects, use DesktopServer version. Run it to quickly compile juliar files. If you have a server and want to use juliar
+as a replacement for PHP, JAVA, or perl. In Apache, just download "mod_fcgid" and pipe the files to "Juliar-cgi.exe"
+Feel free to use the Binary! If you want to compile from source, make sure you set the settings to C++11 in the compiler
+as we use latest features.
+
+DesktopServer version works with apache, nginx, lighthttpd, tomcat and many other servers. So use it!
+
+Either way, please help support the project in any way you can. Either telling your friends, submitting bugs, or even contributing to the code itself.
 
 ####Why use *JULIAR * ?
 
