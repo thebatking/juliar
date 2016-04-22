@@ -135,6 +135,10 @@ string equalto(string s){
 	return "true";
 }
 
+string version(){	
+	return "Language \\*Juliar \\* version Alpha 7.";
+}
+
 string picker(string s = ""){
 	vector<string> temp = explode(s, ' ');
 	int length = temp[0].size();
@@ -153,6 +157,8 @@ string picker(string s = ""){
 	if(command == "power") return power(s.substr(length));
 	if(command == "remainder") return remainder(s.substr(length));
 	if(command == "equalto") return equalto(s.substr(length));
+	
+	if(command == "version") return version();
 	return "";
 }
 

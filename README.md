@@ -23,7 +23,7 @@ We are currently trying to build a Desktop compiler and add FastCGI support. If 
 
 We are also building Juliar->ASM compiler as well as Juliar Operating System.
 
-_The Project now has 2 versions: Web version and DesktopServer version. If you just want to try out the language and see why we use it, try out
+_The Project now has 2 versions_ : Web version and DesktopServer version. If you just want to try out the language and see why we use it, try out
 the WebsiteClient version. Run JuliarServer.exe (if on windows), put the file into webfolder if you run a server, or just open index.html with 
 your favorite browser and start using our interpreter.
 
