@@ -782,7 +782,7 @@ class Juliar_main{
 	constructor(juliar){
 		this.version = () => {
 			if(juliar.environment == "web" || juliar.environment == "local" || juliar.environment == "server"){
-				return "Language \\*Juliar \\* version Alpha 5. Running on " + navigator.userAgent;
+				return "Language \\*Juliar \\* version Alpha 7. Running on " + navigator.userAgent;
 			}
 		}
 		this.repeat = (whatToRepeat,numberOfRepeats = 2) => whatToRepeat.repeat(numberOfRepeats);
