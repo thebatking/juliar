@@ -195,6 +195,7 @@ class Juliar_web{
 		css += ".juliar_subscript{vertical-align: sub;font-size: smaller;}.juliar_superscript{vertical-align: super;font-size: smaller;}";
 		//Subscript and superscript text
 		css += ".juliar_underline{text-decoration: underline;}.juliar_bold{font-weight: bold;}.juliar_italics{font-style: italic;}.juliar_crossout{text-decoration: line-through;}.juliar_overline{text-decoration: overline;}";
+		css += ".juliar_capitalize{text-transform: capitalize;}";
 		//Different text decorations
 		css += ".juliat_chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
 		//Useful for starting chapters
@@ -233,8 +234,8 @@ class Juliar_web{
 		css += ".juliar_smaller{font-size:95%}.juliar_larger{font-size:105%}";
 		juliar.css = css;
 		
-		this.code = str => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-		this.javascript = script => {
+		this.code = str => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); //ported
+		this.javascript = script => {  //ported
 			if(script.split(" ")[0].indexOf(".js") !== -1){ 
 				var fileref=document.createElement("script");
 				fileref.src = script;
@@ -246,12 +247,12 @@ class Juliar_web{
 		};
 		this.threed = (output,spread = "0.06em") => {
 			return `<span style='text-shadow: -${spread} 0 red,  ${spread} 0 cyan;'>${output}</span>`;
-		};
-		this.symbol = (nameOfSymbol) => {
+		}; 
+		this.symbol = (nameOfSymbol) => { //ported
 			switch(nameOfSymbol){
 				case "sigma": return "&Sigma;";
 				case "delta": return "&Delta;";
-				case "integral": return "";
+				case "integral": return "&#8747;";
 				case "plusminus": return "&plusmn;";
 				case "leftright": return "&harr;";
 				case "up": return "&uarr;";
@@ -325,7 +326,7 @@ class Juliar_web{
 				return `<div style='padding:${size}'>${content}</div>`;
 			}
 		};
-		this.globalbackground = str => {
+		this.globalbackground = str => { //ported similar
 			str = str.trim();
 			if(str.indexOf(".") != -1 || str.indexOf("/") != -1) juliar.code("document.body.style.backgroundImage = \"url("+str.replace(/\s/g, "")+")\"");
 			else{ 
@@ -472,7 +473,7 @@ class Juliar_web{
 		
 		
 		
-		this.capitalize = content => `<span style='text-transform: capitalize;'>${content}</span>`;
+		this.capitalize = content => `<span class='juliar_capitalize'>${content}</span>`;  //ported-similar
 		this.blur = (content,color = "black") => {
 			return `<span style='text-shadow: 0 0 3px ${color};color: transparent;'>${content}</span>`;
 		};
@@ -568,11 +569,11 @@ class Juliar_web{
 			var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
 			return days[now.getDay()]+", "+months[now.getMonth()]+" "+date+", "+((year < 1000) ? year + 1900 : year);
 		};
-		this.date = () => {
+		this.date = () => { //ported-similar
 			var now = new Date();
 			return ("0"+(now.getMonth()+1)).slice(-2)+"/"+("0"+now.getDate()).slice(-2)+"/"+now.getFullYear();
 		};
-		this.time = () => {
+		this.time = () => { //ported-similar
 			var now = new Date();
 			return ("0"+now.getHours()).slice(-2)+ ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2);
 		};
@@ -615,14 +616,14 @@ class Juliar_web{
 			var height = args[1] || "200px";
 			return "<img style='max-width: 100%;width:"+width+";height:"+height+";' src='" + str + "'/>";
 		};
-		this.subtitle = str => "<h2 style='color:#557FBB'>"+str+"</h2>";
-		this.title = str => "<h1 style='text-align:center'>" + str + "</h1>";
+		this.subtitle = str => "<h2 style='color:#557FBB'>"+str+"</h2>"; //ported
+		this.title = str => "<h1 style='text-align:center'>" + str + "</h1>"; //ported
 		this.decimalcount = str => {
 			var match = (''+str).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 			if (!match) { return 0; }
 			return Math.max(0,(match[1] ? match[1].length : 0)- (match[2] ? +match[2] : 0));
 		};	
-		this.author = str => "<h2 style='text-align:center'>" + str + "</h2>";
+		this.author = str => "<h2 style='text-align:center'>" + str + "</h2>"; //ported
 		//Sockets
 		this.socket = (str,args) => {
 			var temp = args[0] || null;

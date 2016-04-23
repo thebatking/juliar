@@ -150,15 +150,31 @@ string picker(string s = ""){
 		 args = explode(result[1], ',');
 	}
 	
-	if(command == "add") return add(s.substr(length));
-	if(command == "subtract") return subtract(s.substr(length));
-	if(command == "divide") return subtract(s.substr(length));
-	if(command == "multiply") return multiply(s.substr(length));
-	if(command == "power") return power(s.substr(length));
-	if(command == "remainder") return remainder(s.substr(length));
-	if(command == "equalto") return equalto(s.substr(length));
+	string mparam = s.substr(length);
+	if(command == "add") return add(mparam);
+	if(command == "subtract") return subtract(mparam);
+	if(command == "divide") return subtract(mparam);
+	if(command == "multiply") return multiply(mparam);
+	if(command == "power") return power(mparam);
+	if(command == "remainder") return remainder(mparam);
+	if(command == "equalto") return equalto(mparam);
 	
 	if(command == "version") return version();
+	
+	//Web Stuff
+	if(command == "code") return web::code(mparam);
+	if(command == "javascript") return web::javascript(mparam);
+	if(command == "symbol") return web::symbol(mparam);
+	if(command == "capitalize") return web::capitalize(mparam);
+	if(command == "date") return web::date();
+	if(command == "time") return web::time();
+	if(command == "title") return web::title(mparam);
+	if(command == "subtitle") return web::subtitle(mparam);
+	if(command == "author") return web::author(mparam);
+	if(command == "header") return web::header(mparam);
+	if(command == "footer") return web::footer(mparam);
+	if(command == "globalbackground") return web::globalbackground(mparam);
+	if(command == "ehtml") return ehtml::ehtml(mparam);
 	return "";
 }
 
