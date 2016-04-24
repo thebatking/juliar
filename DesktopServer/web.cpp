@@ -116,17 +116,15 @@ namespace web{
 	}
 	
 	string date(void){
-		//time_t t = time();   // get time now
-		//struct tm * now = localtime( & t );
-		//return to_string(now->tm_mon + 1) + "/" + to_string(now->tm_mday) + "/" + to_string(now->tm_year + 1900);
-		return "Not Implemented";
+		time_t t = std::time(NULL);   // get time now
+		struct tm * now = localtime( & t );
+		return to_string(now->tm_mon + 1) + "/" + to_string(now->tm_mday) + "/" + to_string(now->tm_year + 1900);
 	}
 	
 	string time(void){
-		//time_t t = time();   // get time now
-		//struct tm * now = localtime( & t );
-		//return asctime(now);
-		return "Not Implemented";
+		time_t t = std::time(NULL);   // get time now
+		struct tm * now = localtime( & t );
+		return asctime(now);
 	}
 	
 	string title(string s){
