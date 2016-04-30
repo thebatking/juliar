@@ -1,0 +1,1 @@
+g++ src/juliar_fcgi.cpp -o juliar-fcgi -LC:\ -lfcgi

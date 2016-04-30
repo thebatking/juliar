@@ -1,1 +1,1 @@
-g++ -std=c++11 -o JuliarInterpreter main.cpp
+g++ -std=c++11 -o JuliarInterpreter src/main.cpp

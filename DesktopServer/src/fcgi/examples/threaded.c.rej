@@ -1,0 +1,35 @@
+*************** static int counts[THREAD_COUNT];
+*** 24,30 ****
+  
+  static void *doit(void *a)
+  {
+-     int rc, i, thread_id = (int)a;
+      pid_t pid = getpid();
+      FCGX_Request request;
+      char *server_name;
+--- 24,31 ----
+  
+  static void *doit(void *a)
+  {
++     int rc, i;
++     intptr_t thread_id = (intptr_t)a;
+      pid_t pid = getpid();
+      FCGX_Request request;
+      char *server_name;
+*************** static void *doit(void *a)
+*** 71,77 ****
+  
+  int main(void)
+  {
+-     int i;
+      pthread_t id[THREAD_COUNT];
+  
+      FCGX_Init();
+--- 72,78 ----
+  
+  int main(void)
+  {
++     intptr_t i;
+      pthread_t id[THREAD_COUNT];
+  
+      FCGX_Init();

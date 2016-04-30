@@ -1,0 +1,4 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (config_h.vcxproj, libfcgi.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  authorizer.c
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1189,5): warning MSB8012: TargetPath(C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\Win32\x64\Debug\authorizer.exe) does not match the Linker's OutputFile property value (C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\examples\authorizer\Debug\authorizer.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+  authorizer.vcxproj -> C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\Win32\x64\Debug\authorizer.exe

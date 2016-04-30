@@ -1,0 +1,14 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (authorizer.vcxproj, config_h.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  os_win32.c
+..\libfcgi\os_win32.c(848): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+..\libfcgi\os_win32.c(1425): warning C4244: 'function': conversion from 'SOCKET' to 'int', possible loss of data
+..\libfcgi\os_win32.c(1544): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winsock2.h(1868): note: see declaration of 'inet_ntoa'
+  fcgi_stdio.c
+  fcgiapp.c
+  Generating Code...
+  fcgio.cpp
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1189,5): warning MSB8012: TargetPath(C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\Win32\x64\Debug\libfcgi.dll) does not match the Linker's OutputFile property value (C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\libfcgi\Debug\libfcgi.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     Creating library .\..\libfcgi\Debug/libfcgi.lib and object .\..\libfcgi\Debug/libfcgi.exp
+  libfcgi.vcxproj -> C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\Win32\x64\Debug\libfcgi.dll

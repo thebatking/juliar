@@ -26,7 +26,7 @@ var Juliar = function () {
 			    positions = [],
 			    hil = 0; //hil = hide, ignore, loop
 			while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
-				if (str[currentindex - 1] == "\\") ;else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || isNaN(nextvalue))) {
+				if (str[currentindex - 1] == "\\") ;else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || nextvalue === 13)) {
 					if (str.indexOf("loop", currentindex) == currentindex + 1 || str.indexOf("ignore", currentindex) == currentindex + 1 /*|| str.indexOf("hide",currentindex) == currentindex+1*/) hil = 1;
 					positions.push(currentindex);
 				} else {
@@ -257,6 +257,7 @@ var Juliar_web = function Juliar_web(juliar) {
 	css += ".juliar_subscript{vertical-align: sub;font-size: smaller;}.juliar_superscript{vertical-align: super;font-size: smaller;}";
 	//Subscript and superscript text
 	css += ".juliar_underline{text-decoration: underline;}.juliar_bold{font-weight: bold;}.juliar_italics{font-style: italic;}.juliar_crossout{text-decoration: line-through;}.juliar_overline{text-decoration: overline;}";
+	css += ".juliar_capitalize{text-transform: capitalize;}";
 	//Different text decorations
 	css += ".juliat_chapter:first-child:first-letter { float: left; color: #903; font-size: 75px; line-height: 60px; padding-top: 4px; padding-right: 8px; padding-left: 3px; }";
 	//Useful for starting chapters
@@ -283,8 +284,9 @@ var Juliar_web = function Juliar_web(juliar) {
 
 	this.code = function (str) {
 		return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	};
+	}; //ported
 	this.javascript = function (script) {
+		//ported
 		if (script.split(" ")[0].indexOf(".js") !== -1) {
 			var fileref = document.createElement("script");
 			fileref.src = script;
@@ -300,13 +302,14 @@ var Juliar_web = function Juliar_web(juliar) {
 		return "<span style='text-shadow: -" + spread + " 0 red,  " + spread + " 0 cyan;'>" + output + "</span>";
 	};
 	this.symbol = function (nameOfSymbol) {
+		//ported
 		switch (nameOfSymbol) {
 			case "sigma":
 				return "&Sigma;";
 			case "delta":
 				return "&Delta;";
 			case "integral":
-				return "";
+				return "&#8747;";
 			case "plusminus":
 				return "&plusmn;";
 			case "leftright":
@@ -441,6 +444,7 @@ var Juliar_web = function Juliar_web(juliar) {
 		}
 	};
 	this.globalbackground = function (str) {
+		//ported similar
 		str = str.trim();
 		if (str.indexOf(".") != -1 || str.indexOf("/") != -1) juliar.code("document.body.style.backgroundImage = \"url(" + str.replace(/\s/g, "") + ")\"");else {
 			var temp = str.split(" ");
@@ -639,8 +643,8 @@ var Juliar_web = function Juliar_web(juliar) {
 	};
 
 	this.capitalize = function (content) {
-		return "<span style='text-transform: capitalize;'>" + content + "</span>";
-	};
+		return "<span class='juliar_capitalize'>" + content + "</span>";
+	}; //ported-similar
 	this.blur = function (content) {
 		var color = arguments.length <= 1 || arguments[1] === undefined ? "black" : arguments[1];
 
@@ -784,10 +788,12 @@ var Juliar_web = function Juliar_web(juliar) {
 		return days[now.getDay()] + ", " + months[now.getMonth()] + " " + date + ", " + (year < 1000 ? year + 1900 : year);
 	};
 	this.date = function () {
+		//ported-similar
 		var now = new Date();
 		return ("0" + (now.getMonth() + 1)).slice(-2) + "/" + ("0" + now.getDate()).slice(-2) + "/" + now.getFullYear();
 	};
 	this.time = function () {
+		//ported-similar
 		var now = new Date();
 		return ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
 	};
@@ -848,10 +854,10 @@ var Juliar_web = function Juliar_web(juliar) {
 	};
 	this.subtitle = function (str) {
 		return "<h2 style='color:#557FBB'>" + str + "</h2>";
-	};
+	}; //ported
 	this.title = function (str) {
 		return "<h1 style='text-align:center'>" + str + "</h1>";
-	};
+	}; //ported
 	this.decimalcount = function (str) {
 		var match = ('' + str).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 		if (!match) {
@@ -861,7 +867,7 @@ var Juliar_web = function Juliar_web(juliar) {
 	};
 	this.author = function (str) {
 		return "<h2 style='text-align:center'>" + str + "</h2>";
-	};
+	}; //ported
 	//Sockets
 	this.socket = function (str, args) {
 		var temp = args[0] || null;
@@ -1150,7 +1156,7 @@ var Juliar_main = function Juliar_main(juliar) {
 
 	this.version = function () {
 		if (juliar.environment == "web" || juliar.environment == "local" || juliar.environment == "server") {
-			return "Language \\*Juliar \\* version Alpha 5. Running on " + navigator.userAgent;
+			return "Language \\*Juliar \\* version Alpha 7. Running on " + navigator.userAgent;
 		}
 	};
 	this.repeat = function (whatToRepeat) {

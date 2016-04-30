@@ -1,0 +1,78 @@
+*************** extern char ** environ;
+*** 40,45 ****
+  #include "fcgio.h"
+  #include "fcgi_config.h"  // HAVE_IOSTREAM_WITHASSIGN_STREAMBUF
+  
+  using namespace std;
+  
+  // Maximum number of bytes allowed to be read from stdin
+--- 40,51 ----
+  #include "fcgio.h"
+  #include "fcgi_config.h"  // HAVE_IOSTREAM_WITHASSIGN_STREAMBUF
+  
++ #ifdef _WIN32
++ #define GETPID _getpid
++ #else
++ #define GETPID getpid
++ #endif
++ 
+  using namespace std;
+  
+  // Maximum number of bytes allowed to be read from stdin
+*************** static void penv(const char * const * envp)
+*** 55,64 ****
+      cout << "</PRE>\n";
+  }
+  
+- static long gstdin(FCGX_Request * request, char ** content)
+  {
+      char * clenstr = FCGX_GetParam("CONTENT_LENGTH", request->envp);
+-     unsigned long clen = STDIN_MAX;
+  
+      if (clenstr)
+      {
+--- 61,70 ----
+      cout << "</PRE>\n";
+  }
+  
++ static uintptr_t gstdin(FCGX_Request * request, char ** content)
+  {
+      char * clenstr = FCGX_GetParam("CONTENT_LENGTH", request->envp);
++     uintptr_t clen = STDIN_MAX;
+  
+      if (clenstr)
+      {
+*************** static long gstdin(FCGX_Request * request, char ** content)
+*** 99,105 ****
+  int main (void)
+  {
+      int count = 0;
+-     long pid = getpid();
+  
+      streambuf * cin_streambuf  = cin.rdbuf();
+      streambuf * cout_streambuf = cout.rdbuf();
+--- 105,111 ----
+  int main (void)
+  {
+      int count = 0;
++     long pid = GETPID();
+  
+      streambuf * cin_streambuf  = cin.rdbuf();
+      streambuf * cout_streambuf = cout.rdbuf();
+*************** int main (void)
+*** 133,139 ****
+          // many http clients (browsers) don't support it (so
+          // the connection deadlocks until a timeout expires!).
+          char * content;
+-         unsigned long clen = gstdin(&request, &content);
+  
+          cout << "Content-type: text/html\r\n"
+                  "\r\n"
+--- 139,145 ----
+          // many http clients (browsers) don't support it (so
+          // the connection deadlocks until a timeout expires!).
+          char * content;
++         uintptr_t clen = gstdin(&request, &content);
+  
+          cout << "Content-type: text/html\r\n"
+                  "\r\n"

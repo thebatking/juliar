@@ -1,0 +1,7 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (authorizer.vcxproj, config_h.vcxproj, libfcgi.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  cgi-fcgi.c
+..\cgi-fcgi\cgi-fcgi.c(742): warning C4459: declaration of 'headerLen' hides global declaration
+  ..\cgi-fcgi\cgi-fcgi.c(164): note: see declaration of 'headerLen'
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1189,5): warning MSB8012: TargetPath(C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\Win32\x64\Debug\cgifcgi.exe) does not match the Linker's OutputFile property value (C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\cgi-fcgi\Debug\cgi-fcgi.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1191,5): warning MSB8012: TargetName(cgifcgi) does not match the Linker's OutputFile property value (cgi-fcgi). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+  cgifcgi.vcxproj -> C:\wamp\www\Dropbox\RatTeam\juliar\DesktopServer\src\fcgi\Win32\x64\Debug\cgifcgi.exe
