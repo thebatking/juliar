@@ -22,7 +22,7 @@ class Juliar{
 		let currentindex=0, nextvalue,lastindex =0, positions = [], hil = 0; //hil = hide, ignore, loop
 		while ((currentindex = str.indexOf("*", currentindex)) !== -1) {
 			if(str[currentindex-1] == "\\");
-			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || nextvalue === 13)) {
+			else if (!((nextvalue = str.charCodeAt(currentindex + 1)) === 32 || nextvalue === 42 || nextvalue == 46 || nextvalue === 9 || nextvalue === 10 || nextvalue === 13 || isNaN(nextvalue))) {
 				if(str.indexOf("loop",currentindex) == currentindex+1 || str.indexOf("ignore",currentindex) == currentindex+1  /*|| str.indexOf("hide",currentindex) == currentindex+1*/) hil = 1;
 				positions.push(currentindex);
 			}
@@ -227,7 +227,7 @@ class Juliar_web{
 		css += "juliar_menu>ul{margin-top:-8px;margin-left:-8px;}";
 		//Creates a menu that is useful
 		css += ".juliar_footer{background-color:#333;padding:15px;text-align:center;color:white;}"; //Creates a footer
-		css += ".juliar_block{display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
+		css += ".juliar_block{position:relative;display:block;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 		//Creates a block that is one of the most fundamental structures
 		css += "juliar_error{color:red;}juliar_warn{color:#E77817}juliar_info{color:#0093DD}"; //Tags so that they can be removed easily...may come useful in the future
 		css += ".juliar_bold{font-weight:bold}.juliar_italics{font-style:italic}.juliar_underline{text-decoration: underline}.juliar_overline{text-decoration: overline}.juliar_crossout{text-decoration: line-through}";
@@ -1182,7 +1182,7 @@ class Juliar_interpreter{
 		css += ".juliar-console .foreground{position:relative;background-color:transparent;outline: 0px;border: 0px;color:#3498db;}";
 		css += ".juliar-console .bar{cursor:help;line-height:25px;left:-12px;font-size:21px;color:#93969b;position:absolute;background-color:white;padding-bottom:2px;}";
 		css += "ijuliar{display:inline-block;width:100%;}";
-		css += "ijuliar .realblock{box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
+		css += "ijuliar .realblock{position:relative;box-shadow:0 1px 6px rgba(0,0,0,.12);background-color:white;margin: 24px 20px;padding: 10px;animation: fadein 2s;}";
 		css += "@keyframes fadein {from { opacity: 0;bottom:-100px;position:relative; }to   { opacity: 1;bottom:0px;position:relative;}}";
 		css += "ijuliar .commandused{font-style: italic;color:#1abc9c;display:inline;}";
 		css += "ijuliar .commandused:hover{border-bottom: 1px dotted #b6adad;cursor:pointer;padding-bottom:2px;}";
